@@ -432,12 +432,12 @@
     loadRelease();
 
     // Compteur CGU — aucune donnée personnelle
-    fetch('https://api.countapi.xyz/get/bicrypt-app/cgu-accepted')
+    fetch('https://api.counterapi.dev/v1/bicrypt-app/cgu-accepted')
         .then(r => r.json())
         .then(d => {
-            if (d && typeof d.value === 'number') {
+            if (d && typeof d.count === 'number') {
                 document.getElementById('meta-cgu-count').textContent =
-                    d.value.toLocaleString('fr-FR');
+                    d.count.toLocaleString('fr-FR');
             }
         })
         .catch(() => {});
