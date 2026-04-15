@@ -260,6 +260,10 @@
                     <span id="meta-hash" class="mono-hash">—</span>
                 </div>
                 <div class="dl-meta-item">
+                    <label>Téléchargements</label>
+                    <span id="meta-dl-count">—</span>
+                </div>
+                <div class="dl-meta-item">
                     <label>Plateforme</label>
                     <span>Android 6.0+</span>
                 </div>
@@ -390,6 +394,8 @@
             document.getElementById('meta-version').textContent = data.tag_name;
             document.getElementById('meta-size').textContent =
                 (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
+            document.getElementById('meta-dl-count').textContent =
+                apk.download_count.toLocaleString('fr-FR');
 
             let hash = extractHashFromBody(data.body);
             if (!hash && sha256Asset) {
