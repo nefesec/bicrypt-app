@@ -355,12 +355,23 @@
 </div>
 
 <script>
-    // Background texture
+    // Background texture — remplit toute la surface visible
     const bg = document.getElementById('data-bg');
     const chars = "0123456789ABCDEF!@#$%^&*()_+";
-    let txt = "";
-    for (let i = 0; i < 5000; i++) txt += chars[Math.floor(Math.random() * chars.length)];
-    bg.innerText = txt;
+    function fillBg() {
+        const cols = Math.ceil(window.innerWidth / 6.6);   // ~6.6px par char à 11px monospace
+        const rows = Math.ceil(window.innerHeight / 10);    // line-height 0.9 × 11px ≈ 10px
+        const total = (cols + 1) * rows;
+        let txt = "";
+        for (let i = 0; i < total; i++) {
+            txt += i % cols === 0 && i > 0
+                ? "\n"
+                : chars[Math.floor(Math.random() * chars.length)];
+        }
+        bg.innerText = txt;
+    }
+    fillBg();
+    window.addEventListener('resize', fillBg);
 
     // ── GitHub Release fetch ──────────────────────────────────────────────────
     const REPO = 'nefesec/bicrypt-app';
