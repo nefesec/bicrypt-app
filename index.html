@@ -264,6 +264,10 @@
                     <span id="meta-dl-count">—</span>
                 </div>
                 <div class="dl-meta-item">
+                    <label>CGU acceptées</label>
+                    <span id="meta-cgu-count">—</span>
+                </div>
+                <div class="dl-meta-item">
                     <label>Plateforme</label>
                     <span>Android 6.0+</span>
                 </div>
@@ -426,6 +430,17 @@
     }
 
     loadRelease();
+
+    // Compteur CGU — aucune donnée personnelle
+    fetch('https://api.countapi.xyz/get/bicrypt-app/cgu-accepted')
+        .then(r => r.json())
+        .then(d => {
+            if (d && typeof d.value === 'number') {
+                document.getElementById('meta-cgu-count').textContent =
+                    d.value.toLocaleString('fr-FR');
+            }
+        })
+        .catch(() => {});
 </script>
 </body>
 </html>
