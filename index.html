@@ -1,236 +1,381 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BiCrypt — Messagerie chiffrée</title>
-  <style>
-    /* ── Reset ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiCrypt | Secure Communication Stack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --accent: #00ff88;
+            --text: #ffffff;
+            --dim: #555555;
+            --sep: #151515;
+        }
 
-    /* ── Variables ── */
-    :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --border: #1e1e2e;
-      --accent: #00ff88;
-      --text: #e8e8f0;
-      --muted: #6b6b80;
-      --danger: #ff4466;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-    /* ── Header ── */
-    header {
-      width: 100%;
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .logo { color: var(--accent); font-size: 22px; font-weight: 800; letter-spacing: 2px; }
-    .tor-badge {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(0,255,136,0.08);
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      padding: 4px 12px;
-      font-size: 12px; font-weight: 700; color: var(--accent);
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+        #data-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            font-family: monospace;
+            font-size: 11px;
+            color: #060606;
+            z-index: -1;
+            padding: 20px;
+            line-height: 0.9;
+            word-break: break-all;
+            user-select: none;
+        }
 
-    /* ── Hero ── */
-    .hero {
-      max-width: 680px;
-      text-align: center;
-      padding: 80px 24px 60px;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 900;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-    .hero h1 span { color: var(--accent); }
-    .hero p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin-bottom: 48px;
-    }
+        .top-logo {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            z-index: 100;
+            font-size: 1rem;
+        }
 
-    /* ── Download card ── */
-    .download-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto 60px;
-    }
-    .version-info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .version-info strong { color: var(--text); }
+        .top-logo .dup-t {
+            position: relative;
+            display: inline-block;
+        }
+        .top-logo .dup-t::after {
+            content: "T";
+            position: absolute;
+            left: 5px;
+            top: 0;
+            color: var(--accent);
+            opacity: 0.6;
+        }
 
-    .btn-download {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 16px;
-      background: var(--accent);
-      color: #000;
-      font-weight: 800;
-      font-size: 16px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: opacity .15s;
-    }
-    .btn-download:hover { opacity: .85; }
-    .btn-download.loading { opacity: .5; pointer-events: none; }
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            min-height: 100vh;
+        }
 
-    .file-size { font-size: 12px; color: var(--muted); margin-top: 10px; text-align: center; }
+        .sidebar {
+            border-right: 1px solid var(--sep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background: var(--bg);
+        }
 
-    /* ── Features ── */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      max-width: 680px;
-      width: 100%;
-      padding: 0 24px 80px;
-    }
-    .feature {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-    }
-    .feature-icon { font-size: 24px; margin-bottom: 10px; }
-    .feature h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-    .feature p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+        .vertical-logo {
+            transform: rotate(-90deg);
+            white-space: nowrap;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 10px;
+            color: var(--text);
+        }
+        .vertical-logo span { color: var(--accent); }
 
-    /* ── Footer ── */
-    footer {
-      width: 100%;
-      border-top: 1px solid var(--border);
-      padding: 20px 40px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-    }
+        .content {
+            padding: 100px 8% 60px;
+            max-width: 1100px;
+        }
 
-    /* ── Error state ── */
-    .error { color: var(--danger); font-size: 13px; text-align: center; margin-top: 12px; display: none; }
-  </style>
+        h1 {
+            font-size: clamp(5rem, 20vw, 14rem);
+            font-weight: 900;
+            line-height: 0.75;
+            letter-spacing: -10px;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+        }
+
+        .hero-text {
+            font-size: 2.2rem;
+            line-height: 1.1;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        /* ── Download block ── */
+        .dl-wrapper {
+            margin-bottom: 120px;
+        }
+
+        .btn-dl {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--text);
+            color: var(--bg);
+            padding: 30px 60px;
+            font-weight: 900;
+            text-decoration: none;
+            font-size: 1.4rem;
+            transition: background .2s;
+            cursor: pointer;
+        }
+        .btn-dl:hover { background: var(--accent); }
+        .btn-dl.loading {
+            opacity: .45;
+            pointer-events: none;
+        }
+
+        .dl-meta {
+            margin-top: 18px;
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .dl-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .dl-meta-item label {
+            font-size: 0.58rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+        .dl-meta-item span {
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: #aaa;
+            word-break: break-all;
+        }
+        .dl-meta-item span.mono-hash {
+            font-size: 0.7rem;
+            line-height: 1.5;
+        }
+
+        .dl-error {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #ff4466;
+            display: none;
+        }
+
+        /* ── Description ── */
+        .detailed-desc {
+            margin-bottom: 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .desc-block h2 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .desc-block p {
+            color: #aaa;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* ── Specs ── */
+        .specs-grid {
+            border-top: 1px solid var(--sep);
+            padding-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .spec-box b {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--dim);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .spec-box span {
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+
+        footer {
+            margin-top: 150px;
+            padding: 40px 0;
+            border-top: 1px solid var(--sep);
+            font-size: 10px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 850px) {
+            .main-wrapper { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .detailed-desc { grid-template-columns: 1fr; }
+            h1 { letter-spacing: -5px; }
+            .top-logo { right: 20px; top: 20px; font-size: 0.8rem; }
+            .btn-dl { padding: 20px 32px; font-size: 1rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">BiCrypt</div>
-    <div class="tor-badge">
-      <div class="dot"></div>
-      Réseau Tor
-    </div>
-  </header>
+<div id="data-bg"></div>
 
-  <section class="hero">
-    <h1>Messagerie <span>100% chiffrée</span><br>via Tor</h1>
-    <p>
-      Conversations chiffrées de bout en bout, routées via le réseau Tor.<br>
-      Aucun serveur central ne connaît votre identité.
-    </p>
+<div class="top-logo">BICRYP<span class="dup-t">T</span></div>
 
-    <div class="download-card">
-      <div class="version-info">
-        <span>Version : <strong id="ver">—</strong></span>
-        <span>Android <strong>6.0+</strong></span>
-      </div>
-      <a id="btn" href="#" class="btn-download loading" download>
-        ⬇ Télécharger l'APK
-      </a>
-      <div class="file-size" id="size"></div>
-      <div class="error" id="err">Impossible de récupérer la dernière version.</div>
-    </div>
-  </section>
+<div class="main-wrapper">
+    <aside class="sidebar">
+        <div class="vertical-logo">BICRYP<span>T</span></div>
+    </aside>
 
-  <section class="features">
-    <div class="feature">
-      <div class="feature-icon">🔒</div>
-      <h3>Chiffrement E2E</h3>
-      <p>XSalsa20-Poly1305 + ECDH X25519. Clés générées sur votre appareil uniquement.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🧅</div>
-      <h3>Tor embarqué</h3>
-      <p>Pas besoin d'Orbot. Le réseau Tor est intégré directement dans l'app.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🚫</div>
-      <h3>Zéro métadonnée</h3>
-      <p>Le relais ne voit que des blobs chiffrés et des pseudonymes. Aucun numéro, aucun compte.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">📵</div>
-      <h3>Hors-ligne possible</h3>
-      <p>Mesh Bluetooth LE pour communiquer sans Internet entre appareils proches.</p>
-    </div>
-  </section>
+    <main class="content">
+        <h1>BI<br>CRYPT</h1>
 
-  <footer>
-    BiCrypt — Tous droits réservés · Le code source est propriétaire
-  </footer>
+        <div class="hero-text">
+            Un protocole de messagerie <span style="color:var(--accent)">hermétique</span>.<br>
+            Conçu pour l'anonymat radical et la résilience réseau.
+        </div>
 
-  <script>
-    // Récupère le dernier release depuis l'API GitHub publique
+        <div class="dl-wrapper">
+            <a id="btn-dl" href="#" class="btn-dl loading" download>
+                GET_BICRYPT_APK
+            </a>
+
+            <div class="dl-meta">
+                <div class="dl-meta-item">
+                    <label>Version</label>
+                    <span id="meta-version">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Taille</label>
+                    <span id="meta-size">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>SHA-256</label>
+                    <span id="meta-hash" class="mono-hash">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Plateforme</label>
+                    <span>Android 6.0+</span>
+                </div>
+            </div>
+
+            <div class="dl-error" id="dl-error">
+                Impossible de récupérer la dernière version — réessayez plus tard.
+            </div>
+        </div>
+
+        <div class="detailed-desc">
+            <div class="desc-block">
+                <h2>[ PHILOSOPHIE ]</h2>
+                <p>BiCrypt n'est pas une application de messagerie classique. C'est un outil de communication souverain qui refuse toute dépendance aux infrastructures centralisées. Pas de serveur, pas de base de données cloud, pas de point de défaillance unique.</p>
+            </div>
+            <div class="desc-block">
+                <h2>[ ARCHITECTURE ]</h2>
+                <p>En combinant le réseau Tor pour l'anonymat global et un mesh Bluetooth Low Energy pour la proximité, BiCrypt garantit que vos messages atteignent leur destination, que vous soyez connecté au web ou en isolation totale.</p>
+            </div>
+        </div>
+
+        <div class="specs-grid">
+            <div class="spec-box">
+                <b>Cryptographie</b>
+                <span>X25519 / XSalsa20</span>
+            </div>
+            <div class="spec-box">
+                <b>Réseau</b>
+                <span>Tor V3 / BLE Mesh</span>
+            </div>
+            <div class="spec-box">
+                <b>Anonymat</b>
+                <span>Zero Metadata Policy</span>
+            </div>
+            <div class="spec-box">
+                <b>Licence</b>
+                <span>Proprietary / Closed</span>
+            </div>
+        </div>
+
+        <footer>
+            © 2026 PROPRIETARY SOFTWARE · NO TRACKING · NO LOGS · MAXIMUM PRIVACY ENFORCED
+        </footer>
+    </main>
+</div>
+
+<script>
+    // Background texture
+    const bg = document.getElementById('data-bg');
+    const chars = "0123456789ABCDEF!@#$%^&*()_+";
+    let txt = "";
+    for (let i = 0; i < 5000; i++) txt += chars[Math.floor(Math.random() * chars.length)];
+    bg.innerText = txt;
+
+    // ── GitHub Release fetch ──────────────────────────────────────────────────
     const REPO = 'nefesec/bicrypt-app';
 
-    async function loadLatestRelease() {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
-        if (!res.ok) throw new Error('API error');
-        const data = await res.json();
+    async function loadRelease() {
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+            if (!res.ok) throw new Error('API ' + res.status);
+            const data = await res.json();
 
-        const apk = data.assets.find(a => a.name.endsWith('.apk'));
-        if (!apk) throw new Error('No APK found');
+            // Trouver l'APK
+            const apk = data.assets.find(a => a.name.endsWith('.apk'));
+            if (!apk) throw new Error('no apk');
 
-        document.getElementById('ver').textContent = data.tag_name;
-        document.getElementById('size').textContent =
-          'Taille : ' + (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
+            // Trouver le fichier .sha256 s'il existe
+            const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
 
-        const btn = document.getElementById('btn');
-        btn.href = apk.browser_download_url;
-        btn.classList.remove('loading');
-      } catch (e) {
-        document.getElementById('err').style.display = 'block';
-        const btn = document.getElementById('btn');
-        btn.classList.remove('loading');
-        btn.textContent = 'Erreur — réessayer';
-      }
+            // Remplir version et taille
+            document.getElementById('meta-version').textContent = data.tag_name;
+            document.getElementById('meta-size').textContent =
+                (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
+
+            // SHA-256 : depuis le fichier asset ou depuis le body de la release
+            let hash = extractHashFromBody(data.body);
+            if (!hash && sha256Asset) {
+                try {
+                    const hashRes = await fetch(sha256Asset.browser_download_url);
+                    hash = (await hashRes.text()).trim().split(/\s+/)[0].toUpperCase();
+                } catch (_) {}
+            }
+            document.getElementById('meta-hash').textContent = hash || 'Non disponible';
+
+            // Activer le bouton
+            const btn = document.getElementById('btn-dl');
+            btn.href = apk.browser_download_url;
+            btn.classList.remove('loading');
+
+        } catch (e) {
+            document.getElementById('dl-error').style.display = 'block';
+            const btn = document.getElementById('btn-dl');
+            btn.classList.remove('loading');
+            btn.textContent = 'ERREUR — RÉESSAYER';
+            btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
+        }
     }
 
-    loadLatestRelease();
-  </script>
+    // Cherche un hash dans le corps de la release, format : "SHA256: <hash>"
+    function extractHashFromBody(body) {
+        if (!body) return null;
+        const m = body.match(/SHA256[:\s]+([A-Fa-f0-9]{64})/i);
+        return m ? m[1].toUpperCase() : null;
+    }
 
+    loadRelease();
+</script>
 </body>
 </html>
