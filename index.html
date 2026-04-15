@@ -37,6 +37,7 @@
             user-select: none;
         }
 
+        /* ── Logo top-right ── */
         .top-logo {
             position: fixed;
             top: 40px;
@@ -47,19 +48,7 @@
             font-size: 1rem;
         }
 
-        .top-logo .dup-t {
-            position: relative;
-            display: inline-block;
-        }
-        .top-logo .dup-t::after {
-            content: "T";
-            position: absolute;
-            left: 5px;
-            top: 0;
-            color: var(--accent);
-            opacity: 0.6;
-        }
-
+        /* ── Sidebar layout ── */
         .main-wrapper {
             display: grid;
             grid-template-columns: 100px 1fr;
@@ -83,9 +72,11 @@
             font-weight: 900;
             font-size: 1.2rem;
             letter-spacing: 10px;
-            color: var(--text);
         }
-        .vertical-logo span { color: var(--accent); }
+
+        /* Lettres colorées : B et C en vert, reste en blanc */
+        .l-b, .l-c { color: var(--accent); }
+        .l-white    { color: var(--text); }
 
         .content {
             padding: 100px 8% 60px;
@@ -109,9 +100,7 @@
         }
 
         /* ── Download block ── */
-        .dl-wrapper {
-            margin-bottom: 120px;
-        }
+        .dl-wrapper { margin-bottom: 120px; }
 
         .btn-dl {
             display: inline-flex;
@@ -127,10 +116,7 @@
             cursor: pointer;
         }
         .btn-dl:hover { background: var(--accent); }
-        .btn-dl.loading {
-            opacity: .45;
-            pointer-events: none;
-        }
+        .btn-dl.loading { opacity: .45; pointer-events: none; }
 
         .dl-meta {
             margin-top: 18px;
@@ -138,12 +124,7 @@
             gap: 32px;
             flex-wrap: wrap;
         }
-
-        .dl-meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .dl-meta-item { display: flex; flex-direction: column; gap: 4px; }
         .dl-meta-item label {
             font-size: 0.58rem;
             letter-spacing: 3px;
@@ -156,17 +137,8 @@
             color: #aaa;
             word-break: break-all;
         }
-        .dl-meta-item span.mono-hash {
-            font-size: 0.7rem;
-            line-height: 1.5;
-        }
-
-        .dl-error {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: #ff4466;
-            display: none;
-        }
+        .dl-meta-item span.mono-hash { font-size: 0.7rem; line-height: 1.5; }
+        .dl-error { margin-top: 12px; font-size: 0.8rem; color: #ff4466; display: none; }
 
         /* ── Description ── */
         .detailed-desc {
@@ -175,7 +147,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
         }
-
         .desc-block h2 {
             font-size: 0.7rem;
             letter-spacing: 3px;
@@ -183,11 +154,7 @@
             margin-bottom: 20px;
             text-transform: uppercase;
         }
-        .desc-block p {
-            color: #aaa;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
+        .desc-block p { color: #aaa; font-size: 1.1rem; line-height: 1.6; }
 
         /* ── Specs ── */
         .specs-grid {
@@ -196,8 +163,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
+            margin-bottom: 100px;
         }
-
         .spec-box b {
             display: block;
             font-size: 0.6rem;
@@ -206,13 +173,41 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        .spec-box span {
-            font-size: 0.9rem;
-            font-family: monospace;
+        .spec-box span { font-size: 0.9rem; font-family: monospace; }
+
+        /* ── Terms of Use ── */
+        .tos {
+            border-top: 1px solid var(--sep);
+            padding-top: 60px;
+            margin-bottom: 60px;
         }
+        .tos-title {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+        .tos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .tos-block h3 {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--dim);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .tos-block p {
+            font-size: 0.78rem;
+            color: #666;
+            line-height: 1.7;
+        }
+        .tos-block p strong { color: #999; }
 
         footer {
-            margin-top: 150px;
             padding: 40px 0;
             border-top: 1px solid var(--sep);
             font-size: 10px;
@@ -224,7 +219,7 @@
         @media (max-width: 850px) {
             .main-wrapper { grid-template-columns: 1fr; }
             .sidebar { display: none; }
-            .detailed-desc { grid-template-columns: 1fr; }
+            .detailed-desc, .tos-grid { grid-template-columns: 1fr; }
             h1 { letter-spacing: -5px; }
             .top-logo { right: 20px; top: 20px; font-size: 0.8rem; }
             .btn-dl { padding: 20px 32px; font-size: 1rem; }
@@ -235,15 +230,25 @@
 
 <div id="data-bg"></div>
 
-<div class="top-logo">BICRYP<span class="dup-t">T</span></div>
+<!-- Logo top-right : B et C en vert, reste blanc -->
+<div class="top-logo">
+    <span class="l-b">B</span><span class="l-white">I</span><span class="l-c">C</span><span class="l-white">RYPT</span>
+</div>
 
 <div class="main-wrapper">
     <aside class="sidebar">
-        <div class="vertical-logo">BICRYP<span>T</span></div>
+        <!-- Logo vertical : B et C en vert, reste blanc -->
+        <div class="vertical-logo">
+            <span class="l-b">B</span><span class="l-white">I</span><span class="l-c">C</span><span class="l-white">RYPT</span>
+        </div>
     </aside>
 
     <main class="content">
-        <h1>BI<br>CRYPT</h1>
+        <!-- Titre : B et C en vert, reste blanc -->
+        <h1>
+            <span class="l-b">B</span><span class="l-white">I</span><br>
+            <span class="l-c">C</span><span class="l-white">RYPT</span>
+        </h1>
 
         <div class="hero-text">
             Un protocole de messagerie <span style="color:var(--accent)">hermétique</span>.<br>
@@ -309,8 +314,56 @@
             </div>
         </div>
 
+        <!-- ── TERMS OF USE ── -->
+        <div class="tos">
+            <div class="tos-title">[ Terms of Use — Conditions d'utilisation ]</div>
+            <div class="tos-grid">
+
+                <div class="tos-block">
+                    <h3>01 · Acceptation</h3>
+                    <p>En téléchargeant ou utilisant BiCrypt, vous acceptez sans réserve les présentes conditions. Si vous n'acceptez pas ces conditions, n'installez pas l'application.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>02 · Licence propriétaire</h3>
+                    <p>BiCrypt est un logiciel propriétaire. <strong>Toute copie, décompilation, modification, redistribution ou création d'œuvre dérivée est strictement interdite</strong> sans autorisation écrite préalable de l'auteur.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>03 · Usage légal uniquement</h3>
+                    <p>BiCrypt est conçu pour la protection de la vie privée dans un cadre légal. <strong>Il est formellement interdit d'utiliser cette application pour commettre des actes illicites</strong>, incluant sans s'y limiter : activités criminelles, terrorisme, trafic, harcèlement, ou toute activité contraire aux lois applicables dans votre juridiction.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>04 · Absence de responsabilité</h3>
+                    <p><strong>L'auteur décline toute responsabilité</strong>, dans les limites permises par la loi, pour tout dommage direct, indirect, ou consécutif résultant de l'utilisation ou de l'impossibilité d'utiliser ce logiciel. L'utilisateur est seul responsable de l'usage qu'il fait de l'application et de ses conséquences.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>05 · Responsabilité de l'utilisateur</h3>
+                    <p>Vous utilisez BiCrypt sous votre entière responsabilité. <strong>Toute activité illégale conduite via cette application engage uniquement la responsabilité de son auteur.</strong> L'auteur du logiciel ne peut être tenu pour co-auteur, complice ou responsable des actes de ses utilisateurs.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>06 · Aucune garantie</h3>
+                    <p>Le logiciel est fourni <strong>"tel quel"</strong>, sans garantie d'aucune sorte — explicite ou implicite — incluant mais ne se limitant pas aux garanties de qualité marchande, d'adéquation à un usage particulier ou d'absence de violation.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>07 · Intégrité de l'APK</h3>
+                    <p>Seule la version téléchargée depuis ce site officiel est authentique. <strong>Toute version modifiée ou redistribuée par un tiers est non autorisée</strong> et peut présenter des risques de sécurité. Vérifiez toujours le SHA-256 affiché ci-dessus.</p>
+                </div>
+
+                <div class="tos-block">
+                    <h3>08 · Modifications</h3>
+                    <p>L'auteur se réserve le droit de modifier ces conditions à tout moment. La poursuite de l'utilisation de l'application après modification vaut acceptation des nouvelles conditions.</p>
+                </div>
+
+            </div>
+        </div>
+
         <footer>
-            © 2026 PROPRIETARY SOFTWARE · NO TRACKING · NO LOGS · MAXIMUM PRIVACY ENFORCED
+            © 2026 BiCrypt · Proprietary Software · All Rights Reserved · No Tracking · No Logs
         </footer>
     </main>
 </div>
@@ -332,19 +385,15 @@
             if (!res.ok) throw new Error('API ' + res.status);
             const data = await res.json();
 
-            // Trouver l'APK
             const apk = data.assets.find(a => a.name.endsWith('.apk'));
             if (!apk) throw new Error('no apk');
 
-            // Trouver le fichier .sha256 s'il existe
             const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
 
-            // Remplir version et taille
             document.getElementById('meta-version').textContent = data.tag_name;
             document.getElementById('meta-size').textContent =
                 (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
 
-            // SHA-256 : depuis le fichier asset ou depuis le body de la release
             let hash = extractHashFromBody(data.body);
             if (!hash && sha256Asset) {
                 try {
@@ -354,7 +403,6 @@
             }
             document.getElementById('meta-hash').textContent = hash || 'Non disponible';
 
-            // Activer le bouton
             const btn = document.getElementById('btn-dl');
             btn.href = apk.browser_download_url;
             btn.classList.remove('loading');
@@ -368,7 +416,6 @@
         }
     }
 
-    // Cherche un hash dans le corps de la release, format : "SHA256: <hash>"
     function extractHashFromBody(body) {
         if (!body) return null;
         const m = body.match(/SHA256[:\s]+([A-Fa-f0-9]{64})/i);
