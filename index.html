@@ -264,10 +264,6 @@
                     <span id="meta-dl-count">—</span>
                 </div>
                 <div class="dl-meta-item">
-                    <label>CGU acceptées</label>
-                    <span id="meta-cgu-count">—</span>
-                </div>
-                <div class="dl-meta-item">
                     <label>Plateforme</label>
                     <span>Android 6.0+</span>
                 </div>
@@ -425,22 +421,12 @@
 
     function extractHashFromBody(body) {
         if (!body) return null;
-        const m = body.match(/SHA256[:\s]+([A-Fa-f0-9]{64})/i);
+        // Accepte SHA256, SHA-256, sha256 suivi de : ou espace puis le hash
+        const m = body.match(/SHA-?256[:\s`*]+([A-Fa-f0-9]{64})/i);
         return m ? m[1].toUpperCase() : null;
     }
 
     loadRelease();
-
-    // Compteur CGU — aucune donnée personnelle
-    fetch('https://api.counterapi.dev/v1/bicrypt-app/cgu-accepted')
-        .then(r => r.json())
-        .then(d => {
-            if (d && typeof d.count === 'number') {
-                document.getElementById('meta-cgu-count').textContent =
-                    d.count.toLocaleString('fr-FR');
-            }
-        })
-        .catch(() => {});
 </script>
 </body>
 </html>
