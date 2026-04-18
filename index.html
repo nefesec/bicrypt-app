@@ -91,6 +91,7 @@
 
         /* ── Download block ── */
         .dl-wrapper { margin-bottom: 120px; }
+        .dl-wrapper + .dl-wrapper { margin-top: -60px; }
 
         .btn-dl {
             display: inline-flex;
@@ -104,6 +105,16 @@
             font-size: 1.4rem;
             transition: background .2s;
             cursor: pointer;
+        }
+        .btn-dl.btn-desktop {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--text);
+        }
+        .btn-dl.btn-desktop:hover {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
         }
         .btn-dl:hover { background: var(--accent); }
         .btn-dl.loading { opacity: .45; pointer-events: none; }
@@ -243,7 +254,7 @@
 
         <div class="dl-wrapper">
             <a id="btn-dl" href="#" class="btn-dl loading" download>
-                ↓ &nbsp;TÉLÉCHARGER BICRYPT
+                ↓ &nbsp;TÉLÉCHARGER BICRYPT · ANDROID
             </a>
 
             <div class="dl-meta">
@@ -274,6 +285,39 @@
             </div>
         </div>
 
+        <div class="dl-wrapper">
+            <a id="btn-dl-desktop" href="#" class="btn-dl btn-desktop loading" download>
+                ↓ &nbsp;TÉLÉCHARGER BICRYPT · DESKTOP
+            </a>
+
+            <div class="dl-meta">
+                <div class="dl-meta-item">
+                    <label>Version</label>
+                    <span id="desktop-version">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Taille</label>
+                    <span id="desktop-size">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>SHA-256</label>
+                    <span id="desktop-hash" class="mono-hash">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Téléchargements</label>
+                    <span id="desktop-dl-count">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Plateforme</label>
+                    <span>Linux x86_64 (AppImage)</span>
+                </div>
+            </div>
+
+            <div class="dl-error" id="dl-error-desktop">
+                AppImage indisponible — réessayez plus tard.
+            </div>
+        </div>
+
         <div class="detailed-desc">
             <div class="desc-block">
                 <h2>[ PHILOSOPHIE ]</h2>
@@ -281,7 +325,7 @@
             </div>
             <div class="desc-block">
                 <h2>[ ARCHITECTURE ]</h2>
-                <p>En combinant le réseau Tor pour l'anonymat global et un mesh Bluetooth Low Energy pour la proximité, BiCrypt garantit que vos messages atteignent leur destination, que vous soyez connecté au web ou en isolation totale.</p>
+                <p>Transport exclusif via Tor V3 hidden service : chaque message transite par un circuit onion chiffré de bout en bout, sans IP exposée, sans métadonnée collectable, sans autorité intermédiaire.</p>
             </div>
         </div>
 
@@ -292,7 +336,7 @@
             </div>
             <div class="spec-box">
                 <b>Réseau</b>
-                <span>Tor V3 / BLE Mesh</span>
+                <span>Tor V3 Hidden Service</span>
             </div>
             <div class="spec-box">
                 <b>Anonymat</b>
@@ -380,6 +424,13 @@
     // ── GitHub Release fetch ──────────────────────────────────────────────────
     const REPO = 'nefesec/bicrypt-app';
 
+    async function sha256Hex(blob) {
+        const buf = await blob.arrayBuffer();
+        const hash = await crypto.subtle.digest('SHA-256', buf);
+        return Array.from(new Uint8Array(hash))
+            .map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+    }
+
     async function loadRelease() {
         try {
             const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
@@ -387,40 +438,79 @@
             const data = await res.json();
 
             const apk = data.assets.find(a => a.name.endsWith('.apk'));
-            if (!apk) throw new Error('no apk');
+            const appimage = data.assets.find(a => a.name.endsWith('.AppImage'));
+
+            if (!apk && !appimage) throw new Error('no assets');
 
             const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
+            let bodyHash = extractHashFromBody(data.body);
 
-            document.getElementById('meta-version').textContent = data.tag_name;
-            document.getElementById('meta-size').textContent =
-                (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
-            document.getElementById('meta-dl-count').textContent =
-                apk.download_count.toLocaleString('fr-FR');
+            // ── Android APK ─────────────────────────────────────────────
+            if (apk) {
+                document.getElementById('meta-version').textContent = data.tag_name;
+                document.getElementById('meta-size').textContent =
+                    (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
+                document.getElementById('meta-dl-count').textContent =
+                    apk.download_count.toLocaleString('fr-FR');
 
-            let hash = extractHashFromBody(data.body);
-            if (!hash && sha256Asset) {
-                try {
-                    const hashRes = await fetch(sha256Asset.browser_download_url);
-                    hash = (await hashRes.text()).trim().split(/\s+/)[0].toUpperCase();
-                } catch (_) {}
+                let hash = bodyHash;
+                if (!hash && sha256Asset) {
+                    try {
+                        const hashRes = await fetch(sha256Asset.browser_download_url);
+                        hash = (await hashRes.text()).trim().split(/\s+/)[0].toUpperCase();
+                    } catch (_) {}
+                }
+                document.getElementById('meta-hash').textContent = hash || 'Non disponible';
+
+                const btn = document.getElementById('btn-dl');
+                btn.href = apk.browser_download_url;
+                btn.classList.remove('loading');
+            } else {
+                document.getElementById('dl-error').style.display = 'block';
+                document.getElementById('btn-dl').classList.remove('loading');
             }
-            document.getElementById('meta-hash').textContent = hash || 'Non disponible';
 
-            const btn = document.getElementById('btn-dl');
-            btn.href = apk.browser_download_url;
-            btn.classList.remove('loading');
+            // ── Desktop AppImage ────────────────────────────────────────
+            if (appimage) {
+                document.getElementById('desktop-version').textContent = data.tag_name;
+                document.getElementById('desktop-size').textContent =
+                    (appimage.size / 1024 / 1024).toFixed(1) + ' Mo';
+                document.getElementById('desktop-dl-count').textContent =
+                    appimage.download_count.toLocaleString('fr-FR');
+
+                const desktopHashFromBody = extractHashFromBody(data.body, 'desktop')
+                    || extractHashFromBody(data.body, 'appimage');
+                document.getElementById('desktop-hash').textContent =
+                    desktopHashFromBody || 'Vérifier via release GitHub';
+
+                const btn = document.getElementById('btn-dl-desktop');
+                btn.href = appimage.browser_download_url;
+                btn.classList.remove('loading');
+            } else {
+                document.getElementById('dl-error-desktop').style.display = 'block';
+                document.getElementById('btn-dl-desktop').classList.remove('loading');
+            }
 
         } catch (e) {
             document.getElementById('dl-error').style.display = 'block';
-            const btn = document.getElementById('btn-dl');
-            btn.classList.remove('loading');
-            btn.textContent = '↺  ERREUR — RÉESSAYER';
-            btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
+            document.getElementById('dl-error-desktop').style.display = 'block';
+            for (const id of ['btn-dl', 'btn-dl-desktop']) {
+                const btn = document.getElementById(id);
+                btn.classList.remove('loading');
+                btn.textContent = '↺  ERREUR — RÉESSAYER';
+                btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
+            }
         }
     }
 
-    function extractHashFromBody(body) {
+    function extractHashFromBody(body, variant) {
         if (!body) return null;
+        if (variant) {
+            const re = new RegExp(variant + '[^\\n]*?SHA-?256[:\\s`*]+([A-Fa-f0-9]{64})', 'i');
+            const m = body.match(re);
+            if (m) return m[1].toUpperCase();
+            return null;
+        }
         // Accepte SHA256, SHA-256, sha256 suivi de : ou espace puis le hash
         const m = body.match(/SHA-?256[:\s`*]+([A-Fa-f0-9]{64})/i);
         return m ? m[1].toUpperCase() : null;
