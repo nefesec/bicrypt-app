@@ -141,6 +141,42 @@
         .dl-meta-item span.mono-hash { font-size: 0.7rem; line-height: 1.5; }
         .dl-error { margin-top: 12px; font-size: 0.8rem; color: #ff4466; display: none; }
 
+        /* ── Maintenance overlay ── */
+        .maintenance {
+            border: 1px solid #ff4466;
+            padding: 40px 48px;
+            margin: 40px 0 80px;
+            background: #0a0404;
+        }
+        .maintenance-label {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #ff4466;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+        .maintenance-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+        .maintenance-msg {
+            font-size: 1.1rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .maintenance-countdown {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #ff4466;
+            letter-spacing: 2px;
+        }
+        .hidden { display: none !important; }
+
         /* ── Description ── */
         .detailed-desc {
             margin-bottom: 100px;
@@ -252,6 +288,19 @@
             Conçu pour l'anonymat radical et la résilience réseau.
         </div>
 
+        <!-- Bandeau maintenance — activé par status.json (voir script en bas) -->
+        <div id="maintenance" class="maintenance hidden">
+            <div class="maintenance-label">[ STATUT · INDISPONIBLE ]</div>
+            <div class="maintenance-title" id="maintenance-title">
+                Téléchargements suspendus temporairement
+            </div>
+            <div class="maintenance-msg" id="maintenance-msg">
+                Le service de téléchargement est hors ligne pour maintenance. Les binaires déjà installés continuent de fonctionner normalement.
+            </div>
+            <div class="maintenance-countdown" id="maintenance-countdown"></div>
+        </div>
+
+        <div id="downloads-block">
         <div class="dl-wrapper">
             <a id="btn-dl" href="#" class="btn-dl loading" download>
                 ↓ &nbsp;TÉLÉCHARGER BICRYPT · ANDROID
@@ -317,6 +366,7 @@
                 AppImage indisponible — réessayez plus tard.
             </div>
         </div>
+        </div><!-- /downloads-block -->
 
         <div class="detailed-desc">
             <div class="desc-block">
@@ -516,7 +566,58 @@
         return m ? m[1].toUpperCase() : null;
     }
 
-    loadRelease();
+    // ── Maintenance gate ─────────────────────────────────────────────────────
+    // status.json à la racine du site pilote l'affichage. Pour activer le mode
+    // maintenance : passer `"maintenance": true` + `"message"` (optionnel) +
+    // `"until"` ISO 8601 (optionnel, pour un countdown). Puis re-déployer.
+    function renderMaintenance(status) {
+        const block = document.getElementById('maintenance');
+        const title = document.getElementById('maintenance-title');
+        const msg = document.getElementById('maintenance-msg');
+        const cd = document.getElementById('maintenance-countdown');
+        const dl = document.getElementById('downloads-block');
+
+        if (status.message) {
+            msg.textContent = status.message;
+        }
+        if (status.title) {
+            title.textContent = status.title;
+        }
+
+        function updateCountdown() {
+            if (!status.until) { cd.textContent = ''; return; }
+            const target = new Date(status.until).getTime();
+            const now = Date.now();
+            const diff = target - now;
+            if (!isFinite(target) || diff <= 0) {
+                cd.textContent = 'Réouverture imminente — recharge la page.';
+                return;
+            }
+            const h = Math.floor(diff / 3_600_000);
+            const m = Math.floor((diff % 3_600_000) / 60_000);
+            cd.textContent = `Réouverture prévue dans ${h}h ${String(m).padStart(2,'0')}m`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 30_000);
+
+        block.classList.remove('hidden');
+        dl.classList.add('hidden');
+    }
+
+    async function boot() {
+        try {
+            const res = await fetch('status.json', { cache: 'no-store' });
+            if (res.ok) {
+                const status = await res.json();
+                if (status && status.maintenance === true) {
+                    renderMaintenance(status);
+                    return; // on NE charge PAS les liens GitHub en mode maintenance
+                }
+            }
+        } catch (_) { /* status.json absent → comportement normal */ }
+        loadRelease();
+    }
+    boot();
 </script>
 </body>
 </html>
