@@ -1,6 +1,6 @@
 {
-  "maintenance": true,
-  "title": "[ MAINTENANCE EN COURS ]",
-  "message": "On reconstruit proprement la version Desktop. Les téléchargements seront de retour dans peu de temps.",
+  "maintenance": false,
+  "title": "",
+  "message": "",
   "until": null
 }
