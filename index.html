@@ -471,85 +471,102 @@
     fillBg();
     window.addEventListener('resize', fillBg);
 
-    // ── GitHub Release fetch ──────────────────────────────────────────────────
+    // ── Release fetch ─────────────────────────────────────────────────────────
+    // Source primaire : releases/latest.json (servi par Cloudflare Pages,
+    // indépendant du visibility du repo GitHub). Le manifest est regénéré
+    // à chaque release par scripts/update-site-manifest.js.
+    // Fallback : api.github.com (pour compat + dev local).
     const REPO = 'nefesec/bicrypt-app';
+    const MANIFEST_PATH = 'releases/latest.json';
 
-    async function sha256Hex(blob) {
-        const buf = await blob.arrayBuffer();
-        const hash = await crypto.subtle.digest('SHA-256', buf);
-        return Array.from(new Uint8Array(hash))
-            .map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+    function setRow({ version, size, dlCount, hash, url }, elIds) {
+        if (version != null) document.getElementById(elIds.version).textContent = version;
+        if (size != null)    document.getElementById(elIds.size).textContent = (size / 1024 / 1024).toFixed(1) + ' Mo';
+        if (dlCount != null) document.getElementById(elIds.dlCount).textContent = dlCount.toLocaleString('fr-FR');
+        if (hash != null)    document.getElementById(elIds.hash).textContent = (hash || 'Non disponible').toUpperCase();
+        const btn = document.getElementById(elIds.btn);
+        if (url) {
+            btn.href = url;
+            btn.classList.remove('loading');
+        } else {
+            document.getElementById(elIds.err).style.display = 'block';
+            btn.classList.remove('loading');
+        }
+    }
+
+    const APK_IDS = {
+        version: 'meta-version', size: 'meta-size', dlCount: 'meta-dl-count',
+        hash: 'meta-hash', btn: 'btn-dl', err: 'dl-error',
+    };
+    const DESKTOP_IDS = {
+        version: 'desktop-version', size: 'desktop-size', dlCount: 'desktop-dl-count',
+        hash: 'desktop-hash', btn: 'btn-dl-desktop', err: 'dl-error-desktop',
+    };
+
+    async function loadReleaseFromManifest() {
+        const res = await fetch(MANIFEST_PATH, { cache: 'no-store' });
+        if (!res.ok) throw new Error('manifest ' + res.status);
+        const m = await res.json();
+        if (!m.version) throw new Error('manifest incomplet');
+        if (m.apk) {
+            setRow({ version: m.version, size: m.apk.size, dlCount: m.apk.downloads ?? 0, hash: m.apk.sha256, url: m.apk.url }, APK_IDS);
+        } else {
+            setRow({ url: null }, APK_IDS);
+        }
+        if (m.appimage) {
+            setRow({ version: m.version, size: m.appimage.size, dlCount: m.appimage.downloads ?? 0, hash: m.appimage.sha256, url: m.appimage.url }, DESKTOP_IDS);
+        } else {
+            setRow({ url: null }, DESKTOP_IDS);
+        }
+    }
+
+    async function loadReleaseFromGitHub() {
+        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+        if (!res.ok) throw new Error('API ' + res.status);
+        const data = await res.json();
+
+        const apk = data.assets.find(a => a.name.endsWith('.apk'));
+        const appimage = data.assets.find(a => a.name.endsWith('.AppImage'));
+        if (!apk && !appimage) throw new Error('no assets');
+
+        const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
+        let bodyHash = extractHashFromBody(data.body);
+
+        if (apk) {
+            let hash = bodyHash;
+            if (!hash && sha256Asset) {
+                try {
+                    const hashRes = await fetch(sha256Asset.browser_download_url);
+                    hash = (await hashRes.text()).trim().split(/\s+/)[0];
+                } catch (_) {}
+            }
+            setRow({ version: data.tag_name, size: apk.size, dlCount: apk.download_count, hash, url: apk.browser_download_url }, APK_IDS);
+        } else {
+            setRow({ url: null }, APK_IDS);
+        }
+
+        if (appimage) {
+            const desktopHash = extractHashFromBody(data.body, 'desktop')
+                || extractHashFromBody(data.body, 'appimage');
+            setRow({ version: data.tag_name, size: appimage.size, dlCount: appimage.download_count, hash: desktopHash, url: appimage.browser_download_url }, DESKTOP_IDS);
+        } else {
+            setRow({ url: null }, DESKTOP_IDS);
+        }
     }
 
     async function loadRelease() {
-        try {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
-            if (!res.ok) throw new Error('API ' + res.status);
-            const data = await res.json();
-
-            const apk = data.assets.find(a => a.name.endsWith('.apk'));
-            const appimage = data.assets.find(a => a.name.endsWith('.AppImage'));
-
-            if (!apk && !appimage) throw new Error('no assets');
-
-            const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
-            let bodyHash = extractHashFromBody(data.body);
-
-            // ── Android APK ─────────────────────────────────────────────
-            if (apk) {
-                document.getElementById('meta-version').textContent = data.tag_name;
-                document.getElementById('meta-size').textContent =
-                    (apk.size / 1024 / 1024).toFixed(1) + ' Mo';
-                document.getElementById('meta-dl-count').textContent =
-                    apk.download_count.toLocaleString('fr-FR');
-
-                let hash = bodyHash;
-                if (!hash && sha256Asset) {
-                    try {
-                        const hashRes = await fetch(sha256Asset.browser_download_url);
-                        hash = (await hashRes.text()).trim().split(/\s+/)[0].toUpperCase();
-                    } catch (_) {}
-                }
-                document.getElementById('meta-hash').textContent = hash || 'Non disponible';
-
-                const btn = document.getElementById('btn-dl');
-                btn.href = apk.browser_download_url;
-                btn.classList.remove('loading');
-            } else {
-                document.getElementById('dl-error').style.display = 'block';
-                document.getElementById('btn-dl').classList.remove('loading');
-            }
-
-            // ── Desktop AppImage ────────────────────────────────────────
-            if (appimage) {
-                document.getElementById('desktop-version').textContent = data.tag_name;
-                document.getElementById('desktop-size').textContent =
-                    (appimage.size / 1024 / 1024).toFixed(1) + ' Mo';
-                document.getElementById('desktop-dl-count').textContent =
-                    appimage.download_count.toLocaleString('fr-FR');
-
-                const desktopHashFromBody = extractHashFromBody(data.body, 'desktop')
-                    || extractHashFromBody(data.body, 'appimage');
-                document.getElementById('desktop-hash').textContent =
-                    desktopHashFromBody || 'Vérifier via release GitHub';
-
-                const btn = document.getElementById('btn-dl-desktop');
-                btn.href = appimage.browser_download_url;
-                btn.classList.remove('loading');
-            } else {
-                document.getElementById('dl-error-desktop').style.display = 'block';
-                document.getElementById('btn-dl-desktop').classList.remove('loading');
-            }
-
-        } catch (e) {
-            document.getElementById('dl-error').style.display = 'block';
-            document.getElementById('dl-error-desktop').style.display = 'block';
-            for (const id of ['btn-dl', 'btn-dl-desktop']) {
-                const btn = document.getElementById(id);
-                btn.classList.remove('loading');
-                btn.textContent = '↺  ERREUR — RÉESSAYER';
-                btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
-            }
+        // 1) Manifest local (source de vérité, fiable, rate-limit-free)
+        try { await loadReleaseFromManifest(); return; } catch (_) {}
+        // 2) Fallback GitHub API (compat rétro + dev local)
+        try { await loadReleaseFromGitHub(); return; } catch (_) {}
+        // 3) Erreur finale
+        document.getElementById('dl-error').style.display = 'block';
+        document.getElementById('dl-error-desktop').style.display = 'block';
+        for (const id of ['btn-dl', 'btn-dl-desktop']) {
+            const btn = document.getElementById(id);
+            btn.classList.remove('loading');
+            btn.textContent = '↺  ERREUR — RÉESSAYER';
+            btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
         }
     }
 
@@ -561,7 +578,6 @@
             if (m) return m[1].toUpperCase();
             return null;
         }
-        // Accepte SHA256, SHA-256, sha256 suivi de : ou espace puis le hash
         const m = body.match(/SHA-?256[:\s`*]+([A-Fa-f0-9]{64})/i);
         return m ? m[1].toUpperCase() : null;
     }
