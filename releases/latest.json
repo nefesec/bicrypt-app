@@ -2,17 +2,17 @@
   "version": "v2.4",
   "apk": {
     "version": "v2.4",
-    "filename": "bicrypt-v2.4.apk",
-    "size": 33988461,
-    "sha256": "9f7cdcdb32d0a8011ca6343f3d613bf9e4245e8a13abacbe26647e284c5f45d0",
-    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.4/bicrypt-v2.4.apk",
+    "filename": "bicrypt-2.4.apk",
+    "size": 33990197,
+    "sha256": "fe8b0ea1850d6cf5506784560eca474d7fa2a448ce712a7ada3a7d54abc48610",
+    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.4/bicrypt-2.4.apk",
     "downloads": 0
   },
   "appimage": {
     "version": "v2.4",
     "filename": "BiCrypt-2.4.0.AppImage",
-    "size": 109454299,
-    "sha256": "63146dc13603ba738d6e84095542f0a4617638d89e011461ac6e940cacaaf50f",
+    "size": 109466727,
+    "sha256": "cea00a9ee611bd80f59da5e3b0a9dfb984ab39aaee07974ea6f282868531a0bd",
     "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.4/BiCrypt-2.4.0.AppImage",
     "downloads": 0
   }
