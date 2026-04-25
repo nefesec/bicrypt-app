@@ -116,6 +116,16 @@
             color: var(--bg);
             border-color: var(--accent);
         }
+        .btn-dl.btn-win {
+            background: transparent;
+            color: #4fc3f7;
+            border: 1px solid #4fc3f7;
+        }
+        .btn-dl.btn-win:hover {
+            background: #4fc3f7;
+            color: var(--bg);
+            border-color: #4fc3f7;
+        }
         .btn-dl:hover { background: var(--accent); }
         .btn-dl.loading { opacity: .45; pointer-events: none; }
 
@@ -336,7 +346,7 @@
 
         <div class="dl-wrapper">
             <a id="btn-dl-desktop" href="#" class="btn-dl btn-desktop loading" download>
-                ↓ &nbsp;TÉLÉCHARGER BICRYPT · DESKTOP
+                ↓ &nbsp;TÉLÉCHARGER BICRYPT · LINUX
             </a>
 
             <div class="dl-meta">
@@ -364,6 +374,39 @@
 
             <div class="dl-error" id="dl-error-desktop">
                 AppImage indisponible — réessayez plus tard.
+            </div>
+        </div>
+
+        <div class="dl-wrapper">
+            <a id="btn-dl-win" href="#" class="btn-dl btn-win loading" download>
+                ↓ &nbsp;TÉLÉCHARGER BICRYPT · WINDOWS
+            </a>
+
+            <div class="dl-meta">
+                <div class="dl-meta-item">
+                    <label>Version</label>
+                    <span id="win-version">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Taille</label>
+                    <span id="win-size">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>SHA-256</label>
+                    <span id="win-hash" class="mono-hash">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Téléchargements</label>
+                    <span id="win-dl-count">—</span>
+                </div>
+                <div class="dl-meta-item">
+                    <label>Plateforme</label>
+                    <span>Windows 10/11 x64</span>
+                </div>
+            </div>
+
+            <div class="dl-error" id="dl-error-win">
+                Installateur Windows indisponible — réessayez plus tard.
             </div>
         </div>
         </div><!-- /downloads-block -->
@@ -502,6 +545,10 @@
         version: 'desktop-version', size: 'desktop-size', dlCount: 'desktop-dl-count',
         hash: 'desktop-hash', btn: 'btn-dl-desktop', err: 'dl-error-desktop',
     };
+    const WIN_IDS = {
+        version: 'win-version', size: 'win-size', dlCount: 'win-dl-count',
+        hash: 'win-hash', btn: 'btn-dl-win', err: 'dl-error-win',
+    };
 
     async function loadReleaseFromManifest() {
         const res = await fetch(MANIFEST_PATH, { cache: 'no-store' });
@@ -517,6 +564,11 @@
             setRow({ version: m.version, size: m.appimage.size, dlCount: m.appimage.downloads ?? 0, hash: m.appimage.sha256, url: m.appimage.url }, DESKTOP_IDS);
         } else {
             setRow({ url: null }, DESKTOP_IDS);
+        }
+        if (m.windows) {
+            setRow({ version: m.version, size: m.windows.size, dlCount: m.windows.downloads ?? 0, hash: m.windows.sha256, url: m.windows.url }, WIN_IDS);
+        } else {
+            setRow({ url: null }, WIN_IDS);
         }
     }
 
@@ -552,6 +604,14 @@
         } else {
             setRow({ url: null }, DESKTOP_IDS);
         }
+
+        const winExe = data.assets.find(a => a.name.endsWith('.exe') && !a.name.endsWith('.blockmap'));
+        if (winExe) {
+            const winHash = extractHashFromBody(data.body, 'windows') || extractHashFromBody(data.body, 'win');
+            setRow({ version: data.tag_name, size: winExe.size, dlCount: winExe.download_count, hash: winHash, url: winExe.browser_download_url }, WIN_IDS);
+        } else {
+            setRow({ url: null }, WIN_IDS);
+        }
     }
 
     async function loadRelease() {
@@ -562,7 +622,8 @@
         // 3) Erreur finale
         document.getElementById('dl-error').style.display = 'block';
         document.getElementById('dl-error-desktop').style.display = 'block';
-        for (const id of ['btn-dl', 'btn-dl-desktop']) {
+        document.getElementById('dl-error-win').style.display = 'block';
+        for (const id of ['btn-dl', 'btn-dl-desktop', 'btn-dl-win']) {
             const btn = document.getElementById(id);
             btn.classList.remove('loading');
             btn.textContent = '↺  ERREUR — RÉESSAYER';
