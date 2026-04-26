@@ -696,5 +696,130 @@
     }
     boot();
 </script>
+
+<!-- ── FOOTER LÉGAL ───────────────────────────────────────────────────── -->
+<footer style="margin-top:80px;padding:32px 24px;border-top:1px solid #1e1e1e;text-align:center;font-family:monospace;">
+  <p style="color:#444;font-size:11px;letter-spacing:1px;margin-bottom:12px">
+    BiCrypt © 2026 — Logiciel Propriétaire — Tous droits réservés
+  </p>
+  <div style="display:flex;gap:24px;justify-content:center">
+    <button onclick="document.getElementById('modal-cgu').style.display='flex'"
+      style="background:none;border:none;color:#555;font-family:monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:underline">
+      CGU
+    </button>
+    <button onclick="document.getElementById('modal-privacy').style.display='flex'"
+      style="background:none;border:none;color:#555;font-family:monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:underline">
+      POLITIQUE DE CONFIDENTIALITÉ
+    </button>
+  </div>
+</footer>
+
+<!-- ── MODAL CGU ──────────────────────────────────────────────────────── -->
+<div id="modal-cgu" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#0d0d0d;border:1px solid #1e1e1e;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:32px;position:relative">
+    <button onclick="document.getElementById('modal-cgu').style.display='none'"
+      style="position:absolute;top:16px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;font-family:monospace">✕</button>
+    <h2 style="color:#00ff88;font-family:monospace;font-size:14px;letter-spacing:2px;margin-bottom:4px">CONDITIONS GÉNÉRALES D'UTILISATION</h2>
+    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Version 1.0 · 24 avril 2026</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">1. Propriété Intellectuelle et Licence d'Utilisation</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt (code source, code objet, algorithmes obfusqués, interfaces graphiques et logos) est la propriété exclusive de son développeur.</p>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Licence personnelle, non exclusive, non transférable et révocable.</li>
+      <li>Toute copie, modification, adaptation ou création d'œuvre dérivée est formellement interdite.</li>
+      <li>L'ingénierie inverse, la décompilation, le désassemblage ou toute tentative de contournement des mesures d'obfuscation sont interdits, sauf dans les limites strictement prévues par la loi applicable.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">2. Nature du Service</h3>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Aucun service d'hébergement de données : votre identité et vos messages n'existent que sur votre terminal.</li>
+      <li>Le développeur met à disposition un relais de transit (.onion) opérant exclusivement en mémoire vive, sans journalisation ni stockage persistant.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">3. Responsabilité de l'Utilisateur</h3>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>L'utilisateur est seul responsable de la sécurité de son terminal et de la conservation de ses accès.</li>
+      <li>Le développeur n'a aucun accès aux clés privées ni au code PIN. Aucune récupération n'est possible.</li>
+      <li>Toute utilisation à des fins illicites entraîne la révocation immédiate de la licence et peut donner lieu à des poursuites judiciaires.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">4. Absence de Garantie (AS IS)</h3>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Le Logiciel est fourni « tel quel », sans garantie d'aucune sorte.</li>
+      <li>Bien que le Logiciel utilise des primitives cryptographiques éprouvées (X25519, XSalsa20-Poly1305, Ed25519), le développeur ne garantit pas l'infaillibilité face à des attaques ciblées sur l'OS ou le matériel.</li>
+      <li>Le service de relais peut être interrompu pour maintenance ou en raison du réseau Tor, sans préavis ni indemnité.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">5. Limitation de Responsabilité</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">Dans la mesure permise par la loi, le développeur ne peut être tenu responsable des dommages résultant de :</p>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>L'utilisation ou l'impossibilité d'utiliser le Logiciel.</li>
+      <li>L'accès non autorisé à votre appareil par un tiers.</li>
+      <li>La perte définitive de données suite à une désinstallation ou une défaillance matérielle.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">6. Modifications et Résiliation</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Le développeur se réserve le droit de modifier les présentes conditions ou d'interrompre le support du Logiciel à tout moment. Toute violation de l'article 1 entraîne la résiliation automatique de votre licence d'utilisation.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">7. Droit Applicable</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Les présentes CGU sont régies par le droit français. Tout litige sera porté devant les tribunaux compétents du ressort du siège du développeur.</p>
+  </div>
+</div>
+
+<!-- ── MODAL CONFIDENTIALITÉ ──────────────────────────────────────────── -->
+<div id="modal-privacy" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#0d0d0d;border:1px solid #1e1e1e;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:32px;position:relative">
+    <button onclick="document.getElementById('modal-privacy').style.display='none'"
+      style="position:absolute;top:16px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;font-family:monospace">✕</button>
+    <h2 style="color:#00ff88;font-family:monospace;font-size:14px;letter-spacing:2px;margin-bottom:4px">POLITIQUE DE CONFIDENTIALITÉ</h2>
+    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Dernière mise à jour : 24 avril 2026</p>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:16px">BiCrypt est conçu selon le principe du Privacy by Design. Ce que nous ne collectons pas ne peut pas être volé, partagé ou compromis.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">1. Responsable du traitement</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Le traitement des données est effectué localement par l'utilisateur. Le développeur n'a aucun accès aux données créées ou échangées via l'application.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">2. Données stockées sur votre terminal</h3>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Clés cryptographiques (Ed25519 / X25519) générées localement. La clé privée est protégée par l'Android Keystore (hardware-backed) ou l'équivalent système Desktop (libsecret / keytar).</li>
+      <li>Code PIN : jamais stocké en clair. Seul un hash blake2b non réversible est conservé localement.</li>
+      <li>Contacts (pseudonymes + clés publiques) : stockés dans la base chiffrée locale de l'application.</li>
+      <li>Messages : chiffrés de bout en bout (XSalsa20-Poly1305). Seule votre clé privée locale peut les déchiffrer.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">3. Transit des données (le Relais)</h3>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Le relais (.onion) agit comme un commutateur en mémoire vive. Les messages chiffrés y transitent puis sont immédiatement supprimés — aucune persistance.</li>
+      <li>Aucun journal de connexion, timestamp ou identifiant n'est conservé par le relais.</li>
+      <li>Votre adresse IP réelle n'est jamais exposée : le relais ne voit que l'adresse d'entrée du circuit Tor (onion-to-onion).</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">4. Base légale</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">L'utilisation repose exclusivement sur votre consentement. En générant vos clés, vous initiez le traitement de vos données pour la finalité unique de communication privée.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">5. Vos droits (RGPD)</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt ne détenant aucune donnée sur ses serveurs, l'exercice de vos droits s'effectue directement sur votre appareil :</p>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li>Accès / portabilité : consultez vos messages et clés directement dans l'application.</li>
+      <li>Effacement : désinstallez l'application ou utilisez la suppression manuelle. La suppression est définitive — aucune sauvegarde n'existe côté développeur.</li>
+    </ul>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">6. Sécurité</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Primitives cryptographiques : X25519 (échange de clés), XSalsa20-Poly1305 (chiffrement des messages), Ed25519 (signatures numériques), blake2b-256 (hash PIN). La sécurité dépend également de l'intégrité de votre propre appareil.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">7. Transferts internationaux</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Le réseau Tor implique que les fragments de messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde entier. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">8. Contact</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Pour toute question relative à la protection de vos données : dépôt officiel BiCrypt sur GitHub (<a href="https://github.com/nefesec/bicrypt-app" style="color:#00ff88">nefesec/bicrypt-app</a>).</p>
+  </div>
+</div>
+<script>
+  // Fermer les modals en cliquant sur le fond
+  ['modal-cgu','modal-privacy'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+  });
+</script>
 </body>
 </html>
