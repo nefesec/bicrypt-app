@@ -772,7 +772,7 @@
     <button onclick="document.getElementById('modal-privacy').style.display='none'"
       style="position:absolute;top:16px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;font-family:monospace">✕</button>
     <h2 style="color:#00ff88;font-family:monospace;font-size:14px;letter-spacing:2px;margin-bottom:4px">POLITIQUE DE CONFIDENTIALITÉ</h2>
-    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Dernière mise à jour : 24 avril 2026</p>
+    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Dernière mise à jour : 27 avril 2026</p>
     <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:16px">BiCrypt est conçu selon le principe du Privacy by Design. Ce que nous ne collectons pas ne peut pas être volé, partagé ou compromis.</p>
 
     <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">1. Responsable du traitement</h3>
@@ -809,7 +809,26 @@
     <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">7. Transferts internationaux</h3>
     <p style="color:#aaa;font-size:13px;line-height:1.7">Le réseau Tor implique que les fragments de messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde entier. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
 
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">8. Contact</h3>
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">8. Bibliothèques tierces et leur fiabilité</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt s'appuie sur les bibliothèques suivantes, choisies pour leur niveau d'audit et de maintenance :</p>
+    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/curves</span> — Ed25519 + X25519. Auteur : Paul Miller. Audit indépendant Cure53 (2023). Pure-JS, sans dépendance native.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/ciphers</span> — XSalsa20-Poly1305 conforme RFC 7539 / 8439.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/hashes</span> — Blake2b et SHA-256 (audit Cure53).</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">socket.io-client 4.8</span> — WebSocket sur Tor SOCKS5. Bibliothèque standard, plus de 5 millions de téléchargements hebdomadaires, sécurité maintenue activement.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">react-native-keychain / Android Keystore</span> — stockage de la clé privée, hardware-backed sur les appareils compatibles.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">react-native-vision-camera</span> — lecture du QR code. Aucune image stockée ni transmise — décodage en temps réel uniquement.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">Electron 31 (desktop)</span> — version stable avec mises à jour de sécurité actives.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">keytar / libsecret / Windows Credential Vault</span> — trousseau du système d'exploitation pour la clé locale de chiffrement.</li>
+      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">Tor (binaire embarqué)</span> — versions stables uniquement, circuits éphémères, aucun pont par défaut.</li>
+      <li>Les outils de build (electron-builder, esbuild, javascript-obfuscator, react-native-cli) ne sont jamais distribués dans le binaire final livré à l'utilisateur. Les vulnérabilités éventuelles de ces outils n'affectent que la machine de build.</li>
+    </ul>
+    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-top:8px">Les versions exactes utilisées sont auditables dans le dépôt public BiCrypt (fichier <code style="color:#00ff88">package.json</code>).</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">9. Mises à jour signées</h3>
+    <p style="color:#aaa;font-size:13px;line-height:1.7">Toute mise à jour est signée Ed25519 avec une clé dédiée distincte des clés utilisateur. Le manifeste signé est servi par le relais .onion, et l'application refuse toute installation dont la signature ou le SHA-256 ne correspond pas. La clé privée de signature est conservée hors du dépôt et hors de l'application.</p>
+
+    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">10. Contact</h3>
     <p style="color:#aaa;font-size:13px;line-height:1.7">Pour toute question relative à la protection de vos données : dépôt officiel BiCrypt sur GitHub (<a href="https://github.com/nefesec/bicrypt-app" style="color:#00ff88">nefesec/bicrypt-app</a>).</p>
   </div>
 </div>
