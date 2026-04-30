@@ -1,0 +1,142 @@
+BiCrypt — Source-Available License v2.0
+Copyright (c) 2025-2026 Naoufel (nefesec). All rights reserved.
+
+================================================================================
+
+PREAMBLE
+
+BiCrypt is a privacy-focused, end-to-end encrypted communication application.
+Its source code is made publicly available for transparency, security audit,
+and educational study only. This is NOT an open-source license. No commercial,
+public, or service-based use is permitted without prior written agreement.
+
+================================================================================
+
+1. DEFINITIONS
+
+   "Software"     means the source code, binary artifacts, configuration,
+                  documentation, brand assets, and any derivative works thereof
+                  contained in this repository.
+   "Licensor"     means Naoufel (nefesec), the copyright holder.
+   "You"          means any individual or legal entity accessing the Software.
+   "Production"   means any deployment serving end users (whether free or paid),
+                  any public or private network, or any commercial activity.
+
+================================================================================
+
+2. PERMITTED USES
+
+   You MAY, free of charge:
+
+   a) Read and study the source code for personal educational purposes.
+   b) Run a private, local instance on your own device for personal,
+      non-production testing limited to yourself only.
+   c) Report security vulnerabilities privately to the Licensor at
+      github.com/nefesec/bicrypt-app/security/advisories/new — coordinated
+      disclosure required, public disclosure prohibited until patch is shipped.
+   d) Submit pull requests. By submitting a contribution you irrevocably assign
+      all copyright in that contribution to the Licensor under this License.
+
+================================================================================
+
+3. PROHIBITED USES
+
+   Unless you have received explicit written permission from the Licensor
+   (signed agreement, not a forum reply or email), you MAY NOT:
+
+   a) Operate, host, or distribute any messaging service, relay, hidden
+      service, or network derived from or inspired by the Software.
+   b) Use the Software, in whole or in part, in any Production environment,
+      whether commercial, non-commercial, free, or paid.
+   c) Redistribute, sublicense, sell, rent, lease, host, mirror, or
+      republish the Software, the binaries, the brand "BiCrypt", the logo,
+      or any portion thereof.
+   d) Fork the repository for the purpose of creating a competing,
+      alternative, or substitute network, application, or service.
+   e) Remove, alter, or obscure any copyright notice, license file, or
+      attribution contained in the Software.
+   f) Reverse engineer, deobfuscate, or attempt to reconstruct source from
+      compiled artifacts, EXCEPT strictly for personal security research
+      that is privately disclosed to the Licensor under section 2(c).
+   g) Use the name "BiCrypt", the BiCrypt logo, or any confusingly similar
+      mark in any product, service, domain, social media account, or marketing.
+   h) Use the Software, or any infrastructure derived from it, to facilitate
+      activities that are illegal under the laws of the European Union or
+      France, including but not limited to terrorism financing, child sexual
+      abuse material, or the sale of controlled substances.
+
+================================================================================
+
+4. NO WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, RELIABILITY, AVAILABILITY,
+   AND NON-INFRINGEMENT.
+
+   THE LICENSOR MAKES NO REPRESENTATIONS OR WARRANTIES THAT THE SOFTWARE
+   WILL BE FREE OF DEFECTS, ERRORS, VIRUSES, OR THAT THE CRYPTOGRAPHIC
+   PROTECTIONS WILL BE EFFECTIVE AGAINST ALL POSSIBLE ATTACKS. CRYPTOGRAPHY
+   IS HARD; AUDIT THE CODE BEFORE TRUSTING IT WITH ANYTHING IMPORTANT.
+
+================================================================================
+
+5. LIMITATION OF LIABILITY
+
+   TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE
+   LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO LOSS
+   OF DATA, LOSS OF PRIVACY, LOSS OF PROFITS, OR REPUTATIONAL HARM) ARISING
+   FROM YOUR USE OR INABILITY TO USE THE SOFTWARE, EVEN IF THE LICENSOR HAS
+   BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+   You assume full responsibility for any consequence of running, modifying,
+   or distributing the Software in violation of this License.
+
+================================================================================
+
+6. INDEMNIFICATION
+
+   You agree to indemnify, defend, and hold harmless the Licensor from any
+   claim, demand, loss, or damage (including reasonable legal fees) arising
+   from (i) Your violation of this License, (ii) Your use of the Software in
+   any Production environment without authorization, or (iii) Your violation
+   of any law or third-party rights through Your use of the Software.
+
+================================================================================
+
+7. TERMINATION
+
+   This License terminates automatically and without notice upon any breach
+   of its terms. Upon termination You must permanently delete all copies of
+   the Software in Your possession or control. Sections 4, 5, 6, 8, and 9
+   survive termination.
+
+================================================================================
+
+8. GOVERNING LAW
+
+   This License is governed by the laws of France. Any dispute arising from
+   or related to this License shall be brought exclusively before the
+   competent courts of Paris, France. The parties waive any objection based
+   on forum non conveniens.
+
+   If any provision of this License is held unenforceable by a court of
+   competent jurisdiction, the remaining provisions shall remain in full
+   force and effect.
+
+================================================================================
+
+9. CONTACT & COMMERCIAL LICENSING
+
+   For commercial licensing, partnership inquiries, or any use not granted
+   under section 2, contact the Licensor at:
+
+      GitHub:   github.com/nefesec
+      Project:  github.com/nefesec/bicrypt-app
+
+   Silence is not consent. Absence of a reply is not authorization.
+
+================================================================================
+
+ALL RIGHTS NOT EXPRESSLY GRANTED ARE RESERVED.
