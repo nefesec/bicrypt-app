@@ -3,529 +3,561 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiCrypt | Secure Communication Stack</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>BiCrypt</title>
     <style>
         :root {
-            --bg: #000000;
-            --accent: #00ff88;
-            --text: #ffffff;
-            --dim: #555555;
-            --sep: #151515;
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #ededed;
+            --text-sub: #a1a1a1;
+            --muted: #6e6e6e;
+            --danger: #f87171;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
-        #data-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            font-family: monospace;
-            font-size: 11px;
-            color: #060606;
-            z-index: -1;
-            padding: 20px;
-            line-height: 0.9;
-            word-break: break-all;
-            user-select: none;
-        }
+        a { color: inherit; text-decoration: none; }
 
-        /* ── Logo top-right ── */
-        /* ── Sidebar layout ── */
-        .main-wrapper {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            border-right: 1px solid var(--sep);
+        /* ── Nav ── */
+        nav {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            height: 100vh;
             background: var(--bg);
+            z-index: 10;
         }
-
-        .vertical-logo {
-            transform: rotate(-90deg);
-            white-space: nowrap;
-            font-weight: 900;
-            font-size: 1.2rem;
-            letter-spacing: 10px;
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
         }
+        .nav-link {
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+        .nav-link:hover { color: var(--text); }
 
-        /* Lettres colorées : B, C et T en vert, reste en blanc */
-        .l-b, .l-c, .l-t { color: var(--accent); }
-        .l-white          { color: var(--text); }
-
+        /* ── Content ── */
         .content {
-            padding: 100px 8% 60px;
-            max-width: 1100px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 24px 60px;
         }
 
-        h1 {
-            font-size: clamp(5rem, 20vw, 14rem);
-            font-weight: 900;
-            line-height: 0.75;
-            letter-spacing: -10px;
-            margin-bottom: 80px;
+        /* ── Hero ── */
+        .hero { margin-bottom: 80px; }
+        .hero-wordmark {
+            font-size: clamp(3rem, 12vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--text-sub);
+            line-height: 1.65;
+            max-width: 460px;
+        }
+
+        /* ── Maintenance ── */
+        .maintenance {
+            border: 1px solid var(--danger);
+            padding: 24px 20px;
+            margin-bottom: 48px;
+            background: #160d0d;
+            border-radius: 4px;
+        }
+        .maintenance-label {
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            color: var(--danger);
             text-transform: uppercase;
+            margin-bottom: 10px;
         }
-
-        .hero-text {
-            font-size: 2.2rem;
-            line-height: 1.1;
-            margin-bottom: 60px;
-            font-weight: 300;
+        .maintenance-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
         }
+        .maintenance-msg {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            line-height: 1.65;
+            margin-bottom: 10px;
+        }
+        .maintenance-countdown { font-size: 0.82rem; color: var(--danger); }
+        .hidden { display: none !important; }
 
-        /* ── Download block ── */
-        .dl-wrapper { margin-bottom: 120px; }
-        .dl-wrapper + .dl-wrapper { margin-top: -60px; }
-
+        /* ── Download cards ── */
+        .downloads { margin-bottom: 80px; display: flex; flex-direction: column; gap: 20px; }
+        .dl-card {
+            border: 1px solid var(--border);
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 4px;
+        }
+        .dl-platform {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
         .btn-dl {
             display: inline-flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             background: var(--text);
             color: var(--bg);
-            padding: 30px 60px;
-            font-weight: 900;
+            padding: 11px 20px;
+            font-weight: 600;
+            font-size: 0.88rem;
             text-decoration: none;
-            font-size: 1.4rem;
-            transition: background .2s;
+            border-radius: 6px;
+            transition: opacity .15s;
             cursor: pointer;
         }
-        .btn-dl.btn-desktop {
+        .btn-dl:hover { opacity: 0.88; }
+        .btn-dl.loading { opacity: 0.35; pointer-events: none; }
+        .btn-dl.btn-outline {
             background: transparent;
             color: var(--text);
-            border: 1px solid var(--text);
+            border: 1px solid var(--border);
         }
-        .btn-dl.btn-desktop:hover {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-        }
-        .btn-dl.btn-win {
-            background: transparent;
-            color: #4fc3f7;
-            border: 1px solid #4fc3f7;
-        }
-        .btn-dl.btn-win:hover {
-            background: #4fc3f7;
-            color: var(--bg);
-            border-color: #4fc3f7;
-        }
-        .btn-dl:hover { background: var(--accent); }
-        .btn-dl.loading { opacity: .45; pointer-events: none; }
+        .btn-dl.btn-outline:hover { border-color: var(--text-sub); opacity: 1; }
 
         .dl-meta {
-            margin-top: 18px;
+            margin-top: 16px;
             display: flex;
-            gap: 32px;
+            gap: 24px;
             flex-wrap: wrap;
         }
-        .dl-meta-item { display: flex; flex-direction: column; gap: 4px; }
+        .dl-meta-item { display: flex; flex-direction: column; gap: 3px; }
         .dl-meta-item label {
-            font-size: 0.58rem;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-        .dl-meta-item span {
-            font-family: monospace;
-            font-size: 0.82rem;
-            color: #aaa;
-            word-break: break-all;
-        }
-        .dl-meta-item span.mono-hash { font-size: 0.7rem; line-height: 1.5; }
-        .dl-error { margin-top: 12px; font-size: 0.8rem; color: #ff4466; display: none; }
-
-        /* ── Maintenance overlay ── */
-        .maintenance {
-            border: 1px solid #ff4466;
-            padding: 40px 48px;
-            margin: 40px 0 80px;
-            background: #0a0404;
-        }
-        .maintenance-label {
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: #ff4466;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            font-family: monospace;
-        }
-        .maintenance-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 16px;
-            line-height: 1.1;
-        }
-        .maintenance-msg {
-            font-size: 1.1rem;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .maintenance-countdown {
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: #ff4466;
+            font-size: 0.6rem;
             letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
         }
-        .hidden { display: none !important; }
+        .dl-meta-item span { font-size: 0.78rem; color: var(--text-sub); word-break: break-all; }
+        .dl-meta-item span.mono-hash { font-family: monospace; font-size: 0.66rem; line-height: 1.5; }
+        .dl-error { margin-top: 10px; font-size: 0.78rem; color: var(--danger); display: none; }
 
         /* ── Description ── */
-        .detailed-desc {
-            margin-bottom: 100px;
+        .desc-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 40px;
+            margin-bottom: 80px;
         }
         .desc-block h2 {
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--accent);
-            margin-bottom: 20px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
-        .desc-block p { color: #aaa; font-size: 1.1rem; line-height: 1.6; }
+        .desc-block p { color: var(--text-sub); font-size: 0.93rem; line-height: 1.7; }
 
         /* ── Specs ── */
         .specs-grid {
-            border-top: 1px solid var(--sep);
-            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            padding-top: 32px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 100px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 28px;
+            margin-bottom: 80px;
         }
         .spec-box b {
             display: block;
             font-size: 0.6rem;
-            color: var(--dim);
-            margin-bottom: 10px;
+            color: var(--muted);
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 600;
         }
-        .spec-box span { font-size: 0.9rem; font-family: monospace; }
+        .spec-box span { font-size: 0.85rem; color: var(--text-sub); }
 
-        /* ── Terms of Use ── */
+        /* ── TOS ── */
         .tos {
-            border-top: 1px solid var(--sep);
-            padding-top: 60px;
-            margin-bottom: 60px;
+            border-top: 1px solid var(--border);
+            padding-top: 48px;
+            margin-bottom: 48px;
         }
         .tos-title {
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 32px;
-        }
-        .tos-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-        }
-        .tos-block h3 {
             font-size: 0.65rem;
             letter-spacing: 2px;
-            color: var(--dim);
+            color: var(--muted);
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 28px;
         }
-        .tos-block p {
-            font-size: 0.78rem;
-            color: #666;
-            line-height: 1.7;
+        .tos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .tos-block h3 {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--text-sub);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 7px;
         }
-        .tos-block p strong { color: #999; }
+        .tos-block p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+        .tos-block p strong { color: var(--text-sub); }
 
+        /* ── Footer ── */
         footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--sep);
-            font-size: 10px;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            border-top: 1px solid var(--border);
+            padding: 28px 24px;
+            text-align: center;
         }
+        .footer-copy { font-size: 0.68rem; color: var(--muted); margin-bottom: 12px; }
+        .footer-links { display: flex; gap: 20px; justify-content: center; }
+        .footer-links button {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-family: inherit;
+            font-size: 0.68rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .footer-links button:hover { color: var(--text-sub); }
 
-        @media (max-width: 850px) {
-            .main-wrapper { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .detailed-desc, .tos-grid { grid-template-columns: 1fr; }
-            h1 { letter-spacing: -5px; }
-            .top-logo { right: 20px; top: 20px; font-size: 0.8rem; }
-            .btn-dl { padding: 20px 32px; font-size: 1rem; }
+        /* ── Modal ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            max-width: 660px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            border-radius: 4px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover { color: var(--text); }
+        .modal-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .modal-date { font-size: 0.68rem; color: var(--muted); margin-bottom: 24px; }
+        .modal-box h3 { font-size: 0.78rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+        .modal-box p, .modal-box li { font-size: 0.88rem; color: var(--text-sub); line-height: 1.7; }
+        .modal-box ul { padding-left: 18px; }
+        .modal-box li { margin-bottom: 4px; }
+        .modal-box code { color: var(--text); font-family: monospace; font-size: 0.85em; }
+        .modal-box a { color: var(--text-sub); text-decoration: underline; }
+        .modal-box a:hover { color: var(--text); }
+        .lib-name { color: var(--text); font-family: monospace; font-weight: 600; }
+
+        @media (max-width: 640px) {
+            .desc-grid, .tos-grid { grid-template-columns: 1fr; }
+            .hero-wordmark { font-size: clamp(2.5rem, 15vw, 4rem); }
         }
     </style>
 </head>
 <body>
 
-<div id="data-bg"></div>
+<nav>
+    <span class="nav-logo">BiCrypt</span>
+    <a href="https://github.com/nefesec/bicrypt-app" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+</nav>
 
-<!-- Logo top-right : B et C en vert, reste blanc -->
+<div class="content">
 
-<div class="main-wrapper">
-    <aside class="sidebar">
-        <!-- Logo vertical : B et C en vert, reste blanc -->
-        <div class="vertical-logo">
-            <span class="l-b">B</span><span class="l-white">I</span><span class="l-c">C</span><span class="l-white">R</span><span class="l-t">Y</span><span class="l-white">P</span><span class="l-t">T</span>
-        </div>
-    </aside>
+    <div class="hero">
+        <div class="hero-wordmark">BiCrypt</div>
+        <p class="hero-tagline">
+            Messagerie privée et sécurisée.<br>
+            Aucun serveur central. Aucune métadonnée.
+        </p>
+    </div>
 
-    <main class="content">
-        <h1>
-            <span class="l-b">B</span><span class="l-white">I</span><br>
-            <span class="l-c">C</span><span class="l-white">R</span><span class="l-t">Y</span><span class="l-white">P</span><span class="l-t">T</span>
-        </h1>
+    <div id="maintenance" class="maintenance hidden">
+        <div class="maintenance-label">Téléchargements indisponibles</div>
+        <div class="maintenance-title" id="maintenance-title">Téléchargements suspendus temporairement</div>
+        <div class="maintenance-msg" id="maintenance-msg">Le service de téléchargement est hors ligne pour maintenance. Les versions déjà installées continuent de fonctionner normalement.</div>
+        <div class="maintenance-countdown" id="maintenance-countdown"></div>
+    </div>
 
-        <div class="hero-text">
-            Un protocole de messagerie <span style="color:var(--accent)">hermétique</span>.<br>
-            Conçu pour l'anonymat radical et la résilience réseau.
-        </div>
+    <div id="downloads-block" class="downloads">
 
-        <!-- Bandeau maintenance — activé par status.json (voir script en bas) -->
-        <div id="maintenance" class="maintenance hidden">
-            <div class="maintenance-label">[ STATUT · INDISPONIBLE ]</div>
-            <div class="maintenance-title" id="maintenance-title">
-                Téléchargements suspendus temporairement
-            </div>
-            <div class="maintenance-msg" id="maintenance-msg">
-                Le service de téléchargement est hors ligne pour maintenance. Les binaires déjà installés continuent de fonctionner normalement.
-            </div>
-            <div class="maintenance-countdown" id="maintenance-countdown"></div>
-        </div>
-
-        <div id="downloads-block">
-        <div class="dl-wrapper">
-            <a id="btn-dl" href="#" class="btn-dl loading" download>
-                ↓ &nbsp;TÉLÉCHARGER BICRYPT · ANDROID
-            </a>
-
+        <div class="dl-card">
+            <div class="dl-platform">Android</div>
+            <a id="btn-dl" href="#" class="btn-dl loading" download>Télécharger l'APK</a>
             <div class="dl-meta">
-                <div class="dl-meta-item">
-                    <label>Version</label>
-                    <span id="meta-version">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Taille</label>
-                    <span id="meta-size">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>SHA-256</label>
-                    <span id="meta-hash" class="mono-hash">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Téléchargements</label>
-                    <span id="meta-dl-count">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Plateforme</label>
-                    <span>Android 6.0+</span>
-                </div>
+                <div class="dl-meta-item"><label>Version</label><span id="meta-version">—</span></div>
+                <div class="dl-meta-item"><label>Taille</label><span id="meta-size">—</span></div>
+                <div class="dl-meta-item"><label>SHA-256</label><span id="meta-hash" class="mono-hash">—</span></div>
+                <div class="dl-meta-item"><label>Plateforme</label><span>Android 6.0+</span></div>
             </div>
-
-            <div class="dl-error" id="dl-error">
-                Impossible de récupérer la dernière version — réessayez plus tard.
-            </div>
+            <div class="dl-error" id="dl-error">Impossible de récupérer la dernière version — réessayez plus tard.</div>
         </div>
 
-        <div class="dl-wrapper">
-            <a id="btn-dl-desktop" href="#" class="btn-dl btn-desktop loading" download>
-                ↓ &nbsp;TÉLÉCHARGER BICRYPT · LINUX
-            </a>
-
+        <div class="dl-card">
+            <div class="dl-platform">Linux</div>
+            <a id="btn-dl-desktop" href="#" class="btn-dl btn-outline loading" download>Télécharger l'AppImage</a>
             <div class="dl-meta">
-                <div class="dl-meta-item">
-                    <label>Version</label>
-                    <span id="desktop-version">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Taille</label>
-                    <span id="desktop-size">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>SHA-256</label>
-                    <span id="desktop-hash" class="mono-hash">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Téléchargements</label>
-                    <span id="desktop-dl-count">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Plateforme</label>
-                    <span>Linux x86_64 (AppImage)</span>
-                </div>
+                <div class="dl-meta-item"><label>Version</label><span id="desktop-version">—</span></div>
+                <div class="dl-meta-item"><label>Taille</label><span id="desktop-size">—</span></div>
+                <div class="dl-meta-item"><label>SHA-256</label><span id="desktop-hash" class="mono-hash">—</span></div>
+                <div class="dl-meta-item"><label>Plateforme</label><span>Linux x86_64 (AppImage)</span></div>
             </div>
-
-            <div class="dl-error" id="dl-error-desktop">
-                AppImage indisponible — réessayez plus tard.
-            </div>
+            <div class="dl-error" id="dl-error-desktop">AppImage indisponible — réessayez plus tard.</div>
         </div>
 
-        <div class="dl-wrapper">
-            <a id="btn-dl-win" href="#" class="btn-dl btn-win loading" download>
-                ↓ &nbsp;TÉLÉCHARGER BICRYPT · WINDOWS
-            </a>
-
+        <div class="dl-card">
+            <div class="dl-platform">Windows</div>
+            <a id="btn-dl-win" href="#" class="btn-dl btn-outline loading" download>Télécharger l'installateur</a>
             <div class="dl-meta">
-                <div class="dl-meta-item">
-                    <label>Version</label>
-                    <span id="win-version">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Taille</label>
-                    <span id="win-size">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>SHA-256</label>
-                    <span id="win-hash" class="mono-hash">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Téléchargements</label>
-                    <span id="win-dl-count">—</span>
-                </div>
-                <div class="dl-meta-item">
-                    <label>Plateforme</label>
-                    <span>Windows 10/11 x64</span>
-                </div>
+                <div class="dl-meta-item"><label>Version</label><span id="win-version">—</span></div>
+                <div class="dl-meta-item"><label>Taille</label><span id="win-size">—</span></div>
+                <div class="dl-meta-item"><label>SHA-256</label><span id="win-hash" class="mono-hash">—</span></div>
+                <div class="dl-meta-item"><label>Plateforme</label><span>Windows 10/11 x64</span></div>
             </div>
-
-            <div class="dl-error" id="dl-error-win">
-                Installateur Windows indisponible — réessayez plus tard.
-            </div>
-        </div>
-        </div><!-- /downloads-block -->
-
-        <div class="detailed-desc">
-            <div class="desc-block">
-                <h2>[ PHILOSOPHIE ]</h2>
-                <p>BiCrypt n'est pas une application de messagerie classique. C'est un outil de communication souverain qui refuse toute dépendance aux infrastructures centralisées. Pas de serveur, pas de base de données cloud, pas de point de défaillance unique.</p>
-            </div>
-            <div class="desc-block">
-                <h2>[ ARCHITECTURE ]</h2>
-                <p>Transport exclusif via Tor V3 hidden service : chaque message transite par un circuit onion chiffré de bout en bout, sans IP exposée, sans métadonnée collectable, sans autorité intermédiaire.</p>
-            </div>
+            <div class="dl-error" id="dl-error-win">Installateur Windows indisponible — réessayez plus tard.</div>
         </div>
 
-        <div class="specs-grid">
-            <div class="spec-box">
-                <b>Cryptographie</b>
-                <span>X25519 / XSalsa20</span>
-            </div>
-            <div class="spec-box">
-                <b>Réseau</b>
-                <span>Tor V3 Hidden Service</span>
-            </div>
-            <div class="spec-box">
-                <b>Anonymat</b>
-                <span>Zero Metadata Policy</span>
-            </div>
-            <div class="spec-box">
-                <b>Licence</b>
-                <span>Proprietary / Closed</span>
-            </div>
+    </div>
+
+    <div class="desc-grid">
+        <div class="desc-block">
+            <h2>Philosophie</h2>
+            <p>BiCrypt est conçu pour fonctionner sans dépendre d'aucune infrastructure centralisée. Pas de serveur d'identité, pas de base de données cloud, pas de point de défaillance unique.</p>
         </div>
-
-        <!-- ── TERMS OF USE ── -->
-        <div class="tos">
-            <div class="tos-title">[ Terms of Use — Conditions d'utilisation ]</div>
-            <div class="tos-grid">
-
-                <div class="tos-block">
-                    <h3>01 · Acceptation</h3>
-                    <p>En téléchargeant ou utilisant BiCrypt, vous acceptez sans réserve les présentes conditions. Si vous n'acceptez pas ces conditions, n'installez pas l'application.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>02 · Licence propriétaire</h3>
-                    <p>BiCrypt est un logiciel propriétaire. <strong>Toute copie, décompilation, modification, redistribution ou création d'œuvre dérivée est strictement interdite</strong> sans autorisation écrite préalable de l'auteur.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>03 · Usage légal uniquement</h3>
-                    <p>BiCrypt est conçu pour la protection de la vie privée dans un cadre légal. <strong>Il est formellement interdit d'utiliser cette application pour commettre des actes illicites</strong>, incluant sans s'y limiter : activités criminelles, terrorisme, trafic, harcèlement, ou toute activité contraire aux lois applicables dans votre juridiction.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>04 · Absence de responsabilité</h3>
-                    <p><strong>L'auteur décline toute responsabilité</strong>, dans les limites permises par la loi, pour tout dommage direct, indirect, ou consécutif résultant de l'utilisation ou de l'impossibilité d'utiliser ce logiciel. L'utilisateur est seul responsable de l'usage qu'il fait de l'application et de ses conséquences.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>05 · Responsabilité de l'utilisateur</h3>
-                    <p>Vous utilisez BiCrypt sous votre entière responsabilité. <strong>Toute activité illégale conduite via cette application engage uniquement la responsabilité de son auteur.</strong> L'auteur du logiciel ne peut être tenu pour co-auteur, complice ou responsable des actes de ses utilisateurs.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>06 · Aucune garantie</h3>
-                    <p>Le logiciel est fourni <strong>"tel quel"</strong>, sans garantie d'aucune sorte — explicite ou implicite — incluant mais ne se limitant pas aux garanties de qualité marchande, d'adéquation à un usage particulier ou d'absence de violation.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>07 · Intégrité de l'APK</h3>
-                    <p>Seule la version téléchargée depuis ce site officiel est authentique. <strong>Toute version modifiée ou redistribuée par un tiers est non autorisée</strong> et peut présenter des risques de sécurité. Vérifiez toujours le SHA-256 affiché ci-dessus.</p>
-                </div>
-
-                <div class="tos-block">
-                    <h3>08 · Modifications</h3>
-                    <p>L'auteur se réserve le droit de modifier ces conditions à tout moment. La poursuite de l'utilisation de l'application après modification vaut acceptation des nouvelles conditions.</p>
-                </div>
-
-            </div>
+        <div class="desc-block">
+            <h2>Architecture</h2>
+            <p>Toutes les communications transitent via le réseau Tor : chaque message est chiffré de bout en bout, sans adresse IP exposée ni métadonnée collectée.</p>
         </div>
+    </div>
 
-        <footer>
-            © 2026 BiCrypt · Proprietary Software · All Rights Reserved · No Tracking · No Logs
-        </footer>
-    </main>
+    <div class="specs-grid">
+        <div class="spec-box"><b>Chiffrement</b><span>X25519 + XSalsa20</span></div>
+        <div class="spec-box"><b>Réseau</b><span>Tor Hidden Service V3</span></div>
+        <div class="spec-box"><b>Métadonnées</b><span>Aucune collecte</span></div>
+        <div class="spec-box"><b>Licence</b><span>Propriétaire</span></div>
+    </div>
+
+    <div class="tos">
+        <div class="tos-title">Conditions d'utilisation</div>
+        <div class="tos-grid">
+
+            <div class="tos-block">
+                <h3>01 · Acceptation</h3>
+                <p>En téléchargeant ou utilisant BiCrypt, vous acceptez sans réserve les présentes conditions.</p>
+            </div>
+
+            <div class="tos-block">
+                <h3>02 · Licence propriétaire</h3>
+                <p>BiCrypt est un logiciel propriétaire. <strong>Toute copie, décompilation, modification ou redistribution est strictement interdite</strong> sans autorisation écrite préalable.</p>
+            </div>
+
+            <div class="tos-block">
+                <h3>03 · Usage légal uniquement</h3>
+                <p>BiCrypt est conçu pour la protection de la vie privée dans un cadre légal. <strong>Toute utilisation à des fins illicites est formellement interdite.</strong></p>
+            </div>
+
+            <div class="tos-block">
+                <h3>04 · Absence de responsabilité</h3>
+                <p><strong>L'auteur décline toute responsabilité</strong> pour tout dommage résultant de l'utilisation ou de l'impossibilité d'utiliser ce logiciel.</p>
+            </div>
+
+            <div class="tos-block">
+                <h3>05 · Responsabilité de l'utilisateur</h3>
+                <p>Vous utilisez BiCrypt sous votre entière responsabilité. Toute activité illégale engage uniquement la responsabilité de son auteur.</p>
+            </div>
+
+            <div class="tos-block">
+                <h3>06 · Aucune garantie</h3>
+                <p>Le logiciel est fourni <strong>"tel quel"</strong>, sans garantie d'aucune sorte.</p>
+            </div>
+
+            <div class="tos-block">
+                <h3>07 · Intégrité des binaires</h3>
+                <p>Seules les versions téléchargées depuis ce site sont authentiques. <strong>Vérifiez toujours le SHA-256 affiché.</strong></p>
+            </div>
+
+            <div class="tos-block">
+                <h3>08 · Modifications</h3>
+                <p>L'auteur se réserve le droit de modifier ces conditions à tout moment.</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p class="footer-copy">BiCrypt © 2026 — Logiciel Propriétaire — Tous droits réservés</p>
+    <div class="footer-links">
+        <button onclick="document.getElementById('modal-cgu').style.display='flex'">CGU</button>
+        <button onclick="document.getElementById('modal-privacy').style.display='flex'">Confidentialité</button>
+    </div>
+</footer>
+
+<!-- Modal CGU -->
+<div id="modal-cgu" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal-cgu').style.display='none'">✕</button>
+    <div class="modal-title">Conditions générales d'utilisation</div>
+    <div class="modal-date">Version 1.0 · 24 avril 2026</div>
+
+    <h3>1. Propriété Intellectuelle et Licence d'Utilisation</h3>
+    <p>BiCrypt (code source, code objet, algorithmes obfusqués, interfaces graphiques et logos) est la propriété exclusive de son développeur.</p>
+    <ul>
+      <li>Licence personnelle, non exclusive, non transférable et révocable.</li>
+      <li>Toute copie, modification, adaptation ou création d'œuvre dérivée est formellement interdite.</li>
+      <li>L'ingénierie inverse, la décompilation, le désassemblage ou toute tentative de contournement des mesures d'obfuscation sont interdits, sauf dans les limites strictement prévues par la loi applicable.</li>
+    </ul>
+
+    <h3>2. Nature du Service</h3>
+    <ul>
+      <li>Aucun service d'hébergement de données : votre identité et vos messages n'existent que sur votre terminal.</li>
+      <li>Le développeur met à disposition un relais de transit (.onion) opérant exclusivement en mémoire vive, sans journalisation ni stockage persistant.</li>
+    </ul>
+
+    <h3>3. Responsabilité de l'Utilisateur</h3>
+    <ul>
+      <li>L'utilisateur est seul responsable de la sécurité de son terminal et de la conservation de ses accès.</li>
+      <li>Le développeur n'a aucun accès aux clés privées ni au code PIN. Aucune récupération n'est possible.</li>
+      <li>Toute utilisation à des fins illicites entraîne la révocation immédiate de la licence et peut donner lieu à des poursuites judiciaires.</li>
+    </ul>
+
+    <h3>4. Absence de Garantie (AS IS)</h3>
+    <ul>
+      <li>Le Logiciel est fourni « tel quel », sans garantie d'aucune sorte.</li>
+      <li>Bien que le Logiciel utilise des primitives cryptographiques éprouvées (X25519, XSalsa20-Poly1305, Ed25519), le développeur ne garantit pas l'infaillibilité face à des attaques ciblées sur l'OS ou le matériel.</li>
+      <li>Le service de relais peut être interrompu pour maintenance ou en raison du réseau Tor, sans préavis ni indemnité.</li>
+    </ul>
+
+    <h3>5. Limitation de Responsabilité</h3>
+    <p>Dans la mesure permise par la loi, le développeur ne peut être tenu responsable des dommages résultant de :</p>
+    <ul>
+      <li>L'utilisation ou l'impossibilité d'utiliser le Logiciel.</li>
+      <li>L'accès non autorisé à votre appareil par un tiers.</li>
+      <li>La perte définitive de données suite à une désinstallation ou une défaillance matérielle.</li>
+    </ul>
+
+    <h3>6. Modifications et Résiliation</h3>
+    <p>Le développeur se réserve le droit de modifier les présentes conditions ou d'interrompre le support du Logiciel à tout moment. Toute violation de l'article 1 entraîne la résiliation automatique de votre licence d'utilisation.</p>
+
+    <h3>7. Droit Applicable</h3>
+    <p>Les présentes CGU sont régies par le droit français. Tout litige sera porté devant les tribunaux compétents du ressort du siège du développeur.</p>
+  </div>
+</div>
+
+<!-- Modal Confidentialité -->
+<div id="modal-privacy" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal-privacy').style.display='none'">✕</button>
+    <div class="modal-title">Politique de confidentialité</div>
+    <div class="modal-date">Dernière mise à jour : 27 avril 2026</div>
+    <p>BiCrypt est conçu selon le principe du Privacy by Design. Ce que nous ne collectons pas ne peut pas être volé, partagé ou compromis.</p>
+
+    <h3>1. Responsable du traitement</h3>
+    <p>Le traitement des données est effectué localement par l'utilisateur. Le développeur n'a aucun accès aux données créées ou échangées via l'application.</p>
+
+    <h3>2. Données stockées sur votre terminal</h3>
+    <ul>
+      <li>Clés cryptographiques (Ed25519 / X25519) générées localement. La clé privée est protégée par l'Android Keystore (hardware-backed) ou l'équivalent système Desktop.</li>
+      <li>Code PIN : jamais stocké en clair. Seul un hash blake2b non réversible est conservé localement.</li>
+      <li>Contacts (pseudonymes + identifiants) : stockés dans la base chiffrée locale de l'application.</li>
+      <li>Messages : chiffrés de bout en bout. Seule votre clé privée locale peut les déchiffrer.</li>
+    </ul>
+
+    <h3>3. Transit des données (le Relais)</h3>
+    <ul>
+      <li>Le relais (.onion) agit comme un commutateur en mémoire vive. Les messages chiffrés y transitent puis sont immédiatement supprimés — aucune persistance.</li>
+      <li>Aucun journal de connexion, timestamp ou identifiant n'est conservé par le relais.</li>
+      <li>Votre adresse IP réelle n'est jamais exposée.</li>
+    </ul>
+
+    <h3>4. Base légale</h3>
+    <p>L'utilisation repose exclusivement sur votre consentement. En générant vos clés, vous initiez le traitement de vos données pour la finalité unique de communication privée.</p>
+
+    <h3>5. Vos droits (RGPD)</h3>
+    <p>BiCrypt ne détenant aucune donnée sur ses serveurs, l'exercice de vos droits s'effectue directement sur votre appareil :</p>
+    <ul>
+      <li>Accès / portabilité : consultez vos messages et clés directement dans l'application.</li>
+      <li>Effacement : désinstallez l'application. La suppression est définitive — aucune sauvegarde n'existe côté développeur.</li>
+    </ul>
+
+    <h3>6. Sécurité</h3>
+    <p>Primitives cryptographiques : X25519, XSalsa20-Poly1305, Ed25519, blake2b-256. La sécurité dépend également de l'intégrité de votre propre appareil.</p>
+
+    <h3>7. Transferts internationaux</h3>
+    <p>Le réseau Tor implique que les fragments de messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde entier. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
+
+    <h3>8. Bibliothèques tierces</h3>
+    <p>BiCrypt s'appuie sur les bibliothèques suivantes :</p>
+    <ul>
+      <li><span class="lib-name">@noble/curves</span> — Ed25519 + X25519. Audit indépendant Cure53 (2023). Pure-JS, sans dépendance native.</li>
+      <li><span class="lib-name">@noble/ciphers</span> — XSalsa20-Poly1305 conforme RFC 7539 / 8439.</li>
+      <li><span class="lib-name">@noble/hashes</span> — Blake2b et SHA-256 (audit Cure53).</li>
+      <li><span class="lib-name">socket.io-client 4.8</span> — WebSocket sur Tor SOCKS5.</li>
+      <li><span class="lib-name">react-native-keychain / Android Keystore</span> — stockage de la clé privée, hardware-backed sur les appareils compatibles.</li>
+      <li><span class="lib-name">react-native-vision-camera</span> — lecture QR code. Aucune image stockée ni transmise.</li>
+      <li><span class="lib-name">Electron 31 (desktop)</span> — version stable avec mises à jour de sécurité actives.</li>
+      <li><span class="lib-name">Tor (binaire embarqué)</span> — versions stables uniquement, circuits éphémères, aucun pont par défaut.</li>
+    </ul>
+    <p>Les versions exactes sont auditables dans le dépôt public (<code>package.json</code>).</p>
+
+    <h3>9. Mises à jour signées</h3>
+    <p>Toute mise à jour est signée Ed25519 avec une clé dédiée distincte des clés utilisateur. L'application refuse toute installation dont la signature ou l'empreinte ne correspond pas.</p>
+
+    <h3>10. Contact</h3>
+    <p>Pour toute question relative à la protection de vos données : <a href="https://github.com/nefesec/bicrypt-app" target="_blank" rel="noopener">github.com/nefesec/bicrypt-app</a></p>
+  </div>
 </div>
 
 <script>
-    // Background texture — remplit toute la surface visible
-    const bg = document.getElementById('data-bg');
-    const chars = "0123456789ABCDEF!@#$%^&*()_+";
-    function fillBg() {
-        const cols = Math.ceil(window.innerWidth / 6.6);   // ~6.6px par char à 11px monospace
-        const rows = Math.ceil(window.innerHeight / 10);    // line-height 0.9 × 11px ≈ 10px
-        const total = (cols + 1) * rows;
-        let txt = "";
-        for (let i = 0; i < total; i++) {
-            txt += i % cols === 0 && i > 0
-                ? "\n"
-                : chars[Math.floor(Math.random() * chars.length)];
-        }
-        bg.innerText = txt;
-    }
-    fillBg();
-    window.addEventListener('resize', fillBg);
-
-    // ── Release fetch ─────────────────────────────────────────────────────────
-    // Source primaire : releases/latest.json (servi par Cloudflare Pages,
-    // indépendant du visibility du repo GitHub). Le manifest est regénéré
-    // à chaque release par scripts/update-site-manifest.js.
-    // Fallback : api.github.com (pour compat + dev local).
     const REPO = 'nefesec/bicrypt-app';
     const MANIFEST_PATH = 'releases/latest.json';
 
-    function setRow({ version, size, dlCount, hash, url }, elIds) {
+    function setRow({ version, size, hash, url }, elIds) {
         if (version != null) document.getElementById(elIds.version).textContent = version;
         if (size != null)    document.getElementById(elIds.size).textContent = (size / 1024 / 1024).toFixed(1) + ' Mo';
-        if (dlCount != null) document.getElementById(elIds.dlCount).textContent = dlCount.toLocaleString('fr-FR');
         if (hash != null)    document.getElementById(elIds.hash).textContent = (hash || 'Non disponible').toUpperCase();
         const btn = document.getElementById(elIds.btn);
         if (url) {
@@ -537,18 +569,9 @@
         }
     }
 
-    const APK_IDS = {
-        version: 'meta-version', size: 'meta-size', dlCount: 'meta-dl-count',
-        hash: 'meta-hash', btn: 'btn-dl', err: 'dl-error',
-    };
-    const DESKTOP_IDS = {
-        version: 'desktop-version', size: 'desktop-size', dlCount: 'desktop-dl-count',
-        hash: 'desktop-hash', btn: 'btn-dl-desktop', err: 'dl-error-desktop',
-    };
-    const WIN_IDS = {
-        version: 'win-version', size: 'win-size', dlCount: 'win-dl-count',
-        hash: 'win-hash', btn: 'btn-dl-win', err: 'dl-error-win',
-    };
+    const APK_IDS     = { version: 'meta-version',    size: 'meta-size',    hash: 'meta-hash',    btn: 'btn-dl',         err: 'dl-error' };
+    const DESKTOP_IDS = { version: 'desktop-version', size: 'desktop-size', hash: 'desktop-hash', btn: 'btn-dl-desktop', err: 'dl-error-desktop' };
+    const WIN_IDS     = { version: 'win-version',     size: 'win-size',     hash: 'win-hash',     btn: 'btn-dl-win',     err: 'dl-error-win' };
 
     async function loadReleaseFromManifest() {
         const res = await fetch(MANIFEST_PATH, { cache: 'no-store' });
@@ -556,77 +579,55 @@
         const m = await res.json();
         if (!m.version) throw new Error('manifest incomplet');
         if (m.apk) {
-            setRow({ version: m.version, size: m.apk.size, dlCount: m.apk.downloads ?? 0, hash: m.apk.sha256, url: m.apk.url }, APK_IDS);
-        } else {
-            setRow({ url: null }, APK_IDS);
-        }
+            setRow({ version: m.version, size: m.apk.size, hash: m.apk.sha256, url: m.apk.url }, APK_IDS);
+        } else { setRow({ url: null }, APK_IDS); }
         if (m.appimage) {
-            setRow({ version: m.version, size: m.appimage.size, dlCount: m.appimage.downloads ?? 0, hash: m.appimage.sha256, url: m.appimage.url }, DESKTOP_IDS);
-        } else {
-            setRow({ url: null }, DESKTOP_IDS);
-        }
-        if (m.windows) {
-            setRow({ version: m.version, size: m.windows.size, dlCount: m.windows.downloads ?? 0, hash: m.windows.sha256, url: m.windows.url }, WIN_IDS);
-        } else {
-            setRow({ url: null }, WIN_IDS);
-        }
+            setRow({ version: m.version, size: m.appimage.size, hash: m.appimage.sha256, url: m.appimage.url }, DESKTOP_IDS);
+        } else { setRow({ url: null }, DESKTOP_IDS); }
+        if (m.exe) {
+            setRow({ version: m.version, size: m.exe.size, hash: m.exe.sha256, url: m.exe.url }, WIN_IDS);
+        } else { setRow({ url: null }, WIN_IDS); }
     }
 
     async function loadReleaseFromGitHub() {
         const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
         if (!res.ok) throw new Error('API ' + res.status);
         const data = await res.json();
-
-        const apk = data.assets.find(a => a.name.endsWith('.apk'));
+        const apk      = data.assets.find(a => a.name.endsWith('.apk'));
         const appimage = data.assets.find(a => a.name.endsWith('.AppImage'));
         if (!apk && !appimage) throw new Error('no assets');
-
         const sha256Asset = data.assets.find(a => a.name.endsWith('.sha256'));
-        let bodyHash = extractHashFromBody(data.body);
 
         if (apk) {
-            let hash = bodyHash;
+            let hash = extractHashFromBody(data.body);
             if (!hash && sha256Asset) {
-                try {
-                    const hashRes = await fetch(sha256Asset.browser_download_url);
-                    hash = (await hashRes.text()).trim().split(/\s+/)[0];
-                } catch (_) {}
+                try { const r = await fetch(sha256Asset.browser_download_url); hash = (await r.text()).trim().split(/\s+/)[0]; } catch (_) {}
             }
-            setRow({ version: data.tag_name, size: apk.size, dlCount: apk.download_count, hash, url: apk.browser_download_url }, APK_IDS);
-        } else {
-            setRow({ url: null }, APK_IDS);
-        }
+            setRow({ version: data.tag_name, size: apk.size, hash, url: apk.browser_download_url }, APK_IDS);
+        } else { setRow({ url: null }, APK_IDS); }
 
         if (appimage) {
-            const desktopHash = extractHashFromBody(data.body, 'desktop')
-                || extractHashFromBody(data.body, 'appimage');
-            setRow({ version: data.tag_name, size: appimage.size, dlCount: appimage.download_count, hash: desktopHash, url: appimage.browser_download_url }, DESKTOP_IDS);
-        } else {
-            setRow({ url: null }, DESKTOP_IDS);
-        }
+            const hash = extractHashFromBody(data.body, 'desktop') || extractHashFromBody(data.body, 'appimage');
+            setRow({ version: data.tag_name, size: appimage.size, hash, url: appimage.browser_download_url }, DESKTOP_IDS);
+        } else { setRow({ url: null }, DESKTOP_IDS); }
 
         const winExe = data.assets.find(a => a.name.endsWith('.exe') && !a.name.endsWith('.blockmap'));
         if (winExe) {
-            const winHash = extractHashFromBody(data.body, 'windows') || extractHashFromBody(data.body, 'win');
-            setRow({ version: data.tag_name, size: winExe.size, dlCount: winExe.download_count, hash: winHash, url: winExe.browser_download_url }, WIN_IDS);
-        } else {
-            setRow({ url: null }, WIN_IDS);
-        }
+            const hash = extractHashFromBody(data.body, 'windows') || extractHashFromBody(data.body, 'win');
+            setRow({ version: data.tag_name, size: winExe.size, hash, url: winExe.browser_download_url }, WIN_IDS);
+        } else { setRow({ url: null }, WIN_IDS); }
     }
 
     async function loadRelease() {
-        // 1) Manifest local (source de vérité, fiable, rate-limit-free)
         try { await loadReleaseFromManifest(); return; } catch (_) {}
-        // 2) Fallback GitHub API (compat rétro + dev local)
         try { await loadReleaseFromGitHub(); return; } catch (_) {}
-        // 3) Erreur finale
         document.getElementById('dl-error').style.display = 'block';
         document.getElementById('dl-error-desktop').style.display = 'block';
         document.getElementById('dl-error-win').style.display = 'block';
         for (const id of ['btn-dl', 'btn-dl-desktop', 'btn-dl-win']) {
             const btn = document.getElementById(id);
             btn.classList.remove('loading');
-            btn.textContent = '↺  ERREUR — RÉESSAYER';
+            btn.textContent = 'Erreur — Réessayer';
             btn.onclick = (ev) => { ev.preventDefault(); location.reload(); };
         }
     }
@@ -643,40 +644,25 @@
         return m ? m[1].toUpperCase() : null;
     }
 
-    // ── Maintenance gate ─────────────────────────────────────────────────────
-    // status.json à la racine du site pilote l'affichage. Pour activer le mode
-    // maintenance : passer `"maintenance": true` + `"message"` (optionnel) +
-    // `"until"` ISO 8601 (optionnel, pour un countdown). Puis re-déployer.
     function renderMaintenance(status) {
         const block = document.getElementById('maintenance');
         const title = document.getElementById('maintenance-title');
-        const msg = document.getElementById('maintenance-msg');
-        const cd = document.getElementById('maintenance-countdown');
-        const dl = document.getElementById('downloads-block');
-
-        if (status.message) {
-            msg.textContent = status.message;
-        }
-        if (status.title) {
-            title.textContent = status.title;
-        }
-
+        const msg   = document.getElementById('maintenance-msg');
+        const cd    = document.getElementById('maintenance-countdown');
+        const dl    = document.getElementById('downloads-block');
+        if (status.message) msg.textContent = status.message;
+        if (status.title)   title.textContent = status.title;
         function updateCountdown() {
             if (!status.until) { cd.textContent = ''; return; }
             const target = new Date(status.until).getTime();
-            const now = Date.now();
-            const diff = target - now;
-            if (!isFinite(target) || diff <= 0) {
-                cd.textContent = 'Réouverture imminente — recharge la page.';
-                return;
-            }
+            const diff = target - Date.now();
+            if (!isFinite(target) || diff <= 0) { cd.textContent = 'Réouverture imminente — recharge la page.'; return; }
             const h = Math.floor(diff / 3_600_000);
             const m = Math.floor((diff % 3_600_000) / 60_000);
             cd.textContent = `Réouverture prévue dans ${h}h ${String(m).padStart(2,'0')}m`;
         }
         updateCountdown();
         setInterval(updateCountdown, 30_000);
-
         block.classList.remove('hidden');
         dl.classList.add('hidden');
     }
@@ -686,159 +672,18 @@
             const res = await fetch('status.json', { cache: 'no-store' });
             if (res.ok) {
                 const status = await res.json();
-                if (status && status.maintenance === true) {
-                    renderMaintenance(status);
-                    return; // on NE charge PAS les liens GitHub en mode maintenance
-                }
+                if (status && status.maintenance === true) { renderMaintenance(status); return; }
             }
-        } catch (_) { /* status.json absent → comportement normal */ }
+        } catch (_) {}
         loadRelease();
     }
     boot();
-</script>
 
-<!-- ── FOOTER LÉGAL ───────────────────────────────────────────────────── -->
-<footer style="margin-top:80px;padding:32px 24px;border-top:1px solid #1e1e1e;text-align:center;font-family:monospace;">
-  <p style="color:#444;font-size:11px;letter-spacing:1px;margin-bottom:12px">
-    BiCrypt © 2026 — Logiciel Propriétaire — Tous droits réservés
-  </p>
-  <div style="display:flex;gap:24px;justify-content:center">
-    <button onclick="document.getElementById('modal-cgu').style.display='flex'"
-      style="background:none;border:none;color:#555;font-family:monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:underline">
-      CGU
-    </button>
-    <button onclick="document.getElementById('modal-privacy').style.display='flex'"
-      style="background:none;border:none;color:#555;font-family:monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:underline">
-      POLITIQUE DE CONFIDENTIALITÉ
-    </button>
-  </div>
-</footer>
-
-<!-- ── MODAL CGU ──────────────────────────────────────────────────────── -->
-<div id="modal-cgu" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#0d0d0d;border:1px solid #1e1e1e;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:32px;position:relative">
-    <button onclick="document.getElementById('modal-cgu').style.display='none'"
-      style="position:absolute;top:16px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;font-family:monospace">✕</button>
-    <h2 style="color:#00ff88;font-family:monospace;font-size:14px;letter-spacing:2px;margin-bottom:4px">CONDITIONS GÉNÉRALES D'UTILISATION</h2>
-    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Version 1.0 · 24 avril 2026</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">1. Propriété Intellectuelle et Licence d'Utilisation</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt (code source, code objet, algorithmes obfusqués, interfaces graphiques et logos) est la propriété exclusive de son développeur.</p>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Licence personnelle, non exclusive, non transférable et révocable.</li>
-      <li>Toute copie, modification, adaptation ou création d'œuvre dérivée est formellement interdite.</li>
-      <li>L'ingénierie inverse, la décompilation, le désassemblage ou toute tentative de contournement des mesures d'obfuscation sont interdits, sauf dans les limites strictement prévues par la loi applicable.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">2. Nature du Service</h3>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Aucun service d'hébergement de données : votre identité et vos messages n'existent que sur votre terminal.</li>
-      <li>Le développeur met à disposition un relais de transit (.onion) opérant exclusivement en mémoire vive, sans journalisation ni stockage persistant.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">3. Responsabilité de l'Utilisateur</h3>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>L'utilisateur est seul responsable de la sécurité de son terminal et de la conservation de ses accès.</li>
-      <li>Le développeur n'a aucun accès aux clés privées ni au code PIN. Aucune récupération n'est possible.</li>
-      <li>Toute utilisation à des fins illicites entraîne la révocation immédiate de la licence et peut donner lieu à des poursuites judiciaires.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">4. Absence de Garantie (AS IS)</h3>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Le Logiciel est fourni « tel quel », sans garantie d'aucune sorte.</li>
-      <li>Bien que le Logiciel utilise des primitives cryptographiques éprouvées (X25519, XSalsa20-Poly1305, Ed25519), le développeur ne garantit pas l'infaillibilité face à des attaques ciblées sur l'OS ou le matériel.</li>
-      <li>Le service de relais peut être interrompu pour maintenance ou en raison du réseau Tor, sans préavis ni indemnité.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">5. Limitation de Responsabilité</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">Dans la mesure permise par la loi, le développeur ne peut être tenu responsable des dommages résultant de :</p>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>L'utilisation ou l'impossibilité d'utiliser le Logiciel.</li>
-      <li>L'accès non autorisé à votre appareil par un tiers.</li>
-      <li>La perte définitive de données suite à une désinstallation ou une défaillance matérielle.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">6. Modifications et Résiliation</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Le développeur se réserve le droit de modifier les présentes conditions ou d'interrompre le support du Logiciel à tout moment. Toute violation de l'article 1 entraîne la résiliation automatique de votre licence d'utilisation.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">7. Droit Applicable</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Les présentes CGU sont régies par le droit français. Tout litige sera porté devant les tribunaux compétents du ressort du siège du développeur.</p>
-  </div>
-</div>
-
-<!-- ── MODAL CONFIDENTIALITÉ ──────────────────────────────────────────── -->
-<div id="modal-privacy" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#0d0d0d;border:1px solid #1e1e1e;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:32px;position:relative">
-    <button onclick="document.getElementById('modal-privacy').style.display='none'"
-      style="position:absolute;top:16px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer;font-family:monospace">✕</button>
-    <h2 style="color:#00ff88;font-family:monospace;font-size:14px;letter-spacing:2px;margin-bottom:4px">POLITIQUE DE CONFIDENTIALITÉ</h2>
-    <p style="color:#444;font-size:10px;font-family:monospace;margin-bottom:28px">Dernière mise à jour : 27 avril 2026</p>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:16px">BiCrypt est conçu selon le principe du Privacy by Design. Ce que nous ne collectons pas ne peut pas être volé, partagé ou compromis.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">1. Responsable du traitement</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Le traitement des données est effectué localement par l'utilisateur. Le développeur n'a aucun accès aux données créées ou échangées via l'application.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">2. Données stockées sur votre terminal</h3>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Clés cryptographiques (Ed25519 / X25519) générées localement. La clé privée est protégée par l'Android Keystore (hardware-backed) ou l'équivalent système Desktop (libsecret / keytar).</li>
-      <li>Code PIN : jamais stocké en clair. Seul un hash blake2b non réversible est conservé localement.</li>
-      <li>Contacts (pseudonymes + clés publiques) : stockés dans la base chiffrée locale de l'application.</li>
-      <li>Messages : chiffrés de bout en bout (XSalsa20-Poly1305). Seule votre clé privée locale peut les déchiffrer.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">3. Transit des données (le Relais)</h3>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Le relais (.onion) agit comme un commutateur en mémoire vive. Les messages chiffrés y transitent puis sont immédiatement supprimés — aucune persistance.</li>
-      <li>Aucun journal de connexion, timestamp ou identifiant n'est conservé par le relais.</li>
-      <li>Votre adresse IP réelle n'est jamais exposée : le relais ne voit que l'adresse d'entrée du circuit Tor (onion-to-onion).</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">4. Base légale</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">L'utilisation repose exclusivement sur votre consentement. En générant vos clés, vous initiez le traitement de vos données pour la finalité unique de communication privée.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">5. Vos droits (RGPD)</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt ne détenant aucune donnée sur ses serveurs, l'exercice de vos droits s'effectue directement sur votre appareil :</p>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li>Accès / portabilité : consultez vos messages et clés directement dans l'application.</li>
-      <li>Effacement : désinstallez l'application ou utilisez la suppression manuelle. La suppression est définitive — aucune sauvegarde n'existe côté développeur.</li>
-    </ul>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">6. Sécurité</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Primitives cryptographiques : X25519 (échange de clés), XSalsa20-Poly1305 (chiffrement des messages), Ed25519 (signatures numériques), blake2b-256 (hash PIN). La sécurité dépend également de l'intégrité de votre propre appareil.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">7. Transferts internationaux</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Le réseau Tor implique que les fragments de messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde entier. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">8. Bibliothèques tierces et leur fiabilité</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:8px">BiCrypt s'appuie sur les bibliothèques suivantes, choisies pour leur niveau d'audit et de maintenance :</p>
-    <ul style="color:#aaa;font-size:13px;line-height:1.9;padding-left:20px">
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/curves</span> — Ed25519 + X25519. Auteur : Paul Miller. Audit indépendant Cure53 (2023). Pure-JS, sans dépendance native.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/ciphers</span> — XSalsa20-Poly1305 conforme RFC 7539 / 8439.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">@noble/hashes</span> — Blake2b et SHA-256 (audit Cure53).</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">socket.io-client 4.8</span> — WebSocket sur Tor SOCKS5. Bibliothèque standard, plus de 5 millions de téléchargements hebdomadaires, sécurité maintenue activement.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">react-native-keychain / Android Keystore</span> — stockage de la clé privée, hardware-backed sur les appareils compatibles.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">react-native-vision-camera</span> — lecture du QR code. Aucune image stockée ni transmise — décodage en temps réel uniquement.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">Electron 31 (desktop)</span> — version stable avec mises à jour de sécurité actives.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">keytar / libsecret / Windows Credential Vault</span> — trousseau du système d'exploitation pour la clé locale de chiffrement.</li>
-      <li><span style="color:#00ff88;font-family:monospace;font-weight:700">Tor (binaire embarqué)</span> — versions stables uniquement, circuits éphémères, aucun pont par défaut.</li>
-      <li>Les outils de build (electron-builder, esbuild, javascript-obfuscator, react-native-cli) ne sont jamais distribués dans le binaire final livré à l'utilisateur. Les vulnérabilités éventuelles de ces outils n'affectent que la machine de build.</li>
-    </ul>
-    <p style="color:#aaa;font-size:13px;line-height:1.7;margin-top:8px">Les versions exactes utilisées sont auditables dans le dépôt public BiCrypt (fichier <code style="color:#00ff88">package.json</code>).</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">9. Mises à jour signées</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Toute mise à jour est signée Ed25519 avec une clé dédiée distincte des clés utilisateur. Le manifeste signé est servi par le relais .onion, et l'application refuse toute installation dont la signature ou le SHA-256 ne correspond pas. La clé privée de signature est conservée hors du dépôt et hors de l'application.</p>
-
-    <h3 style="color:#fff;font-size:12px;font-family:monospace;margin:20px 0 8px">10. Contact</h3>
-    <p style="color:#aaa;font-size:13px;line-height:1.7">Pour toute question relative à la protection de vos données : dépôt officiel BiCrypt sur GitHub (<a href="https://github.com/nefesec/bicrypt-app" style="color:#00ff88">nefesec/bicrypt-app</a>).</p>
-  </div>
-</div>
-<script>
-  // Fermer les modals en cliquant sur le fond
-  ['modal-cgu','modal-privacy'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function(e) {
-      if (e.target === this) this.style.display = 'none';
+    ['modal-cgu', 'modal-privacy'].forEach(id => {
+        document.getElementById(id).addEventListener('click', function(e) {
+            if (e.target === this) this.style.display = 'none';
+        });
     });
-  });
 </script>
 </body>
 </html>
