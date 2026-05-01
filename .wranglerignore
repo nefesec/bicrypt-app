@@ -1,0 +1,7 @@
+releases/*.apk
+releases/*.AppImage
+releases/*.exe
+releases/*.blockmap
+releases/*.dmg
+releases/*.deb
+releases/*.rpm
