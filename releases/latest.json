@@ -17,11 +17,11 @@
     "downloads": 0
   },
   "exe": {
-    "version": "v2.9",
-    "filename": "BiCrypt Setup 2.9.0.exe",
-    "size": 82518491,
-    "sha256": "4dc8d1e04b73e7752b55c4db17c526fc920ccd34d44c496ff0304987866d6240",
-    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.9/BiCrypt.Setup.2.9.0.exe",
+    "version": "v2.9.2",
+    "filename": "BiCrypt Setup 2.9.2.exe",
+    "size": 82495753,
+    "sha256": "aaee52c6a9ec6abea3e756b472ebb02a4134056375c4402005e02244448321a5",
+    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.9.2-desktop/BiCrypt.Setup.2.9.2.exe",
     "downloads": 0
   }
 }
