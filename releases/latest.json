@@ -9,11 +9,11 @@
     "downloads": 0
   },
   "appimage": {
-    "version": "v2.9.1",
-    "filename": "BiCrypt-2.9.1.AppImage",
-    "size": 113796032,
-    "sha256": "0d0906c5d1b5983c5069b6058a1fa9508ddec20871210ca0008b4f257e4ccdc1",
-    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.9.1-desktop/BiCrypt-2.9.1.AppImage",
+    "version": "v2.9.2",
+    "filename": "BiCrypt-2.9.2.AppImage",
+    "size": 113714029,
+    "sha256": "e95559fe0c11666feec9f7d525a9eaab8aeb19ce5f3767d5fef574b9bf209bc0",
+    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v2.9.2-desktop/BiCrypt-2.9.2.AppImage",
     "downloads": 0
   },
   "exe": {
