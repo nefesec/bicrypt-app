@@ -554,18 +554,37 @@
 <script>
     const REPO = 'nefesec/bicrypt-app';
     const MANIFEST_PATH = 'releases/latest.json';
+    const SHA256_RE = /^[a-f0-9]{64}$/i;
+
+    // Whitelist stricte : URL doit pointer vers une release officielle GitHub du bon repo.
+    function isValidDownloadUrl(url) {
+        if (typeof url !== 'string') return false;
+        try {
+            const u = new URL(url);
+            if (u.protocol !== 'https:') return false;
+            const okHost = u.hostname === 'github.com'
+                || u.hostname === 'github-releases.githubusercontent.com'
+                || u.hostname.endsWith('.githubusercontent.com');
+            if (!okHost) return false;
+            return u.pathname.includes('/' + REPO + '/releases/download/')
+                || u.pathname.startsWith('/github-production-release-asset')
+                || u.hostname === 'github-releases.githubusercontent.com';
+        } catch (_) { return false; }
+    }
 
     function setRow({ version, size, hash, url }, elIds) {
-        if (version != null) document.getElementById(elIds.version).textContent = version;
+        if (version != null) document.getElementById(elIds.version).textContent = String(version).slice(0, 32);
         if (size != null)    document.getElementById(elIds.size).textContent = (size / 1024 / 1024).toFixed(1) + ' Mo';
-        if (hash != null)    document.getElementById(elIds.hash).textContent = (hash || 'Non disponible').toUpperCase();
+        if (hash != null)    document.getElementById(elIds.hash).textContent = (SHA256_RE.test(hash) ? hash : 'Non disponible').toUpperCase();
         const btn = document.getElementById(elIds.btn);
-        if (url) {
+        if (url && isValidDownloadUrl(url)) {
             btn.href = url;
+            btn.setAttribute('rel', 'noopener noreferrer');
             btn.classList.remove('loading');
         } else {
             document.getElementById(elIds.err).style.display = 'block';
             btn.classList.remove('loading');
+            btn.removeAttribute('href');
         }
     }
 
@@ -650,8 +669,8 @@
         const msg   = document.getElementById('maintenance-msg');
         const cd    = document.getElementById('maintenance-countdown');
         const dl    = document.getElementById('downloads-block');
-        if (status.message) msg.textContent = status.message;
-        if (status.title)   title.textContent = status.title;
+        if (typeof status.message === 'string') msg.textContent = status.message.slice(0, 500);
+        if (typeof status.title === 'string')   title.textContent = status.title.slice(0, 100);
         function updateCountdown() {
             if (!status.until) { cd.textContent = ''; return; }
             const target = new Date(status.until).getTime();
