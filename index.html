@@ -557,18 +557,21 @@
     const SHA256_RE = /^[a-f0-9]{64}$/i;
 
     // Whitelist stricte : URL doit pointer vers une release officielle GitHub du bon repo.
+    // Audit Site #4 — sous-domaines listés explicitement plutôt qu'avec un wildcard.
+    const ALLOWED_HOSTS = new Set([
+        'github.com',
+        'github-releases.githubusercontent.com',
+        'objects.githubusercontent.com',
+    ]);
     function isValidDownloadUrl(url) {
         if (typeof url !== 'string') return false;
         try {
             const u = new URL(url);
             if (u.protocol !== 'https:') return false;
-            const okHost = u.hostname === 'github.com'
-                || u.hostname === 'github-releases.githubusercontent.com'
-                || u.hostname.endsWith('.githubusercontent.com');
-            if (!okHost) return false;
+            if (!ALLOWED_HOSTS.has(u.hostname)) return false;
             return u.pathname.includes('/' + REPO + '/releases/download/')
-                || u.pathname.startsWith('/github-production-release-asset')
-                || u.hostname === 'github-releases.githubusercontent.com';
+                || u.hostname === 'github-releases.githubusercontent.com'
+                || u.hostname === 'objects.githubusercontent.com';
         } catch (_) { return false; }
     }
 
@@ -663,6 +666,7 @@
         return m ? m[1].toUpperCase() : null;
     }
 
+    let _maintenanceTimer = null;
     function renderMaintenance(status) {
         const block = document.getElementById('maintenance');
         const title = document.getElementById('maintenance-title');
@@ -674,14 +678,17 @@
         function updateCountdown() {
             if (!status.until) { cd.textContent = ''; return; }
             const target = new Date(status.until).getTime();
+            if (!isFinite(target)) { cd.textContent = 'Date invalide'; return; }
             const diff = target - Date.now();
-            if (!isFinite(target) || diff <= 0) { cd.textContent = 'Réouverture imminente — recharge la page.'; return; }
+            if (diff <= 0) { cd.textContent = 'Réouverture imminente — recharge la page.'; return; }
             const h = Math.floor(diff / 3_600_000);
             const m = Math.floor((diff % 3_600_000) / 60_000);
             cd.textContent = `Réouverture prévue dans ${h}h ${String(m).padStart(2,'0')}m`;
         }
         updateCountdown();
-        setInterval(updateCountdown, 30_000);
+        // Audit Site #7 — clear avant re-arm pour ne pas accumuler les timers.
+        if (_maintenanceTimer) clearInterval(_maintenanceTimer);
+        _maintenanceTimer = setInterval(updateCountdown, 30_000);
         block.classList.remove('hidden');
         dl.classList.add('hidden');
     }
