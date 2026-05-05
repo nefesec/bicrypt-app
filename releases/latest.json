@@ -2,10 +2,10 @@
   "version": "v3.1.1",
   "apk": {
     "version": "v3.1.1",
-    "filename": "bicrypt-3.1.0.apk",
+    "filename": "bicrypt-3.1.1.apk",
     "size": 34002641,
     "sha256": "8678ec49da44caa20b37559fe5d5d36f715e9aa58104688c945b8df1fec9baba",
-    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v3.1.0/bicrypt-3.1.0.apk",
+    "url": "https://github.com/nefesec/bicrypt-app/releases/download/v3.1.1/bicrypt-3.1.1.apk",
     "downloads": 0
   },
   "appimage": {
