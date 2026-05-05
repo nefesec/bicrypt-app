@@ -12,7 +12,7 @@
     "version": "v3.1.0",
     "filename": "BiCrypt-3.1.0.AppImage",
     "size": 113750927,
-    "sha256": "cde56f0ef1a5a02c33977d9f7ff0b22c03d3c3236f354324c876b4fc0baa8df3",
+    "sha256": "3ffa193aed3a2b587c33b2cfcbce9f50de8626a1dc6a52d1a646184e86d9a9a5",
     "url": "https://github.com/nefesec/bicrypt-app/releases/download/v3.1.0/BiCrypt-3.1.0.AppImage",
     "downloads": 0
   },
@@ -20,7 +20,7 @@
     "version": "v3.1.0",
     "filename": "BiCrypt Setup 3.1.0.exe",
     "size": 82516009,
-    "sha256": "41d168bfb4cdbf5b402eecbdf2047e33937724bf8406af3c8a4e89978eb0373e",
+    "sha256": "d1f35b9cdcbe665122fb8da22844bbfb1a9bca055a1448e19b1c6aca1279b8b8",
     "url": "https://github.com/nefesec/bicrypt-app/releases/download/v3.1.0/BiCrypt.Setup.3.1.0.exe",
     "downloads": 0
   }
