@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 23,
-  "versionName": "3.1.3",
-  "sha256": "d2051e0b04e41b5777cf9812f1800cd6bc27264519656d6fa967ef5ecba9a41e",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.3.apk",
-  "changelog": "v3.1.3 — Fix critique messages canal (sig non transmis relay), fix joinedIds, fix update manifest clearnet",
-  "signedAt": 1778155381955,
-  "sig": "82c5736495c107f20850107595b611a417ebbc1f683476be0f3d5655a518acffb9cd2cbfbd0a54deb511cccf540e4cd69a5362d13ae3ba2d236a4f3ca2d44106"
+  "versionCode": 24,
+  "versionName": "3.1.4",
+  "sha256": "0bf5e85f129144f369d64aff91ed1926b858db66dc5bfbbdebabc1dd508bde67",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.4.apk",
+  "changelog": "v3.1.4 — Fix boucle Tor : torRetry IPC, listeners uniques, Promise settle, startTor guard concurrent",
+  "signedAt": 1778167871595,
+  "sig": "c9a971054d2b9f1593dabd6a1a11f1076eb1278d57100ad63278515f14618a4f37225f0ea0e96bd6e163158eb9dccc49950e8bcc64ceade055f6e2b5e5b17002"
 }
