@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 24,
-  "versionName": "3.1.4",
-  "sha256": "0bf5e85f129144f369d64aff91ed1926b858db66dc5bfbbdebabc1dd508bde67",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.4.apk",
-  "changelog": "v3.1.4 — Fix boucle Tor : torRetry IPC, listeners uniques, Promise settle, startTor guard concurrent",
-  "signedAt": 1778167871595,
-  "sig": "c9a971054d2b9f1593dabd6a1a11f1076eb1278d57100ad63278515f14618a4f37225f0ea0e96bd6e163158eb9dccc49950e8bcc64ceade055f6e2b5e5b17002"
+  "versionCode": 25,
+  "versionName": "3.1.5",
+  "sha256": "b055da83f5c43842fba421d8a1179854c4bdbba669474096495e19e9b7eba75a",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.5.apk",
+  "changelog": "Fix boucle Tor (race startTor/tor-retry, auth challenge sync)",
+  "signedAt": 1778170170068,
+  "sig": "002e53ecc609e3a488bd177565982a23f5ae7d8c18fed76ec82ae3818861277b0c7b77ad4f690b9cb740daa15cd189c3d2f104a8cc3581281cc985af6dfc4403"
 }
