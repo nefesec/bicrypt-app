@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 27,
-  "versionName": "3.1.7",
-  "sha256": "7eb454d90b0086160a53a00e74f5771598858d39dffd498d6279ebf41256338f",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.7.apk",
-  "changelog": "Fix CRITIQUE — Ed25519Kotlin maison buggé produisait pubkeys ≠ noble. Auth relay marche enfin.",
-  "signedAt": 1778235076792,
-  "sig": "0b388f0ba1ba28629ea1680a1544f3866bc82e652791aa0661837f48a1e6411aa6a2814512051cb8c872e679da0bb0a2a7da1e5ab2eacf81661e99782fc4070b"
+  "versionCode": 29,
+  "versionName": "3.1.9",
+  "sha256": "80ca1465a50bc582c0fa01cafd02f7b8f681b16aac1a2bfb943c546832788754",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.9.apk",
+  "changelog": "Codes invitation à usage unique (zero-knowledge) + UI fixes",
+  "signedAt": 1778237694624,
+  "sig": "c0f3365a43580864500e7f095dee557e0be95404f8c6f22486fc524c0424e2ac1886e2441a7342db8b5200ba2f7983a4f92066818c1068edf99c9419b58c4607"
 }
