@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 29,
-  "versionName": "3.1.9",
-  "sha256": "80ca1465a50bc582c0fa01cafd02f7b8f681b16aac1a2bfb943c546832788754",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.9.apk",
-  "changelog": "Codes invitation à usage unique (zero-knowledge) + UI fixes",
-  "signedAt": 1778237694624,
-  "sig": "c0f3365a43580864500e7f095dee557e0be95404f8c6f22486fc524c0424e2ac1886e2441a7342db8b5200ba2f7983a4f92066818c1068edf99c9419b58c4607"
+  "versionCode": 30,
+  "versionName": "3.1.10",
+  "sha256": "3087566d6a60baa706c274982ccfff01422e72a31f26028d108944ba7287e646",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.10.apk",
+  "changelog": "Codes invitation plus courts (9 chars) + perso (4-16 chars) + Niveaux de sécurité (Paranoïaque/Standard/Pratique)",
+  "signedAt": 1778257225424,
+  "sig": "9c6a88d5b7c2691d70f7f37080be4c0436b27852fb48840e57405a006779b6f252020182618ab247f1db78bcbb02104ed806c1101185412e0aff4781cda7110c"
 }
