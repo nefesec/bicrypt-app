@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 31,
-  "versionName": "3.1.11",
-  "sha256": "be22caea0aeb22715c6af764cc3be775f3234bdc1309223f9eab51a5213fd44e",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.11.apk",
-  "changelog": "Renforcement canal général : limite 500 chars, throttle 5s, mute local, warning liens",
-  "signedAt": 1778259647069,
-  "sig": "e8fff10e9f4ab40ecb2f8214d1b3ccdc6510f57d73ceb108b29f1781f263c65042936a4a27488b9ba3d00b53a4a29f16654876bf6af31d00ee37c94663c37e0d"
+  "versionCode": 32,
+  "versionName": "3.1.12",
+  "sha256": "3dee9824e22d53e9c9740613ad78621b40dc1f6c9db59289119ebb71f10aa8fd",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.12.apk",
+  "changelog": "v3.1.12 — Niveau de sécurité sélectionnable à la création de compte. FIX CRITIQUE : MP cassés (champ kdf manquant côté client → relay rejetait silencieusement). Mailbox offline 24h côté serveur (fini les MP perdus quand le destinataire est hors-ligne). Audit : suppression dead code, doc clarifiée.",
+  "signedAt": 1778532571649,
+  "sig": "28f954088b15604764ab5b4978cf3964d949a5b17c7c354c5539375f894e4e8b482411495e0086c3e1fa5e1abc97c971731de3f7ca4a9be8e08d8361f49b8707"
 }
