@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 33,
-  "versionName": "3.1.13",
-  "sha256": "4a70d6466858a8abe9fe9c00bf6969d186a423610cc6df24c848920ad29125da",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.13.apk",
-  "changelog": "v3.1.13 — CGU v2.0 renforcées (17 clauses : licence stricte, conformité export crypto, mineurs, comportements interdits, AS-IS, cap responsabilité 0€, indemnisation, force majeure étendue, divulgation responsable, Rome I).",
-  "signedAt": 1778535845694,
-  "sig": "161ec831994d92d8c740cb6764924cbfdba427153aaed4afc2514c492b40c55ac6b5d5677b60441fafc3da8ddaf0e4a6196897688470bdc17a5cd6099ff3f10c"
+  "versionCode": 34,
+  "versionName": "3.1.14",
+  "sha256": "3ef5dd5741463050d6e9596e6e418d6613efe9bef56573c35ae86fb5f9d174d6",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.14.apk",
+  "changelog": "v3.1.14 — Envoi de photos (E2E, EXIF strip, qualité par profil). Niveaux de sécurité étendus aux médias (TTL, screenshot, galerie). Mailbox offline 24h pour textes + photos. Vocaux à venir en v3.1.15.",
+  "signedAt": 1779128562407,
+  "sig": "15c94e97f677e043097b74d4a05a10c12c2ef9fa20ec57983f1460abd4cd58c42ae559e61ef661fb6f190cacbbb155bdfd02220b90a47b725111d6611aa9810e"
 }
