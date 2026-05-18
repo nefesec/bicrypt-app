@@ -1,10 +1,10 @@
 {
   "v": 1,
-  "versionCode": 34,
-  "versionName": "3.1.14",
-  "sha256": "3ef5dd5741463050d6e9596e6e418d6613efe9bef56573c35ae86fb5f9d174d6",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.14.apk",
-  "changelog": "v3.1.14 — Envoi de photos (E2E, EXIF strip, qualité par profil). Niveaux de sécurité étendus aux médias (TTL, screenshot, galerie). Mailbox offline 24h pour textes + photos. Vocaux à venir en v3.1.15.",
-  "signedAt": 1779128562407,
-  "sig": "15c94e97f677e043097b74d4a05a10c12c2ef9fa20ec57983f1460abd4cd58c42ae559e61ef661fb6f190cacbbb155bdfd02220b90a47b725111d6611aa9810e"
+  "versionCode": 35,
+  "versionName": "3.1.15",
+  "sha256": "c9fc2448af113e555b2acfcf54ddbc6dd7f929118d259e759b8738db16655b44",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.15.apk",
+  "changelog": "v3.1.15 — Vocaux Android (bridge natif Kotlin AAC 32kbps, 30s max) + parité Electron médias (photo + vocal Opus via MediaRecorder). EXIF strip canvas, padding random pré-chiffrement, lecteur audio inline.",
+  "signedAt": 1779131195850,
+  "sig": "9ed9325c915535f66739f1aef1d201fb19591f498d952fa41637e48222ead9ccff1739946bf031bb13aa10ad2e3c26ff260ac4a3cfaf5480f933531414ece201"
 }
