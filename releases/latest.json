@@ -1,6 +1,6 @@
 {
-  "version": "v3.1.15",
-  "apk": {"version":"v3.1.15","filename":"bicrypt-3.1.15.apk","size":34152001,"sha256":"c9fc2448af113e555b2acfcf54ddbc6dd7f929118d259e759b8738db16655b44","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.15/bicrypt-3.1.15.apk","downloads":0},
-  "appimage": {"version":"v3.1.15","filename":"BiCrypt-3.1.15.AppImage","size":113824870,"sha256":"6d21c6098959fb9a9d0b2e509cbf2ecf5cb431b6bb6d036110753ff2289d03e4","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.15/BiCrypt-3.1.15.AppImage","downloads":0},
-  "exe": {"version":"v3.1.15","filename":"BiCrypt Setup 3.1.15.exe","size":82519382,"sha256":"8059d31871559a255e713760a1f4429d6fedcb63f04d932f54e4de792ecdc6a1","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.15/BiCrypt.Setup.3.1.15.exe","downloads":0}
+  "version": "v3.1.16",
+  "apk": {"version":"v3.1.16","filename":"bicrypt-3.1.16.apk","size":34154741,"sha256":"25e9dcad149cceab9a6c84d19ba80b35d89283e79d9706c2156a1b5d4e93b22f","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.16/bicrypt-3.1.16.apk","downloads":0},
+  "appimage": {"version":"v3.1.16","filename":"BiCrypt-3.1.16.AppImage","size":113816507,"sha256":"e294a08f8f9c13aac69f8a6fd06b53e9de4c9240a8993ced95ee991edb8036d7","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.16/BiCrypt-3.1.16.AppImage","downloads":0},
+  "exe": {"version":"v3.1.16","filename":"BiCrypt Setup 3.1.16.exe","size":82512691,"sha256":"42958f0a8f62014cf0fbf4ab3840cad01cf74f110d145aee501bcff58ef548ca","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.16/BiCrypt.Setup.3.1.16.exe","downloads":0}
 }
