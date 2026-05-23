@@ -1,4 +1,4 @@
 {
-  "version": "v3.1.19",
-  "apk": {"version":"v3.1.19","filename":"bicrypt-3.1.19.apk","size":34159277,"sha256":"38b440331a25f54b15ad6b5a889fa5ca94f01ff4bd6b29bbc4580d5319270102","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.19/bicrypt-3.1.19.apk","downloads":0}
+  "version": "v3.1.20",
+  "apk": {"version":"v3.1.20","filename":"bicrypt-3.1.20.apk","size":34157985,"sha256":"98c22e1d85f3f8b0b9fd076703dd4402c38fd77026ea2b2e9490185ce46245ca","url":"https://github.com/nefesec/bicrypt-app/releases/download/v3.1.20/bicrypt-3.1.20.apk","downloads":0}
 }
