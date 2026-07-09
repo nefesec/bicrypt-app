@@ -1,11 +1,11 @@
 {
   "v": 1,
-  "versionCode": 49,
+  "versionCode": 50,
   "minVersionCode": 0,
-  "versionName": "3.1.29",
-  "sha256": "0ffc422e4f9afefcb6cd308172e7fd644fc16b27606b8b099fb5112b67675f83",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.29.apk",
-  "changelog": "v3.1.29 — Sécurité renforcée du système de mise à jour : protection contre un serveur relais malveillant qui tenterait de bloquer l'app. Authentification durcie. Aucun changement visible à l'usage.",
-  "signedAt": 1783602825862,
-  "sig": "de0ea6a9013245913a0ca9a9edf5ad4cb2e689a3d08a28e54b8a4ba09929b4bd70c5e07fd449256db10a8ce0030a0aed57e8c1fcbd8d4e794c9c2beb22d05e09"
+  "versionName": "3.1.30",
+  "sha256": "e5b2d962fa7c21674900b2cc7f76dea0727a442e212ad958b533a89e78365ea8",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.30.apk",
+  "changelog": "v3.1.30 — Nouveau : envoie un retour anonyme à l'équipe depuis les Réglages (chiffré, sans aucune info sur toi). Réception des annonces officielles signées. Améliorations internes.",
+  "signedAt": 1783641179554,
+  "sig": "fd479364b00ace84c9222f9bc6857e4844a3e64e045f9057b878fad2823f94d936e5cdffe0d77e87430f92c8e3c18b55a83bf9b2a85dfaa1f3b57eb756068c0b"
 }
