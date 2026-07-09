@@ -3,410 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiCrypt</title>
+    <title>BiCrypt — Messagerie anonyme, chiffrée, sans compte</title>
+    <meta name="description" content="Messagerie chiffrée de bout en bout via Tor. Pas de numéro, pas de compte, rien de stocké. Ta vie privée n'est pas une infraction.">
+    <meta property="og:title" content="BiCrypt — Messagerie anonyme et chiffrée">
+    <meta property="og:description" content="Pas de numéro, pas de compte, IP masquée par Tor, rien de stocké. Contrôle ? Non merci.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --border: #262626;
-            --text: #ededed;
-            --text-sub: #a1a1a1;
-            --muted: #6e6e6e;
-            --danger: #f87171;
+            --bg: #0a0a0a; --surface: #141414; --surface2: #191919; --border: #262626;
+            --text: #ededed; --text-sub: #a1a1a1; --muted: #6e6e6e;
+            --green: #4ade80; --green-dim: #1d3a24; --danger: #f87171;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; overflow-x: hidden; }
         a { color: inherit; text-decoration: none; }
+        .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
 
-        /* ── Nav ── */
+        /* Bandeau campagne */
+        .topbar {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 9px 16px; background: #160d0d; border-bottom: 1px solid #3a1d1d;
+            font-size: 0.78rem; color: var(--text-sub); text-align: center;
+        }
+        .topbar a { color: var(--danger); font-weight: 600; }
+        .topbar a:hover { text-decoration: underline; }
+
+        /* Nav */
         nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--bg);
-            z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 24px; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: rgba(10,10,10,.85); backdrop-filter: blur(10px); z-index: 20;
         }
-        .nav-logo {
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text);
-        }
-        .nav-link {
-            font-size: 0.82rem;
-            color: var(--muted);
-        }
-        .nav-link:hover { color: var(--text); }
+        .nav-logo { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.03em; }
+        .nav-links { display: flex; gap: 22px; align-items: center; }
+        .nav-links a { font-size: 0.82rem; color: var(--muted); }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { background: var(--green); color: #06120a !important; padding: 8px 15px; border-radius: 7px; font-weight: 700; }
+        .nav-cta:hover { opacity: .9; }
+        @media (max-width: 640px) { .nav-links .hide-sm { display: none; } }
 
-        /* ── Content ── */
-        .content {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 80px 24px 60px;
-        }
+        .content { max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
-        /* ── Hero ── */
-        .hero { margin-bottom: 80px; }
-        .hero-wordmark {
-            font-size: clamp(3rem, 12vw, 5.5rem);
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            line-height: 1;
-            margin-bottom: 24px;
+        /* Hero */
+        .hero { position: relative; padding: 100px 0 80px; text-align: center; }
+        .hero::before {
+            content: ""; position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+            width: 620px; height: 420px; background: radial-gradient(ellipse at center, rgba(74,222,128,.10), transparent 70%);
+            pointer-events: none; z-index: 0;
         }
-        .hero-tagline {
-            font-size: 1.1rem;
-            color: var(--text-sub);
-            line-height: 1.65;
-            max-width: 460px;
+        .hero > * { position: relative; z-index: 1; }
+        .hero-status {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; letter-spacing: 1px;
+            color: var(--green); border: 1px solid var(--green-dim); border-radius: 20px; padding: 6px 14px; margin-bottom: 28px;
         }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .hero h1 { font-size: clamp(2.6rem, 9vw, 5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin-bottom: 24px; }
+        .hero h1 .g { color: var(--green); }
+        .hero-tag { font-size: 1.15rem; color: var(--text-sub); line-height: 1.6; max-width: 540px; margin: 0 auto 38px; }
+        .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 9px; padding: 13px 26px;
+            font-weight: 600; font-size: 0.92rem; border-radius: 8px; transition: opacity .15s, border-color .15s; cursor: pointer;
+        }
+        .btn-primary { background: var(--green); color: #06120a; font-weight: 700; }
+        .btn-primary:hover { opacity: .9; }
+        .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .btn-ghost:hover { border-color: var(--text-sub); }
 
-        /* ── Maintenance ── */
-        .maintenance {
-            border: 1px solid var(--danger);
-            padding: 24px 20px;
-            margin-bottom: 48px;
-            background: #160d0d;
-            border-radius: 4px;
-        }
-        .maintenance-label {
-            font-size: 0.68rem;
-            letter-spacing: 2px;
-            color: var(--danger);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .maintenance-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-        .maintenance-msg {
-            font-size: 0.88rem;
-            color: var(--text-sub);
-            line-height: 1.65;
-            margin-bottom: 10px;
-        }
+        section { padding: 56px 0; }
+        .sec-eyebrow { font-size: 0.66rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; text-align: center; }
+        .sec-title { font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; text-align: center; margin-bottom: 16px; }
+        .sec-intro { font-size: 1rem; color: var(--text-sub); text-align: center; max-width: 560px; margin: 0 auto 44px; line-height: 1.65; }
+
+        /* Why grid */
+        .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .card { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 24px 22px; transition: border-color .15s; }
+        .card:hover { border-color: #333; }
+        .card-ico { width: 38px; height: 38px; border-radius: 9px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 16px; }
+        .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .card p { font-size: 0.9rem; color: var(--text-sub); line-height: 1.65; }
+
+        /* Comparison */
+        .cmp-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+        table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; }
+        table.cmp th, table.cmp td { padding: 14px 16px; text-align: center; font-size: 0.86rem; border-bottom: 1px solid var(--border); }
+        table.cmp thead th { font-size: 0.72rem; letter-spacing: .5px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+        table.cmp thead th.us { color: var(--green); }
+        table.cmp td:first-child, table.cmp th:first-child { text-align: left; color: var(--text-sub); font-size: 0.82rem; white-space: nowrap; }
+        table.cmp tbody tr:last-child td { border-bottom: none; }
+        table.cmp .col-us { background: rgba(74,222,128,.05); font-weight: 600; color: var(--text); }
+        .yes { color: var(--green); font-weight: 700; }
+        .no { color: var(--danger); }
+        .meh { color: var(--muted); }
+        .cmp-note { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+
+        /* Download */
+        #download { scroll-margin-top: 80px; }
+        .maintenance { border: 1px solid var(--danger); padding: 24px 20px; margin-bottom: 24px; background: #160d0d; border-radius: 8px; }
+        .maintenance-label { font-size: 0.68rem; letter-spacing: 2px; color: var(--danger); text-transform: uppercase; margin-bottom: 10px; }
+        .maintenance-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
+        .maintenance-msg { font-size: 0.88rem; color: var(--text-sub); line-height: 1.65; margin-bottom: 10px; }
         .maintenance-countdown { font-size: 0.82rem; color: var(--danger); }
         .hidden { display: none !important; }
 
-        /* ── Download cards ── */
-        .downloads { margin-bottom: 80px; display: flex; flex-direction: column; gap: 20px; }
-        .dl-card {
-            border: 1px solid var(--border);
-            padding: 20px;
-            background: var(--surface);
-            border-radius: 4px;
-        }
-        .dl-platform {
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--muted);
-            margin-bottom: 14px;
-        }
-        .btn-dl {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--text);
-            color: var(--bg);
-            padding: 11px 20px;
-            font-weight: 600;
-            font-size: 0.88rem;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: opacity .15s;
-            cursor: pointer;
-        }
-        .btn-dl:hover { opacity: 0.88; }
+        .dl-card { border: 1px solid var(--border); padding: 28px 24px; background: var(--surface); border-radius: 12px; max-width: 560px; margin: 0 auto; }
+        .dl-platform { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 16px; }
+        .btn-dl { display: inline-flex; align-items: center; gap: 10px; background: var(--green); color: #06120a; padding: 13px 24px; font-weight: 700; font-size: 0.92rem; border-radius: 8px; transition: opacity .15s; cursor: pointer; }
+        .btn-dl:hover { opacity: 0.9; }
         .btn-dl.loading { opacity: 0.35; pointer-events: none; }
-        .btn-dl.btn-outline {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        .btn-dl.btn-outline:hover { border-color: var(--text-sub); opacity: 1; }
-
-        .dl-meta {
-            margin-top: 16px;
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
+        .dl-meta { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .dl-meta-item { display: flex; flex-direction: column; gap: 3px; }
-        .dl-meta-item label {
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-        .dl-meta-item span { font-size: 0.78rem; color: var(--text-sub); word-break: break-all; }
-        .dl-meta-item span.mono-hash { font-family: monospace; font-size: 0.66rem; line-height: 1.5; }
-        .dl-error { margin-top: 10px; font-size: 0.78rem; color: var(--danger); display: none; }
+        .dl-meta-item label { font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+        .dl-meta-item span { font-size: 0.8rem; color: var(--text-sub); word-break: break-all; }
+        .dl-meta-item span.mono-hash { font-family: monospace; font-size: 0.64rem; line-height: 1.5; grid-column: 1 / -1; }
+        .dl-meta-item.full { grid-column: 1 / -1; }
+        .dl-error { margin-top: 12px; font-size: 0.78rem; color: var(--danger); display: none; }
+        .dl-verify { margin-top: 16px; font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
 
-        /* ── Description ── */
-        .desc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-        .desc-block h2 {
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: var(--muted);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-        .desc-block p { color: var(--text-sub); font-size: 0.93rem; line-height: 1.7; }
+        /* Specs */
+        .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 26px; border-top: 1px solid var(--border); padding-top: 36px; }
+        .spec b { display: block; font-size: 0.6rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 2px; }
+        .spec span { font-size: 0.85rem; color: var(--text-sub); }
 
-        /* ── Specs ── */
-        .specs-grid {
-            border-top: 1px solid var(--border);
-            padding-top: 32px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 28px;
-            margin-bottom: 80px;
-        }
-        .spec-box b {
-            display: block;
-            font-size: 0.6rem;
-            color: var(--muted);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-        .spec-box span { font-size: 0.85rem; color: var(--text-sub); }
+        /* Links row */
+        .more { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .more a { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 20px; display: block; transition: border-color .15s; }
+        .more a:hover { border-color: var(--green-dim); }
+        .more a b { display: block; font-size: 0.95rem; margin-bottom: 5px; }
+        .more a span { font-size: 0.82rem; color: var(--muted); }
+        .more a .arrow { color: var(--green); }
 
-        /* ── TOS ── */
-        .tos {
-            border-top: 1px solid var(--border);
-            padding-top: 48px;
-            margin-bottom: 48px;
-        }
-        .tos-title {
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: var(--muted);
-            text-transform: uppercase;
-            margin-bottom: 28px;
-        }
-        .tos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .tos-block h3 {
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-            color: var(--text-sub);
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 7px;
-        }
-        .tos-block p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
-        .tos-block p strong { color: var(--text-sub); }
-
-        /* ── Footer ── */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 28px 24px;
-            text-align: center;
-        }
+        footer { border-top: 1px solid var(--border); padding: 34px 24px; text-align: center; margin-top: 40px; }
         .footer-copy { font-size: 0.68rem; color: var(--muted); margin-bottom: 12px; }
-        .footer-links { display: flex; gap: 20px; justify-content: center; }
-        .footer-links button {
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-family: inherit;
-            font-size: 0.68rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        .footer-links button:hover { color: var(--text-sub); }
+        .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .footer-links button, .footer-links a { background: none; border: none; color: var(--muted); font-family: inherit; font-size: 0.68rem; cursor: pointer; text-decoration: underline; }
+        .footer-links button:hover, .footer-links a:hover { color: var(--text-sub); }
 
-        /* ── Modal ── */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.92);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            max-width: 660px;
-            width: 100%;
-            max-height: 88vh;
-            overflow-y: auto;
-            padding: 32px;
-            position: relative;
-            border-radius: 4px;
-        }
-        .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 18px;
-            cursor: pointer;
-            line-height: 1;
-        }
+        /* Modals */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+        .modal-box { background: var(--surface); border: 1px solid var(--border); max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 32px; position: relative; border-radius: 8px; }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
         .modal-close:hover { color: var(--text); }
-        .modal-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
+        .modal-title { font-size: 0.82rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
         .modal-date { font-size: 0.68rem; color: var(--muted); margin-bottom: 24px; }
-        .modal-box h3 { font-size: 0.78rem; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+        .modal-box h3 { font-size: 0.78rem; font-weight: 600; margin: 20px 0 8px; }
         .modal-box p, .modal-box li { font-size: 0.88rem; color: var(--text-sub); line-height: 1.7; }
         .modal-box ul { padding-left: 18px; }
         .modal-box li { margin-bottom: 4px; }
         .modal-box code { color: var(--text); font-family: monospace; font-size: 0.85em; }
-        .modal-box a { color: var(--text-sub); text-decoration: underline; }
-        .modal-box a:hover { color: var(--text); }
         .lib-name { color: var(--text); font-family: monospace; font-weight: 600; }
 
-        @media (max-width: 640px) {
-            .desc-grid, .tos-grid { grid-template-columns: 1fr; }
-            .hero-wordmark { font-size: clamp(2.5rem, 15vw, 4rem); }
-        }
+        @media (max-width: 640px) { .dl-meta { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
+<div class="topbar">
+    <span>L'UE prolonge la surveillance des messages jusqu'en 2028.</span>
+    <a href="/control.html">Contrôle&nbsp;? Non merci&nbsp;→</a>
+</div>
+
 <nav>
-    <span class="nav-logo">BiCrypt</span>
-    <a href="/guide.html" class="nav-link">Aide / Mode d'emploi</a>
+    <a href="/" class="nav-logo">BiCrypt</a>
+    <div class="nav-links">
+        <a href="#why" class="hide-sm">Pourquoi</a>
+        <a href="#compare" class="hide-sm">Comparatif</a>
+        <a href="/faq.html" class="hide-sm">FAQ</a>
+        <a href="/guide.html" class="hide-sm">Aide</a>
+        <a href="#download" class="nav-cta">Télécharger</a>
+    </div>
 </nav>
 
 <div class="content">
 
+    <!-- HERO -->
     <div class="hero">
-        <div class="hero-wordmark">BiCrypt</div>
-        <p class="hero-tagline">
-            Messagerie privée et sécurisée.<br>
-            Aucun serveur central. Aucune métadonnée.
+        <div class="hero-status"><span class="dot"></span> Chiffré · Anonyme · Sans compte</div>
+        <h1>Parle librement.<br><span class="g">Sans laisser de trace.</span></h1>
+        <p class="hero-tag">
+            Une messagerie chiffrée de bout en bout, routée par Tor. Pas de numéro,
+            pas de compte, rien de stocké. Ce qu'on ne collecte pas ne peut pas fuiter.
         </p>
-    </div>
-
-    <div id="maintenance" class="maintenance hidden">
-        <div class="maintenance-label">Téléchargements indisponibles</div>
-        <div class="maintenance-title" id="maintenance-title">Téléchargements suspendus temporairement</div>
-        <div class="maintenance-msg" id="maintenance-msg">Le service de téléchargement est hors ligne pour maintenance. Les versions déjà installées continuent de fonctionner normalement.</div>
-        <div class="maintenance-countdown" id="maintenance-countdown"></div>
-    </div>
-
-    <div id="downloads-block" class="downloads">
-
-        <div class="dl-card">
-            <div class="dl-platform">Android</div>
-            <a id="btn-dl" href="#" class="btn-dl loading" download>Télécharger l'APK</a>
-            <div class="dl-meta">
-                <div class="dl-meta-item"><label>Version</label><span id="meta-version">—</span></div>
-                <div class="dl-meta-item"><label>Taille</label><span id="meta-size">—</span></div>
-                <div class="dl-meta-item"><label>SHA-256</label><span id="meta-hash" class="mono-hash">—</span></div>
-                <div class="dl-meta-item"><label>Plateforme</label><span>Android 6.0+</span></div>
-            </div>
-            <div class="dl-error" id="dl-error">Impossible de récupérer la dernière version — réessayez plus tard.</div>
-        </div>
-
-    </div>
-
-    <div class="desc-grid">
-        <div class="desc-block">
-            <h2>Philosophie</h2>
-            <p>BiCrypt est conçu pour fonctionner sans dépendre d'aucune infrastructure centralisée. Pas de serveur d'identité, pas de base de données cloud, pas de point de défaillance unique.</p>
-        </div>
-        <div class="desc-block">
-            <h2>Architecture</h2>
-            <p>Toutes les communications transitent via le réseau Tor : chaque message est chiffré de bout en bout, sans adresse IP exposée ni métadonnée collectée.</p>
+        <div class="hero-cta">
+            <a href="#download" class="btn btn-primary">Télécharger pour Android</a>
+            <a href="#why" class="btn btn-ghost">Pourquoi BiCrypt ?</a>
         </div>
     </div>
 
-    <div class="specs-grid">
-        <div class="spec-box"><b>Chiffrement</b><span>X25519 + XSalsa20</span></div>
-        <div class="spec-box"><b>Réseau</b><span>Tor Hidden Service V3</span></div>
-        <div class="spec-box"><b>Métadonnées</b><span>Aucune collecte</span></div>
-        <div class="spec-box"><b>Licence</b><span>Propriétaire</span></div>
-    </div>
-
-    <div class="tos">
-        <div class="tos-title">Conditions d'utilisation</div>
-        <div class="tos-grid">
-
-            <div class="tos-block">
-                <h3>01 · Acceptation</h3>
-                <p>En téléchargeant ou utilisant BiCrypt, vous acceptez sans réserve les présentes conditions.</p>
+    <!-- WHY -->
+    <section id="why">
+        <div class="sec-eyebrow">Pourquoi on va plus loin</div>
+        <h2 class="sec-title">La confidentialité, pas à moitié</h2>
+        <p class="sec-intro">
+            La plupart des messageries chiffrent le contenu — puis connaissent ton numéro,
+            ton IP et qui te parle. BiCrypt s'attaque aussi à tout le reste.
+        </p>
+        <div class="why">
+            <div class="card">
+                <div class="card-ico">🔑</div>
+                <h3>Aucun numéro, aucun email</h3>
+                <p>Ton identité est une paire de clés générée sur ton téléphone. Rien qui te relie à ton vrai nom, aucune inscription.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>02 · Licence propriétaire</h3>
-                <p>BiCrypt est un logiciel propriétaire. <strong>Toute copie, décompilation, modification ou redistribution est strictement interdite</strong> sans autorisation écrite préalable.</p>
+            <div class="card">
+                <div class="card-ico">🧅</div>
+                <h3>IP masquée par Tor</h3>
+                <p>Tout transite par le réseau Tor. Même notre relais ne connaît pas ton adresse IP réelle.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>03 · Usage légal uniquement</h3>
-                <p>BiCrypt est conçu pour la protection de la vie privée dans un cadre légal. <strong>Toute utilisation à des fins illicites est formellement interdite.</strong></p>
+            <div class="card">
+                <div class="card-ico">🔒</div>
+                <h3>Chiffré de bout en bout</h3>
+                <p>X25519 + XSalsa20-Poly1305. Seul ton destinataire peut lire — le relais ne voit que du charabia illisible.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>04 · Absence de responsabilité</h3>
-                <p><strong>L'auteur décline toute responsabilité</strong> pour tout dommage résultant de l'utilisation ou de l'impossibilité d'utiliser ce logiciel.</p>
+            <div class="card">
+                <div class="card-ico">🗑️</div>
+                <h3>Rien n'est stocké</h3>
+                <p>Le relais fonctionne en mémoire vive : aucun journal, aucune base de données, aucune trace écrite sur disque.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>05 · Responsabilité de l'utilisateur</h3>
-                <p>Vous utilisez BiCrypt sous votre entière responsabilité. Toute activité illégale engage uniquement la responsabilité de son auteur.</p>
+            <div class="card">
+                <div class="card-ico">📖</div>
+                <h3>Crypto standard &amp; auditée</h3>
+                <p>Les primitives (bibliothèques <span class="mono">@noble</span>, audit Cure53) sont publiques et éprouvées. La sécurité ne repose sur aucun secret caché.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>06 · Aucune garantie</h3>
-                <p>Le logiciel est fourni <strong>"tel quel"</strong>, sans garantie d'aucune sorte.</p>
+            <div class="card">
+                <div class="card-ico">🚫</div>
+                <h3>Indépendant</h3>
+                <p>Pas de Big Tech, pas d'actionnaires, pas de monétisation de tes données. Un projet, une mission : ta vie privée.</p>
             </div>
-
-            <div class="tos-block">
-                <h3>07 · Intégrité des binaires</h3>
-                <p>Seules les versions téléchargées depuis ce site sont authentiques. <strong>Vérifiez toujours le SHA-256 affiché.</strong></p>
-            </div>
-
-            <div class="tos-block">
-                <h3>08 · Modifications</h3>
-                <p>L'auteur se réserve le droit de modifier ces conditions à tout moment.</p>
-            </div>
-
         </div>
-    </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section id="compare">
+        <div class="sec-eyebrow">Sans langue de bois</div>
+        <h2 class="sec-title">BiCrypt face aux autres</h2>
+        <p class="sec-intro">
+            Signal est excellent. Mais sur l'anonymat pur — pas d'identité, pas d'IP, rien de stocké —
+            BiCrypt pousse le curseur plus loin.
+        </p>
+        <div class="cmp-wrap">
+            <table class="cmp">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="us">BiCrypt</th>
+                        <th>Signal</th>
+                        <th>WhatsApp</th>
+                        <th>Telegram</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sans numéro de téléphone</td>
+                        <td class="col-us"><span class="yes">Oui</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sans compte / inscription</td>
+                        <td class="col-us"><span class="yes">Oui</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chiffrement E2E par défaut</td>
+                        <td class="col-us"><span class="yes">Oui</span></td>
+                        <td><span class="yes">Oui</span></td>
+                        <td><span class="yes">Oui</span></td>
+                        <td><span class="no">Non</span></td>
+                    </tr>
+                    <tr>
+                        <td>IP masquée du serveur</td>
+                        <td class="col-us"><span class="yes">Oui (Tor)</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                        <td><span class="no">Non</span></td>
+                    </tr>
+                    <tr>
+                        <td>Métadonnées stockées</td>
+                        <td class="col-us"><span class="yes">Aucune</span></td>
+                        <td><span class="meh">Minimales</span></td>
+                        <td><span class="no">Oui (Meta)</span></td>
+                        <td><span class="no">Oui</span></td>
+                    </tr>
+                    <tr>
+                        <td>Propriétaire</td>
+                        <td class="col-us"><span class="yes">Indépendant</span></td>
+                        <td><span class="meh">Fondation</span></td>
+                        <td><span class="no">Meta</span></td>
+                        <td><span class="meh">Telegram</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="cmp-note">
+            En transparence : Signal est open source, BiCrypt ne l'est pas encore —
+            <a href="/faq.html" style="color:var(--text-sub);text-decoration:underline">on explique pourquoi ici</a>.
+            Le relais voit les clés publiques en transit pour router, mais n'en conserve rien.
+        </p>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section id="download">
+        <div class="sec-eyebrow">Gratuit · Sans pub · Sans pistage</div>
+        <h2 class="sec-title">Télécharger BiCrypt</h2>
+        <p class="sec-intro">Android 6.0 et plus. Vérifie toujours l'empreinte SHA-256 affichée.</p>
+
+        <div id="maintenance" class="maintenance hidden">
+            <div class="maintenance-label">Téléchargements indisponibles</div>
+            <div class="maintenance-title" id="maintenance-title">Téléchargements suspendus temporairement</div>
+            <div class="maintenance-msg" id="maintenance-msg">Le service de téléchargement est hors ligne pour maintenance. Les versions déjà installées continuent de fonctionner normalement.</div>
+            <div class="maintenance-countdown" id="maintenance-countdown"></div>
+        </div>
+
+        <div id="downloads-block">
+            <div class="dl-card">
+                <div class="dl-platform">Android</div>
+                <a id="btn-dl" href="#" class="btn-dl loading" download>Télécharger l'APK</a>
+                <div class="dl-meta">
+                    <div class="dl-meta-item"><label>Version</label><span id="meta-version">—</span></div>
+                    <div class="dl-meta-item"><label>Taille</label><span id="meta-size">—</span></div>
+                    <div class="dl-meta-item full"><label>Plateforme</label><span>Android 6.0+ · APK signé</span></div>
+                    <div class="dl-meta-item"><label>SHA-256</label><span id="meta-hash" class="mono-hash">—</span></div>
+                </div>
+                <div class="dl-error" id="dl-error">Impossible de récupérer la dernière version — réessayez plus tard.</div>
+                <div class="dl-verify">L'APK est signé cryptographiquement. Une empreinte qui ne correspond pas = binaire non officiel : ne l'installe pas.</div>
+            </div>
+        </div>
+
+        <div class="specs" style="margin-top:48px">
+            <div class="spec"><b>Chiffrement</b><span>X25519 + XSalsa20</span></div>
+            <div class="spec"><b>Signatures</b><span>Ed25519</span></div>
+            <div class="spec"><b>Réseau</b><span>Tor Hidden Service V3</span></div>
+            <div class="spec"><b>Métadonnées</b><span>Aucune conservée</span></div>
+            <div class="spec"><b>Compte requis</b><span>Aucun</span></div>
+        </div>
+    </section>
+
+    <!-- MORE -->
+    <section>
+        <div class="more">
+            <a href="/faq.html"><b>Pourquoi pas open source ? <span class="arrow">→</span></b><span>Transparence &amp; sécurité, sans détour.</span></a>
+            <a href="/control.html"><b>Chat Control <span class="arrow">→</span></b><span>Ce que l'UE prépare, et notre réponse.</span></a>
+            <a href="/guide.html"><b>Mode d'emploi <span class="arrow">→</span></b><span>Installer, ajouter un contact, discuter.</span></a>
+        </div>
+    </section>
 
 </div>
 
 <footer>
-    <p class="footer-copy">BiCrypt © 2026 — Logiciel Propriétaire — Tous droits réservés</p>
+    <p class="footer-copy">BiCrypt © 2026 — Logiciel propriétaire · La sécurité se vérifie, elle ne se promet pas.</p>
     <div class="footer-links">
+        <a href="/faq.html">FAQ</a>
+        <a href="/guide.html">Aide</a>
         <button onclick="document.getElementById('modal-cgu').style.display='flex'">CGU</button>
         <button onclick="document.getElementById('modal-privacy').style.display='flex'">Confidentialité</button>
     </div>
@@ -532,7 +484,6 @@
     const SHA256_RE = /^[a-f0-9]{64}$/i;
 
     // Whitelist stricte : URL doit pointer vers une release officielle GitHub du bon repo.
-    // Audit Site #4 — sous-domaines listés explicitement plutôt qu'avec un wildcard.
     const ALLOWED_HOSTS = new Set([
         'github.com',
         'github-releases.githubusercontent.com',
@@ -632,7 +583,6 @@
             cd.textContent = `Réouverture prévue dans ${h}h ${String(m).padStart(2,'0')}m`;
         }
         updateCountdown();
-        // Audit Site #7 — clear avant re-arm pour ne pas accumuler les timers.
         if (_maintenanceTimer) clearInterval(_maintenanceTimer);
         _maintenanceTimer = setInterval(updateCountdown, 30_000);
         block.classList.remove('hidden');
