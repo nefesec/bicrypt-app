@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle ? Non merci. — BiCrypt</title>
+    <meta name="description" content="L'UE vient de prolonger le scan des messages jusqu'en 2028. BiCrypt chiffre tout, de bout en bout, via Tor. Contrôle ? Non merci.">
+
+    <!-- Open Graph / partage social -->
+    <meta property="og:title" content="Contrôle ? Non merci.">
+    <meta property="og:description" content="L'UE prolonge la surveillance des messages jusqu'en 2028. BiCrypt : chiffrement de bout en bout, réseau Tor, zéro métadonnée.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contrôle ? Non merci.">
+    <meta name="twitter:description" content="L'UE prolonge la surveillance des messages jusqu'en 2028. BiCrypt chiffre tout.">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #ededed;
+            --text-sub: #a1a1a1;
+            --muted: #6e6e6e;
+            --danger: #f87171;
+            --accent: #f87171;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 24px; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: var(--bg); z-index: 10;
+        }
+        .nav-logo { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+        .nav-link { font-size: 0.82rem; color: var(--muted); }
+        .nav-link:hover { color: var(--text); }
+
+        .content { max-width: 760px; margin: 0 auto; padding: 72px 24px 60px; }
+
+        /* Hero slogan */
+        .hero { margin-bottom: 40px; }
+        .hero-kicker {
+            font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--danger); margin-bottom: 20px;
+        }
+        .hero-slogan {
+            font-size: clamp(3rem, 13vw, 6.5rem); font-weight: 800;
+            letter-spacing: -0.045em; line-height: 0.98; margin-bottom: 28px;
+        }
+        .hero-slogan .no { color: var(--danger); }
+        .hero-sub {
+            font-size: 1.15rem; color: var(--text-sub); line-height: 1.6; max-width: 520px;
+        }
+
+        /* CTA */
+        .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 36px 0 64px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 13px 24px; font-weight: 600; font-size: 0.92rem;
+            border-radius: 7px; transition: opacity .15s, border-color .15s; cursor: pointer;
+        }
+        .btn-primary { background: var(--text); color: var(--bg); }
+        .btn-primary:hover { opacity: 0.88; }
+        .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .btn-ghost:hover { border-color: var(--text-sub); }
+
+        /* Fact box */
+        .fact {
+            border: 1px solid var(--border); border-left: 3px solid var(--danger);
+            background: var(--surface); padding: 24px 22px; border-radius: 4px; margin-bottom: 64px;
+        }
+        .fact-label {
+            font-size: 0.66rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--danger); margin-bottom: 12px;
+        }
+        .fact p { font-size: 0.95rem; color: var(--text-sub); line-height: 1.75; }
+        .fact p + p { margin-top: 12px; }
+        .fact strong { color: var(--text); }
+
+        /* Sections */
+        section { margin-bottom: 60px; }
+        .sec-title {
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 18px;
+        }
+        .sec-title.big { font-size: 1.4rem; letter-spacing: -0.02em; text-transform: none; color: var(--text); font-weight: 700; margin-bottom: 14px; }
+        section p { color: var(--text-sub); font-size: 0.98rem; line-height: 1.75; max-width: 620px; }
+        section p + p { margin-top: 14px; }
+
+        /* Compare grid */
+        .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .compare-col { border: 1px solid var(--border); border-radius: 6px; padding: 22px 20px; background: var(--surface); }
+        .compare-col.them { border-color: #3a1d1d; }
+        .compare-col h3 { font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; font-weight: 700; }
+        .compare-col.them h3 { color: var(--danger); }
+        .compare-col.us h3 { color: var(--text); }
+        .compare-col ul { list-style: none; }
+        .compare-col li { font-size: 0.88rem; color: var(--text-sub); line-height: 1.5; padding: 8px 0 8px 24px; position: relative; border-top: 1px solid var(--border); }
+        .compare-col li:first-child { border-top: none; }
+        .compare-col li::before { position: absolute; left: 0; top: 8px; font-weight: 700; }
+        .compare-col.them li::before { content: "✕"; color: var(--danger); }
+        .compare-col.us li::before { content: "✓"; color: #4ade80; }
+
+        /* Specs */
+        .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 26px; border-top: 1px solid var(--border); padding-top: 30px; }
+        .spec b { display: block; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+        .spec span { font-size: 0.85rem; color: var(--text-sub); }
+
+        footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; }
+        .sources { font-size: 0.72rem; color: var(--muted); line-height: 1.9; max-width: 620px; margin: 0 auto 16px; }
+        .sources a { text-decoration: underline; color: var(--muted); }
+        .sources a:hover { color: var(--text-sub); }
+        .footer-copy { font-size: 0.68rem; color: var(--muted); }
+
+        @media (max-width: 640px) {
+            .compare { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">BiCrypt</a>
+    <a href="/" class="nav-link">Télécharger</a>
+</nav>
+
+<div class="content">
+
+    <div class="hero">
+        <div class="hero-kicker">Union européenne · Surveillance des messages</div>
+        <h1 class="hero-slogan">Contrôle&nbsp;?<br><span class="no">Non merci.</span></h1>
+        <p class="hero-sub">
+            Pendant qu'on débat de scanner tes messages, BiCrypt les chiffre déjà —
+            de bout en bout, sur le réseau Tor, sans jamais voir qui parle à qui.
+        </p>
+    </div>
+
+    <div class="cta-row">
+        <a href="/" class="btn btn-primary">Télécharger BiCrypt (Android)</a>
+        <a href="#cest-quoi" class="btn btn-ghost">C'est quoi Chat Control ?</a>
+    </div>
+
+    <div class="fact">
+        <div class="fact-label">Le fait, sans exagération</div>
+        <p>
+            Le <strong>9 juillet 2026</strong>, le Parlement européen n'a pas réussi à bloquer la
+            prolongation du scan « volontaire » des messages : <strong>314 députés</strong> ont voté
+            pour l'abroger, mais il en fallait <strong>361</strong> (majorité absolue).
+        </p>
+        <p>
+            Résultat : le régime de surveillance est <strong>prolongé jusqu'au 3 avril 2028</strong>.
+            Et la version <em>obligatoire</em> — le scan côté client qui casserait le chiffrement de
+            tout le monde — est <strong>toujours sur la table</strong> à Bruxelles.
+        </p>
+        <p>
+            On ne te vend pas la panique. On te donne juste une porte qui, elle, reste fermée.
+        </p>
+    </div>
+
+    <section id="cest-quoi">
+        <div class="sec-title big">C'est quoi « Chat Control » ?</div>
+        <p>
+            C'est le surnom des règles européennes qui autorisent — et cherchent à imposer — le
+            <strong>scan automatique de tes messages privés</strong> avant même qu'ils ne soient
+            envoyés, sous prétexte de détecter des contenus illégaux.
+        </p>
+        <p>
+            Le problème : pour scanner un message chiffré de bout en bout, il faut le lire
+            <em>avant</em> de le chiffrer, directement sur ton téléphone. Ça revient à mettre un
+            mouchard chez chaque citoyen. Une fois la porte ouverte, elle ne se referme pas.
+        </p>
+    </section>
+
+    <section>
+        <div class="sec-title">Deux visions</div>
+        <div class="compare">
+            <div class="compare-col them">
+                <h3>Scan des messages</h3>
+                <ul>
+                    <li>Lit tes messages avant l'envoi</li>
+                    <li>Mouchard installé sur ton appareil</li>
+                    <li>Tout le monde suspect par défaut</li>
+                    <li>Le chiffrement contourné</li>
+                    <li>Tes métadonnées collectées</li>
+                </ul>
+            </div>
+            <div class="compare-col us">
+                <h3>BiCrypt</h3>
+                <ul>
+                    <li>Chiffrement de bout en bout</li>
+                    <li>Rien ne quitte ton appareil en clair</li>
+                    <li>Aucun compte, aucun numéro</li>
+                    <li>Transite par le réseau Tor</li>
+                    <li>Zéro métadonnée, aucun serveur central</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="sec-title big">Ce que fait BiCrypt</div>
+        <p>
+            Chaque message est chiffré sur ton téléphone (X25519 + XSalsa20-Poly1305) et ne peut être
+            lu que par ton destinataire. Tout passe par un service caché Tor : pas d'adresse IP
+            exposée, pas de carnet d'adresses aspiré, pas de base de données à saisir. Il n'y a
+            littéralement rien à remettre à qui que ce soit.
+        </p>
+
+        <div class="specs" style="margin-top: 28px;">
+            <div class="spec"><b>Chiffrement</b><span>X25519 + XSalsa20</span></div>
+            <div class="spec"><b>Réseau</b><span>Tor Hidden Service V3</span></div>
+            <div class="spec"><b>Métadonnées</b><span>Aucune collecte</span></div>
+            <div class="spec"><b>Compte requis</b><span>Aucun</span></div>
+        </div>
+    </section>
+
+    <div class="cta-row">
+        <a href="/" class="btn btn-primary">Passer à BiCrypt</a>
+        <a href="/guide.html" class="btn btn-ghost">Mode d'emploi</a>
+    </div>
+
+</div>
+
+<footer>
+    <div class="sources">
+        Sources : le vote du 9 juillet 2026 et l'extension jusqu'en 2028 —
+        <a href="https://www.euronews.com/my-europe/2026/07/07/eu-to-extend-temporary-message-scanning-regime-to-detect-child-sexual-abuse-online" target="_blank" rel="noopener">Euronews</a>,
+        <a href="https://www.theregister.com/security/2026/07/09/meps-fail-to-prevent-chat-control-snoopfest-revival/" target="_blank" rel="noopener">The Register</a>,
+        <a href="https://en.wikipedia.org/wiki/Chat_Control" target="_blank" rel="noopener">Wikipedia</a>.
+    </div>
+    <div class="footer-copy">BiCrypt — messagerie privée. Contrôle ? Non merci.</div>
+</footer>
+
+</body>
+</html>
