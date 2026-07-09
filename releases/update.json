@@ -1,10 +1,11 @@
 {
   "v": 1,
-  "versionCode": 36,
-  "versionName": "3.1.16",
-  "sha256": "25e9dcad149cceab9a6c84d19ba80b35d89283e79d9706c2156a1b5d4e93b22f",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.16.apk",
-  "changelog": "v3.1.16 — FIX CRITIQUE invitations (route serveur 405 → 201). UX scan : extraction auto du code depuis lien long, lien permission caméra vers Réglages Android. Reconnect relay 10s (avant kick serveur). Modal MAJ rassurant + guide install Android.",
-  "signedAt": 1779133375937,
-  "sig": "ca32187d3d9304b4990fafe44c9abaf2c68ebd918a083fe95ad877b7beff52edfd15afbf478a34b54f8b9dfd2ee09bacae20b757688362af9734bd7845462509"
+  "versionCode": 49,
+  "minVersionCode": 0,
+  "versionName": "3.1.29",
+  "sha256": "0ffc422e4f9afefcb6cd308172e7fd644fc16b27606b8b099fb5112b67675f83",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.29.apk",
+  "changelog": "v3.1.29 — Sécurité renforcée du système de mise à jour : protection contre un serveur relais malveillant qui tenterait de bloquer l'app. Authentification durcie. Aucun changement visible à l'usage.",
+  "signedAt": 1783602825862,
+  "sig": "de0ea6a9013245913a0ca9a9edf5ad4cb2e689a3d08a28e54b8a4ba09929b4bd70c5e07fd449256db10a8ce0030a0aed57e8c1fcbd8d4e794c9c2beb22d05e09"
 }
