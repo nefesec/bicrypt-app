@@ -11,21 +11,48 @@
     <meta name="twitter:card" content="summary_large_image">
     <style>
         :root {
-            --bg: #0a0a0a; --surface: #141414; --surface2: #191919; --border: #262626;
-            --text: #ededed; --text-sub: #a1a1a1; --muted: #6e6e6e;
-            --green: #4ade80; --green-dim: #1d3a24; --danger: #f87171;
+            --bg: #08090c;
+            --text: #f2f4f8; --text-sub: #aab2c0; --muted: #6b7280;
+            --green: #4ade80; --green-2: #34d399; --danger: #fb7185;
+            --glass: rgba(255,255,255,0.045);
+            --glass-2: rgba(255,255,255,0.07);
+            --stroke: rgba(255,255,255,0.09);
+            --stroke-2: rgba(255,255,255,0.14);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; overflow-x: hidden; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            line-height: 1.5; overflow-x: hidden; position: relative; min-height: 100vh;
+        }
+        /* Halos diffus en fond */
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background:
+                radial-gradient(60% 45% at 50% -5%, rgba(74,222,128,0.14), transparent 60%),
+                radial-gradient(45% 40% at 88% 12%, rgba(52,211,153,0.10), transparent 60%),
+                radial-gradient(50% 45% at 8% 88%, rgba(96,165,250,0.07), transparent 60%);
+        }
         a { color: inherit; text-decoration: none; }
         .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+        /* Verre dépoli */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(14px) saturate(120%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            border: 1px solid var(--stroke);
+            border-radius: 18px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
 
         /* Bandeau campagne */
         .topbar {
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 9px 16px; background: #160d0d; border-bottom: 1px solid #3a1d1d;
-            font-size: 0.78rem; color: var(--text-sub); text-align: center;
+            padding: 9px 16px; font-size: 0.78rem; color: var(--text-sub); text-align: center;
+            background: rgba(251,113,133,0.06); border-bottom: 1px solid rgba(251,113,133,0.16);
+            backdrop-filter: blur(8px);
         }
         .topbar a { color: var(--danger); font-weight: 600; }
         .topbar a:hover { text-decoration: underline; }
@@ -33,118 +60,142 @@
         /* Nav */
         nav {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 18px 24px; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: rgba(10,10,10,.85); backdrop-filter: blur(10px); z-index: 20;
+            padding: 16px 24px; position: sticky; top: 0; z-index: 20;
+            background: rgba(8,9,12,0.6); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--stroke);
         }
-        .nav-logo { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.03em; }
+        .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.03em; }
         .nav-links { display: flex; gap: 22px; align-items: center; }
-        .nav-links a { font-size: 0.82rem; color: var(--muted); }
+        .nav-links a { font-size: 0.82rem; color: var(--text-sub); transition: color .15s; }
         .nav-links a:hover { color: var(--text); }
-        .nav-cta { background: var(--green); color: #06120a !important; padding: 8px 15px; border-radius: 7px; font-weight: 700; }
-        .nav-cta:hover { opacity: .9; }
+        .nav-cta {
+            background: linear-gradient(180deg, var(--green), var(--green-2));
+            color: #05140b !important; padding: 9px 17px; border-radius: 10px; font-weight: 700;
+            box-shadow: 0 4px 18px rgba(74,222,128,0.35), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .nav-cta:hover { filter: brightness(1.05); }
         @media (max-width: 640px) { .nav-links .hide-sm { display: none; } }
 
-        .content { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        .content { max-width: 940px; margin: 0 auto; padding: 0 24px; }
 
         /* Hero */
-        .hero { position: relative; padding: 100px 0 80px; text-align: center; }
-        .hero::before {
-            content: ""; position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
-            width: 620px; height: 420px; background: radial-gradient(ellipse at center, rgba(74,222,128,.10), transparent 70%);
-            pointer-events: none; z-index: 0;
-        }
-        .hero > * { position: relative; z-index: 1; }
+        .hero { position: relative; padding: 110px 0 84px; text-align: center; }
         .hero-status {
             display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; letter-spacing: 1px;
-            color: var(--green); border: 1px solid var(--green-dim); border-radius: 20px; padding: 6px 14px; margin-bottom: 28px;
+            color: var(--green); border: 1px solid rgba(74,222,128,0.3); border-radius: 30px;
+            padding: 7px 16px; margin-bottom: 30px; background: rgba(74,222,128,0.06);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
         }
-        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
-        .hero h1 { font-size: clamp(2.6rem, 9vw, 5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin-bottom: 24px; }
-        .hero h1 .g { color: var(--green); }
-        .hero-tag { font-size: 1.15rem; color: var(--text-sub); line-height: 1.6; max-width: 540px; margin: 0 auto 38px; }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+        .hero h1 {
+            font-size: clamp(2.7rem, 9vw, 5.2rem); font-weight: 800; letter-spacing: -0.05em;
+            line-height: 1; margin-bottom: 26px;
+        }
+        .hero h1 .g {
+            background: linear-gradient(120deg, var(--green), var(--green-2) 60%, #7dd3fc);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .hero-tag { font-size: 1.18rem; color: var(--text-sub); line-height: 1.6; max-width: 560px; margin: 0 auto 40px; }
         .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .btn {
-            display: inline-flex; align-items: center; gap: 9px; padding: 13px 26px;
-            font-weight: 600; font-size: 0.92rem; border-radius: 8px; transition: opacity .15s, border-color .15s; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 9px; padding: 14px 28px;
+            font-weight: 600; font-size: 0.94rem; border-radius: 12px;
+            transition: transform .12s, filter .15s, border-color .15s; cursor: pointer;
         }
-        .btn-primary { background: var(--green); color: #06120a; font-weight: 700; }
-        .btn-primary:hover { opacity: .9; }
-        .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-        .btn-ghost:hover { border-color: var(--text-sub); }
+        .btn:active { transform: translateY(1px); }
+        .btn-primary {
+            background: linear-gradient(180deg, var(--green), var(--green-2));
+            color: #05140b; font-weight: 700;
+            box-shadow: 0 6px 26px rgba(74,222,128,0.38), inset 0 1px 0 rgba(255,255,255,0.45);
+        }
+        .btn-primary:hover { filter: brightness(1.06); }
+        .btn-ghost { background: var(--glass); border: 1px solid var(--stroke-2); color: var(--text); backdrop-filter: blur(10px); }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.28); }
 
-        section { padding: 56px 0; }
+        section { padding: 60px 0; }
         .sec-eyebrow { font-size: 0.66rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; text-align: center; }
-        .sec-title { font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; text-align: center; margin-bottom: 16px; }
-        .sec-intro { font-size: 1rem; color: var(--text-sub); text-align: center; max-width: 560px; margin: 0 auto 44px; line-height: 1.65; }
+        .sec-title { font-size: clamp(1.7rem, 5vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; text-align: center; margin-bottom: 16px; }
+        .sec-intro { font-size: 1.02rem; color: var(--text-sub); text-align: center; max-width: 580px; margin: 0 auto 48px; line-height: 1.65; }
 
         /* Why grid */
-        .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-        .card { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 24px 22px; transition: border-color .15s; }
-        .card:hover { border-color: #333; }
-        .card-ico { width: 40px; height: 40px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--green); margin-bottom: 16px; }
-        .card-ico svg { width: 21px; height: 21px; }
-        .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 18px; }
+        .card { padding: 26px 24px; transition: transform .15s, border-color .15s; }
+        .card:hover { transform: translateY(-3px); border-color: var(--stroke-2); }
+        .card-ico {
+            width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--green); margin-bottom: 18px;
+            background: radial-gradient(120% 120% at 30% 20%, rgba(74,222,128,0.2), rgba(74,222,128,0.04));
+            border: 1px solid rgba(74,222,128,0.22); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .card-ico svg { width: 22px; height: 22px; }
+        .card h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 8px; }
         .card p { font-size: 0.9rem; color: var(--text-sub); line-height: 1.65; }
 
         /* Comparison */
-        .cmp-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
-        table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; }
-        table.cmp th, table.cmp td { padding: 14px 16px; text-align: center; font-size: 0.86rem; border-bottom: 1px solid var(--border); }
+        .cmp-wrap { overflow-x: auto; border-radius: 18px; }
+        table.cmp { width: 100%; border-collapse: collapse; min-width: 580px; }
+        table.cmp th, table.cmp td { padding: 15px 16px; text-align: center; font-size: 0.86rem; border-bottom: 1px solid var(--stroke); }
         table.cmp thead th { font-size: 0.72rem; letter-spacing: .5px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
         table.cmp thead th.us { color: var(--green); }
         table.cmp td:first-child, table.cmp th:first-child { text-align: left; color: var(--text-sub); font-size: 0.82rem; white-space: nowrap; }
         table.cmp tbody tr:last-child td { border-bottom: none; }
-        table.cmp .col-us { background: rgba(74,222,128,.05); font-weight: 600; color: var(--text); }
+        table.cmp .col-us { background: rgba(74,222,128,0.07); font-weight: 600; color: var(--text); }
         .yes { color: var(--green); font-weight: 700; }
         .no { color: var(--danger); }
         .meh { color: var(--muted); }
-        .cmp-note { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+        .cmp-note { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.6; }
 
         /* Download */
         #download { scroll-margin-top: 80px; }
-        .maintenance { border: 1px solid var(--danger); padding: 24px 20px; margin-bottom: 24px; background: #160d0d; border-radius: 8px; }
+        .maintenance { padding: 24px 20px; margin-bottom: 24px; border-radius: 16px; background: rgba(251,113,133,0.08); border: 1px solid rgba(251,113,133,0.28); }
         .maintenance-label { font-size: 0.68rem; letter-spacing: 2px; color: var(--danger); text-transform: uppercase; margin-bottom: 10px; }
         .maintenance-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
         .maintenance-msg { font-size: 0.88rem; color: var(--text-sub); line-height: 1.65; margin-bottom: 10px; }
         .maintenance-countdown { font-size: 0.82rem; color: var(--danger); }
         .hidden { display: none !important; }
 
-        .dl-card { border: 1px solid var(--border); padding: 28px 24px; background: var(--surface); border-radius: 12px; max-width: 560px; margin: 0 auto; }
+        .dl-card { padding: 30px 26px; max-width: 580px; margin: 0 auto; }
         .dl-platform { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 16px; }
-        .btn-dl { display: inline-flex; align-items: center; gap: 10px; background: var(--green); color: #06120a; padding: 13px 24px; font-weight: 700; font-size: 0.92rem; border-radius: 8px; transition: opacity .15s; cursor: pointer; }
-        .btn-dl:hover { opacity: 0.9; }
-        .btn-dl.loading { opacity: 0.35; pointer-events: none; }
-        .dl-meta { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .btn-dl {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(180deg, var(--green), var(--green-2)); color: #05140b;
+            padding: 14px 26px; font-weight: 700; font-size: 0.94rem; border-radius: 12px; cursor: pointer;
+            box-shadow: 0 6px 26px rgba(74,222,128,0.38), inset 0 1px 0 rgba(255,255,255,0.45);
+            transition: filter .15s;
+        }
+        .btn-dl:hover { filter: brightness(1.06); }
+        .btn-dl.loading { opacity: 0.4; pointer-events: none; }
+        .dl-meta { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .dl-meta-item { display: flex; flex-direction: column; gap: 3px; }
         .dl-meta-item label { font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
         .dl-meta-item span { font-size: 0.8rem; color: var(--text-sub); word-break: break-all; }
-        .dl-meta-item span.mono-hash { font-family: monospace; font-size: 0.64rem; line-height: 1.5; grid-column: 1 / -1; }
+        .dl-meta-item span.mono-hash { font-family: monospace; font-size: 0.64rem; line-height: 1.5; }
         .dl-meta-item.full { grid-column: 1 / -1; }
         .dl-error { margin-top: 12px; font-size: 0.78rem; color: var(--danger); display: none; }
         .dl-verify { margin-top: 16px; font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
 
         /* Specs */
-        .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 26px; border-top: 1px solid var(--border); padding-top: 36px; }
+        .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 26px; margin-top: 48px; padding: 30px 24px; }
         .spec b { display: block; font-size: 0.6rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 2px; }
         .spec span { font-size: 0.85rem; color: var(--text-sub); }
 
         /* Links row */
-        .more { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
-        .more a { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 20px; display: block; transition: border-color .15s; }
-        .more a:hover { border-color: var(--green-dim); }
-        .more a b { display: block; font-size: 0.95rem; margin-bottom: 5px; }
+        .more { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+        .more a { padding: 22px; display: block; transition: transform .15s, border-color .15s; }
+        .more a:hover { transform: translateY(-3px); border-color: var(--stroke-2); }
+        .more a b { display: block; font-size: 0.96rem; margin-bottom: 5px; }
         .more a span { font-size: 0.82rem; color: var(--muted); }
         .more a .arrow { color: var(--green); }
 
-        footer { border-top: 1px solid var(--border); padding: 34px 24px; text-align: center; margin-top: 40px; }
+        footer { border-top: 1px solid var(--stroke); padding: 36px 24px; text-align: center; margin-top: 44px; }
         .footer-copy { font-size: 0.68rem; color: var(--muted); margin-bottom: 12px; }
         .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .footer-links button, .footer-links a { background: none; border: none; color: var(--muted); font-family: inherit; font-size: 0.68rem; cursor: pointer; text-decoration: underline; }
         .footer-links button:hover, .footer-links a:hover { color: var(--text-sub); }
 
         /* Modals */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
-        .modal-box { background: var(--surface); border: 1px solid var(--border); max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 32px; position: relative; border-radius: 8px; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+        .modal-box { max-width: 660px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 32px; position: relative; border-radius: 18px; }
         .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
         .modal-close:hover { color: var(--text); }
         .modal-title { font-size: 0.82rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
@@ -202,32 +253,32 @@
             ton IP et qui te parle. BiCrypt s'attaque aussi à tout le reste.
         </p>
         <div class="why">
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></svg></div>
                 <h3>Aucun numéro, aucun email</h3>
                 <p>Ton identité est une paire de clés générée sur ton téléphone. Rien qui te relie à ton vrai nom, aucune inscription.</p>
             </div>
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><path d="M3.8 12h16.4"/><path d="M12 3.8c2.4 2.2 2.4 14.2 0 16.4M12 3.8c-2.4 2.2-2.4 14.2 0 16.4"/></svg></div>
                 <h3>IP masquée par Tor</h3>
                 <p>Tout transite par le réseau Tor. Même notre relais ne connaît pas ton adresse IP réelle.</p>
             </div>
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
                 <h3>Chiffré de bout en bout</h3>
                 <p>X25519 + XSalsa20-Poly1305. Seul ton destinataire peut lire — le relais ne voit que du charabia illisible.</p>
             </div>
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M4.5 20.5 20 4"/></svg></div>
                 <h3>Rien n'est stocké</h3>
                 <p>Le relais fonctionne en mémoire vive : aucun journal, aucune base de données, aucune trace écrite sur disque.</p>
             </div>
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.2"/></svg></div>
                 <h3>Crypto standard &amp; auditée</h3>
                 <p>Les primitives (bibliothèques <span class="mono">@noble</span>, audit Cure53) sont publiques et éprouvées. La sécurité ne repose sur aucun secret caché.</p>
             </div>
-            <div class="card">
+            <div class="card glass">
                 <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v15"/><path d="M4 20h16"/><path d="M9 8h1M12 8h1M9 11.5h1M12 11.5h1"/><path d="M4.5 20.5 20 4"/></svg></div>
                 <h3>Indépendant</h3>
                 <p>Pas de Big Tech, pas d'actionnaires, pas de monétisation de tes données. Un projet, une mission : ta vie privée.</p>
@@ -243,7 +294,7 @@
             Signal est excellent. Mais sur l'anonymat pur — pas d'identité, pas d'IP, rien de stocké —
             BiCrypt pousse le curseur plus loin.
         </p>
-        <div class="cmp-wrap">
+        <div class="cmp-wrap glass">
             <table class="cmp">
                 <thead>
                     <tr>
@@ -321,21 +372,21 @@
         </div>
 
         <div id="downloads-block">
-            <div class="dl-card">
+            <div class="dl-card glass">
                 <div class="dl-platform">Android</div>
                 <a id="btn-dl" href="#" class="btn-dl loading" download>Télécharger l'APK</a>
                 <div class="dl-meta">
                     <div class="dl-meta-item"><label>Version</label><span id="meta-version">—</span></div>
                     <div class="dl-meta-item"><label>Taille</label><span id="meta-size">—</span></div>
                     <div class="dl-meta-item full"><label>Plateforme</label><span>Android 6.0+ · APK signé</span></div>
-                    <div class="dl-meta-item"><label>SHA-256</label><span id="meta-hash" class="mono-hash">—</span></div>
+                    <div class="dl-meta-item full"><label>SHA-256</label><span id="meta-hash" class="mono-hash">—</span></div>
                 </div>
                 <div class="dl-error" id="dl-error">Impossible de récupérer la dernière version — réessayez plus tard.</div>
                 <div class="dl-verify">L'APK est signé cryptographiquement. Une empreinte qui ne correspond pas = binaire non officiel : ne l'installe pas.</div>
             </div>
         </div>
 
-        <div class="specs" style="margin-top:48px">
+        <div class="specs glass">
             <div class="spec"><b>Chiffrement</b><span>X25519 + XSalsa20</span></div>
             <div class="spec"><b>Signatures</b><span>Ed25519</span></div>
             <div class="spec"><b>Réseau</b><span>Tor Hidden Service V3</span></div>
@@ -347,9 +398,9 @@
     <!-- MORE -->
     <section>
         <div class="more">
-            <a href="/faq"><b>Pourquoi pas open source ? <span class="arrow">→</span></b><span>Transparence &amp; sécurité, sans détour.</span></a>
-            <a href="/control"><b>Chat Control <span class="arrow">→</span></b><span>Ce que l'UE prépare, et notre réponse.</span></a>
-            <a href="/guide"><b>Mode d'emploi <span class="arrow">→</span></b><span>Installer, ajouter un contact, discuter.</span></a>
+            <a href="/faq" class="glass"><b>Pourquoi pas open source ? <span class="arrow">→</span></b><span>Transparence &amp; sécurité, sans détour.</span></a>
+            <a href="/control" class="glass"><b>Chat Control <span class="arrow">→</span></b><span>Ce que l'UE prépare, et notre réponse.</span></a>
+            <a href="/guide" class="glass"><b>Mode d'emploi <span class="arrow">→</span></b><span>Installer, ajouter un contact, discuter.</span></a>
         </div>
     </section>
 
@@ -367,7 +418,7 @@
 
 <!-- Modal CGU -->
 <div id="modal-cgu" class="modal-overlay">
-  <div class="modal-box">
+  <div class="modal-box glass">
     <button class="modal-close" onclick="document.getElementById('modal-cgu').style.display='none'">✕</button>
     <div class="modal-title">Conditions générales d'utilisation</div>
     <div class="modal-date">Version 1.0 · 24 avril 2026</div>
@@ -418,7 +469,7 @@
 
 <!-- Modal Confidentialité -->
 <div id="modal-privacy" class="modal-overlay">
-  <div class="modal-box">
+  <div class="modal-box glass">
     <button class="modal-close" onclick="document.getElementById('modal-privacy').style.display='none'">✕</button>
     <div class="modal-title">Politique de confidentialité</div>
     <div class="modal-date">Dernière mise à jour : 27 avril 2026</div>
@@ -484,7 +535,6 @@
     const MANIFEST_PATH = 'releases/latest.json';
     const SHA256_RE = /^[a-f0-9]{64}$/i;
 
-    // Whitelist stricte : URL doit pointer vers une release officielle GitHub du bon repo.
     const ALLOWED_HOSTS = new Set([
         'github.com',
         'github-releases.githubusercontent.com',

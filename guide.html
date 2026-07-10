@@ -8,64 +8,66 @@
 <meta name="description" content="Guide pas-à-pas pour installer et utiliser BiCrypt, même sans être à l'aise avec la technique.">
 <style>
   :root {
-    --bg:#0a0a0a; --surface:#141414; --surface2:#191919; --border:#262626;
-    --text:#ededed; --sub:#a1a1a1; --muted:#6e6e6e;
-    --green:#4ade80; --green-dim:#1d3a24; --amber:#fbbf24; --danger:#f87171;
+    --bg: #08090c; --text: #f2f4f8; --sub: #aab2c0; --muted: #6b7280;
+    --green: #4ade80; --green-2: #34d399; --amber: #fbbf24; --danger: #fb7185;
+    --glass: rgba(255,255,255,0.045); --stroke: rgba(255,255,255,0.09); --stroke-2: rgba(255,255,255,0.14);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
-  body { background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.6; }
-  a { color:inherit; text-decoration:none; }
-
-  nav {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 24px; border-bottom:1px solid var(--border);
-    position:sticky; top:0; background:rgba(10,10,10,.85); backdrop-filter:blur(10px); z-index:20;
+  body { background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.6; min-height:100vh; position:relative; }
+  body::before {
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(55% 40% at 50% -5%, rgba(74,222,128,0.11), transparent 60%),
+      radial-gradient(45% 40% at 12% 90%, rgba(96,165,250,0.06), transparent 60%);
   }
-  .nav-logo { font-size:1.05rem; font-weight:800; letter-spacing:-.03em; }
+  a { color:inherit; text-decoration:none; }
+  .glass { background:var(--glass); backdrop-filter:blur(14px) saturate(120%); -webkit-backdrop-filter:blur(14px) saturate(120%); border:1px solid var(--stroke); border-radius:16px; box-shadow:0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06); }
+
+  nav { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; position:sticky; top:0; z-index:20; background:rgba(8,9,12,0.6); backdrop-filter:blur(16px); border-bottom:1px solid var(--stroke); }
+  .nav-logo { font-size:1.1rem; font-weight:800; letter-spacing:-.03em; }
   .nav-links { display:flex; gap:22px; align-items:center; }
-  .nav-links a { font-size:.82rem; color:var(--muted); }
+  .nav-links a { font-size:.82rem; color:var(--sub); }
   .nav-links a:hover { color:var(--text); }
-  .nav-cta { background:var(--green); color:#06120a !important; padding:8px 15px; border-radius:7px; font-weight:700; }
-  .nav-cta:hover { opacity:.9; }
+  .nav-cta { background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b !important; padding:9px 16px; border-radius:10px; font-weight:700; box-shadow:0 4px 18px rgba(74,222,128,0.35), inset 0 1px 0 rgba(255,255,255,0.4); }
   @media (max-width:640px){ .nav-links .hide-sm{ display:none; } }
 
-  .content { max-width:720px; margin:0 auto; padding:56px 24px 80px; }
+  .content { max-width:740px; margin:0 auto; padding:56px 24px 80px; }
 
   .head-eyebrow { font-size:.66rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
-  h1 { font-size:clamp(2rem,7vw,2.8rem); font-weight:800; letter-spacing:-.03em; line-height:1.05; margin-bottom:16px; }
+  h1 { font-size:clamp(2rem,7vw,2.9rem); font-weight:800; letter-spacing:-.03em; line-height:1.05; margin-bottom:16px; }
   .lead { color:var(--sub); font-size:1.05rem; margin-bottom:36px; max-width:540px; }
 
-  h2 { font-size:1.5rem; font-weight:800; letter-spacing:-.02em; margin-top:52px; margin-bottom:16px; padding-top:28px; border-top:1px solid var(--border); }
+  h2 { font-size:1.5rem; font-weight:800; letter-spacing:-.02em; margin-top:52px; margin-bottom:16px; padding-top:28px; border-top:1px solid var(--stroke); }
   h3 { font-size:1rem; font-weight:700; margin-top:26px; margin-bottom:8px; color:var(--green); }
   p { margin-bottom:12px; color:var(--sub); }
   p strong, li strong { color:var(--text); }
   ol, ul { padding-left:22px; margin:12px 0 16px; color:var(--sub); }
   li { margin-bottom:8px; }
-  code, kbd { font-family:ui-monospace,Menlo,monospace; font-size:.86em; background:var(--surface2); border:1px solid var(--border); padding:1px 6px; border-radius:5px; color:var(--text); }
+  code, kbd { font-family:ui-monospace,Menlo,monospace; font-size:.86em; background:rgba(255,255,255,0.06); border:1px solid var(--stroke); padding:1px 6px; border-radius:5px; color:var(--text); }
 
-  .toc { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 22px; margin:8px 0 12px; }
+  .toc { padding:18px 22px; margin:8px 0 12px; }
   .toc strong { font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
   .toc ul { list-style:none; padding:0; margin:0; }
   .toc li { margin-bottom:6px; }
   .toc a { color:var(--text); font-size:.92rem; }
   .toc a:hover { color:var(--green); }
 
-  .step { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin:14px 0; }
+  .step { padding:18px 20px; margin:14px 0; }
   .step p { margin-bottom:8px; }
   .step p:last-child { margin-bottom:0; }
-  .step-num { display:inline-flex; align-items:center; justify-content:center; background:var(--green); color:#06120a; width:24px; height:24px; border-radius:7px; font-weight:700; font-size:.8rem; margin-right:9px; vertical-align:middle; }
+  .step-num { display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b; width:24px; height:24px; border-radius:8px; font-weight:700; font-size:.8rem; margin-right:9px; vertical-align:middle; box-shadow:inset 0 1px 0 rgba(255,255,255,0.4); }
 
-  .callout { border-radius:8px; padding:14px 18px; margin:16px 0; font-size:.92rem; line-height:1.65; }
+  .callout { border-radius:14px; padding:15px 18px; margin:16px 0; font-size:.92rem; line-height:1.65; backdrop-filter:blur(10px); }
   .callout strong { color:var(--text); }
-  .note { background:rgba(74,222,128,.06); border-left:3px solid var(--green); color:var(--sub); }
-  .warn { background:rgba(251,191,36,.07); border-left:3px solid var(--amber); color:var(--sub); }
-  .ok   { background:var(--surface); border-left:3px solid var(--green); color:var(--sub); }
+  .note { background:rgba(74,222,128,.06); border-left:3px solid var(--green); border:1px solid rgba(74,222,128,0.18); border-left-width:3px; color:var(--sub); }
+  .warn { background:rgba(251,191,36,.07); border-left:3px solid var(--amber); border:1px solid rgba(251,191,36,0.2); border-left-width:3px; color:var(--sub); }
+  .ok   { background:var(--glass); border-left:3px solid var(--green); border:1px solid var(--stroke); border-left-width:3px; color:var(--sub); }
 
-  .dl-btn { display:inline-block; background:var(--green); color:#06120a; padding:12px 24px; border-radius:8px; font-weight:700; margin:10px 0; }
-  .dl-btn:hover { opacity:.9; }
+  .dl-btn { display:inline-block; background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b; padding:12px 24px; border-radius:12px; font-weight:700; margin:10px 0; box-shadow:0 6px 26px rgba(74,222,128,0.38), inset 0 1px 0 rgba(255,255,255,0.45); }
+  .dl-btn:hover { filter:brightness(1.06); }
 
-  footer { border-top:1px solid var(--border); padding:34px 24px; text-align:center; }
+  footer { border-top:1px solid var(--stroke); padding:34px 24px; text-align:center; }
   .footer-copy { font-size:.68rem; color:var(--muted); }
 </style>
 </head>
@@ -86,7 +88,7 @@
   <h1>Installer &amp; utiliser BiCrypt</h1>
   <p class="lead">Guide pas-à-pas, même si tu n'es pas à l'aise avec la technique. Compte 5 minutes.</p>
 
-  <div class="toc">
+  <div class="toc glass">
     <strong>Sommaire</strong>
     <ul>
       <li><a href="#install">1. Installer l'app</a></li>
@@ -99,20 +101,20 @@
 
   <h2 id="install">1. Installer l'app sur ton téléphone</h2>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">1</span><strong>Télécharge l'application</strong></p>
     <p>Depuis ton téléphone Android, ouvre cette page et touche le bouton ci-dessous :</p>
     <a href="/#download" class="dl-btn">Aller au téléchargement</a>
     <p>Un fichier <code>bicrypt-X.X.X.apk</code> va se télécharger.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">2</span><strong>Autorise l'installation</strong></p>
     <p>Quand tu ouvres le fichier .apk, Android affiche : « Installation d'applications inconnues ». Ce n'est pas dangereux — c'est le message standard quand l'app ne vient pas du Play Store.</p>
     <p>Touche <strong>Paramètres</strong> → active <strong>« Autoriser depuis cette source »</strong> → reviens en arrière.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">3</span><strong>Installe</strong></p>
     <p>Touche <strong>Installer</strong>. Au bout de 10-20 secondes, l'app est prête.</p>
   </div>
@@ -123,17 +125,17 @@
 
   <h2 id="premier">2. Premier lancement</h2>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">1</span><strong>Choisis un pseudonyme</strong></p>
     <p>Ce sera ton nom affiché aux contacts. Tu peux le changer plus tard. <strong>Pas besoin de ton vrai nom</strong> — un pseudo est mieux pour la confidentialité.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">2</span><strong>Accepte les conditions</strong></p>
     <p>Coche la case et appuie sur <strong>Créer mon identité</strong>.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">3</span><strong>Crée un code PIN à 6 chiffres</strong></p>
     <p>Ce code protège ton accès. <strong>Mémorise-le bien</strong> — si tu l'oublies, il faudra recréer un compte (et tes contacts ne te reconnaîtront plus).</p>
   </div>
@@ -169,19 +171,19 @@
 
   <h2 id="message">4. Envoyer un message</h2>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">1</span><strong>Touche le nom de la personne</strong> dans la liste « Messages privés » de l'accueil.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">2</span><strong>Écris ton message</strong> dans le champ en bas, puis touche la flèche pour envoyer.</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">3</span><strong>Envoyer une photo</strong> : touche le bouton <strong>Photo</strong> à gauche du champ texte → « Prendre » ou « Galerie ».</p>
   </div>
 
-  <div class="step">
+  <div class="step glass">
     <p><span class="step-num">4</span><strong>Envoyer un vocal</strong> : maintiens le bouton d'enregistrement à droite (quand le champ est vide) → parle → relâche pour envoyer.</p>
   </div>
 
