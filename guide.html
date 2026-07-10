@@ -7,215 +7,171 @@
 <title>BiCrypt — Mode d'emploi</title>
 <meta name="description" content="Guide pas-à-pas pour installer et utiliser BiCrypt, même sans être à l'aise avec la technique.">
 <style>
-  :root {
-    --bg: #08090c; --text: #f2f4f8; --sub: #aab2c0; --muted: #6b7280;
-    --green: #4ade80; --green-2: #34d399; --amber: #fbbf24; --danger: #fb7185;
-    --glass: rgba(255,255,255,0.045); --stroke: rgba(255,255,255,0.09); --stroke-2: rgba(255,255,255,0.14);
-  }
+  :root { --bg:#0c0c0d; --ink:#f1f0ea; --sub:#9a9a94; --faint:#6a6a64; --line:#262624; --accent:#4ade80; --amber:#e6b455; }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
-  body { background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.6; min-height:100vh; position:relative; }
-  body::before {
-    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-    background:
-      radial-gradient(52% 38% at 50% -5%, rgba(74,222,128,0.14), transparent 60%),
-      radial-gradient(40% 36% at 88% 8%, rgba(34,211,238,0.11), transparent 60%),
-      radial-gradient(44% 40% at 10% 86%, rgba(167,139,250,0.09), transparent 62%);
-  }
+  body { background:var(--bg); color:var(--ink); font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.6; }
   a { color:inherit; text-decoration:none; }
-  .glass { background:var(--glass); backdrop-filter:blur(14px) saturate(120%); -webkit-backdrop-filter:blur(14px) saturate(120%); border:1px solid var(--stroke); border-radius:16px; box-shadow:0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06); }
+  code, kbd { font-family:ui-monospace,Menlo,monospace; font-size:.86em; color:var(--ink); }
+  .wrap { max-width:780px; margin:0 auto; padding:0 28px; }
 
-  nav { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; position:sticky; top:0; z-index:20; background:rgba(8,9,12,0.6); backdrop-filter:blur(16px); border-bottom:1px solid var(--stroke); }
-  .nav-logo { font-size:1.1rem; font-weight:800; letter-spacing:-.03em; }
-  .nav-links { display:flex; gap:22px; align-items:center; }
-  .nav-links a { font-size:.82rem; color:var(--sub); }
-  .nav-links a:hover { color:var(--text); }
-  .nav-cta { background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b !important; padding:9px 16px; border-radius:10px; font-weight:700; box-shadow:0 4px 18px rgba(74,222,128,0.35), inset 0 1px 0 rgba(255,255,255,0.4); }
-  @media (max-width:640px){ .nav-links .hide-sm{ display:none; } }
+  nav { border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; padding:20px 28px; }
+  .nav-logo { font-size:1.05rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; }
+  .nav-links { display:flex; gap:26px; align-items:center; }
+  .nav-links a { font-size:.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--sub); }
+  .nav-links a:hover { color:var(--ink); }
+  .nav-links a.cta { color:var(--accent); }
+  @media (max-width:600px){ .nav-links .hide-sm{ display:none; } }
 
-  .content { max-width:740px; margin:0 auto; padding:56px 24px 80px; }
+  .head { padding:70px 0 44px; border-bottom:1px solid var(--line); }
+  .kicker { font-size:.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:26px; }
+  h1 { font-size:clamp(2.2rem,7vw,3.6rem); font-weight:800; line-height:0.95; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:20px; }
+  .lead { color:var(--sub); font-size:1.1rem; max-width:520px; }
 
-  .head-eyebrow { font-size:.66rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
-  h1 { font-size:clamp(2rem,7vw,2.9rem); font-weight:800; letter-spacing:-.03em; line-height:1.05; margin-bottom:16px; }
-  .lead { color:var(--sub); font-size:1.05rem; margin-bottom:36px; max-width:540px; }
-
-  h2 { font-size:1.5rem; font-weight:800; letter-spacing:-.02em; margin-top:52px; margin-bottom:16px; padding-top:28px; border-top:1px solid var(--stroke); }
-  h3 { font-size:1rem; font-weight:700; margin-top:26px; margin-bottom:8px; color:var(--green); }
+  h2 { font-size:1.5rem; font-weight:800; letter-spacing:-0.02em; text-transform:uppercase; margin:56px 0 8px; padding-top:34px; border-top:1px solid var(--line); }
+  h2 .hnum { font-family:ui-monospace,monospace; font-size:0.85rem; color:var(--accent); margin-right:14px; font-weight:400; }
+  h3 { font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-top:28px; margin-bottom:10px; color:var(--sub); }
   p { margin-bottom:12px; color:var(--sub); }
-  p strong, li strong { color:var(--text); }
-  ol, ul { padding-left:22px; margin:12px 0 16px; color:var(--sub); }
+  p strong, li strong { color:var(--ink); }
+  ol, ul { padding-left:20px; margin:12px 0 16px; color:var(--sub); }
   li { margin-bottom:8px; }
-  code, kbd { font-family:ui-monospace,Menlo,monospace; font-size:.86em; background:rgba(255,255,255,0.06); border:1px solid var(--stroke); padding:1px 6px; border-radius:5px; color:var(--text); }
+  kbd { background:#1a1a1a; border:1px solid var(--line); padding:1px 6px; }
 
-  .toc { padding:18px 22px; margin:8px 0 12px; }
-  .toc strong { font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
+  .toc { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0; margin:12px 0; }
+  .toc strong { font-size:.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); display:block; margin-bottom:12px; }
   .toc ul { list-style:none; padding:0; margin:0; }
-  .toc li { margin-bottom:6px; }
-  .toc a { color:var(--text); font-size:.92rem; }
-  .toc a:hover { color:var(--green); }
+  .toc li { margin-bottom:8px; }
+  .toc a { color:var(--ink); font-size:.94rem; }
+  .toc a:hover { color:var(--accent); }
+  .toc .n { font-family:ui-monospace,monospace; color:var(--faint); margin-right:12px; font-size:.8rem; }
 
-  .step { padding:18px 20px; margin:14px 0; }
-  .step p { margin-bottom:8px; }
+  .step { display:grid; grid-template-columns:44px 1fr; gap:18px; padding:20px 0; border-top:1px solid var(--line); }
+  .step:first-of-type { border-top:none; }
+  .step-num { font-family:ui-monospace,monospace; font-size:0.85rem; color:var(--faint); padding-top:2px; }
+  .step p { margin-bottom:6px; }
   .step p:last-child { margin-bottom:0; }
-  .step-num { display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b; width:24px; height:24px; border-radius:8px; font-weight:700; font-size:.8rem; margin-right:9px; vertical-align:middle; box-shadow:inset 0 1px 0 rgba(255,255,255,0.4); }
 
-  .callout { border-radius:14px; padding:15px 18px; margin:16px 0; font-size:.92rem; line-height:1.65; backdrop-filter:blur(10px); }
-  .callout strong { color:var(--text); }
-  .note { background:rgba(74,222,128,.06); border-left:3px solid var(--green); border:1px solid rgba(74,222,128,0.18); border-left-width:3px; color:var(--sub); }
-  .warn { background:rgba(251,191,36,.07); border-left:3px solid var(--amber); border:1px solid rgba(251,191,36,0.2); border-left-width:3px; color:var(--sub); }
-  .ok   { background:var(--glass); border-left:3px solid var(--green); border:1px solid var(--stroke); border-left-width:3px; color:var(--sub); }
+  .callout { padding:14px 0 14px 20px; margin:18px 0; font-size:.94rem; line-height:1.65; border-left:2px solid var(--line); }
+  .callout strong { color:var(--ink); }
+  .callout.warn { border-left-color:var(--amber); }
+  .callout.ok { border-left-color:var(--accent); }
 
-  .dl-btn { display:inline-block; background:linear-gradient(180deg,var(--green),var(--green-2)); color:#05140b; padding:12px 24px; border-radius:12px; font-weight:700; margin:10px 0; box-shadow:0 6px 26px rgba(74,222,128,0.38), inset 0 1px 0 rgba(255,255,255,0.45); }
-  .dl-btn:hover { filter:brightness(1.06); }
+  .dl-btn { display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:#06120a; border:1px solid var(--accent); padding:13px 24px; text-transform:uppercase; letter-spacing:0.08em; font-size:.74rem; font-weight:700; margin:10px 0; transition:background .12s,color .12s; }
+  .dl-btn:hover { background:transparent; color:var(--accent); }
 
-  footer { border-top:1px solid var(--stroke); padding:34px 24px; text-align:center; }
-  .footer-copy { font-size:.68rem; color:var(--muted); }
+  footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:56px; }
+  .footer-copy { font-size:.72rem; color:var(--faint); letter-spacing:0.02em; }
 </style>
 </head>
 <body>
 
-<nav>
+<nav><div class="wrap">
   <a href="/" class="nav-logo">BiCrypt</a>
   <div class="nav-links">
     <a href="/faq" class="hide-sm">FAQ</a>
     <a href="/control" class="hide-sm">Chat Control</a>
-    <a href="/#download" class="nav-cta">Télécharger</a>
+    <a href="/#download" class="cta">Télécharger</a>
   </div>
-</nav>
+</div></nav>
 
-<div class="content">
+<div class="wrap">
 
-  <div class="head-eyebrow">Mode d'emploi</div>
-  <h1>Installer &amp; utiliser BiCrypt</h1>
-  <p class="lead">Guide pas-à-pas, même si tu n'es pas à l'aise avec la technique. Compte 5 minutes.</p>
+  <header class="head">
+    <div class="kicker">Mode d'emploi</div>
+    <h1>Installer &amp;<br>utiliser BiCrypt</h1>
+    <p class="lead">Guide pas-à-pas, même si tu n'es pas à l'aise avec la technique. Compte 5 minutes.</p>
+  </header>
 
-  <div class="toc glass">
+  <div class="toc">
     <strong>Sommaire</strong>
     <ul>
-      <li><a href="#install">1. Installer l'app</a></li>
-      <li><a href="#premier">2. Premier lancement</a></li>
-      <li><a href="#contact">3. Ajouter un contact</a></li>
-      <li><a href="#message">4. Envoyer un message</a></li>
-      <li><a href="#faq">5. Questions fréquentes</a></li>
+      <li><a href="#install"><span class="n">01</span>Installer l'app</a></li>
+      <li><a href="#premier"><span class="n">02</span>Premier lancement</a></li>
+      <li><a href="#contact"><span class="n">03</span>Ajouter un contact</a></li>
+      <li><a href="#message"><span class="n">04</span>Envoyer un message</a></li>
+      <li><a href="#faq"><span class="n">05</span>Questions fréquentes</a></li>
     </ul>
   </div>
 
-  <h2 id="install">1. Installer l'app sur ton téléphone</h2>
-
-  <div class="step glass">
-    <p><span class="step-num">1</span><strong>Télécharge l'application</strong></p>
+  <h2 id="install"><span class="hnum">01</span>Installer l'app</h2>
+  <div class="step"><div class="step-num">1</div><div>
+    <p><strong>Télécharge l'application</strong></p>
     <p>Depuis ton téléphone Android, ouvre cette page et touche le bouton ci-dessous :</p>
-    <a href="/#download" class="dl-btn">Aller au téléchargement</a>
+    <a href="/#download" class="dl-btn">Aller au téléchargement →</a>
     <p>Un fichier <code>bicrypt-X.X.X.apk</code> va se télécharger.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">2</span><strong>Autorise l'installation</strong></p>
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div>
+    <p><strong>Autorise l'installation</strong></p>
     <p>Quand tu ouvres le fichier .apk, Android affiche : « Installation d'applications inconnues ». Ce n'est pas dangereux — c'est le message standard quand l'app ne vient pas du Play Store.</p>
     <p>Touche <strong>Paramètres</strong> → active <strong>« Autoriser depuis cette source »</strong> → reviens en arrière.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">3</span><strong>Installe</strong></p>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div>
+    <p><strong>Installe</strong></p>
     <p>Touche <strong>Installer</strong>. Au bout de 10-20 secondes, l'app est prête.</p>
-  </div>
+  </div></div>
+  <div class="callout ok"><strong>Pourquoi pas le Play Store ?</strong> BiCrypt ne passe pas par Google pour rester totalement indépendant. Aucune donnée n'est partagée avec Google, Apple ou qui que ce soit.</div>
 
-  <div class="callout ok">
-    <strong>Pourquoi pas le Play Store ?</strong> BiCrypt ne passe pas par Google pour rester totalement indépendant. Aucune donnée n'est partagée avec Google, Apple ou qui que ce soit.
-  </div>
-
-  <h2 id="premier">2. Premier lancement</h2>
-
-  <div class="step glass">
-    <p><span class="step-num">1</span><strong>Choisis un pseudonyme</strong></p>
+  <h2 id="premier"><span class="hnum">02</span>Premier lancement</h2>
+  <div class="step"><div class="step-num">1</div><div>
+    <p><strong>Choisis un pseudonyme</strong></p>
     <p>Ce sera ton nom affiché aux contacts. Tu peux le changer plus tard. <strong>Pas besoin de ton vrai nom</strong> — un pseudo est mieux pour la confidentialité.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">2</span><strong>Accepte les conditions</strong></p>
-    <p>Coche la case et appuie sur <strong>Créer mon identité</strong>.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">3</span><strong>Crée un code PIN à 6 chiffres</strong></p>
+  </div></div>
+  <div class="step"><div class="step-num">2</div><div>
+    <p><strong>Accepte les conditions</strong> et appuie sur <strong>Créer mon identité</strong>.</p>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div>
+    <p><strong>Crée un code PIN à 6 chiffres</strong></p>
     <p>Ce code protège ton accès. <strong>Mémorise-le bien</strong> — si tu l'oublies, il faudra recréer un compte (et tes contacts ne te reconnaîtront plus).</p>
-  </div>
+  </div></div>
+  <div class="callout warn"><strong>Patiente 2 à 3 minutes au premier démarrage.</strong> En haut, le badge passe par « Démarrage… » → « Connexion… » → « En ligne » (vert). C'est BiCrypt qui se connecte au réseau Tor. Les fois suivantes, c'est rapide.</div>
 
-  <div class="callout warn">
-    <strong>Patiente 2 à 3 minutes au premier démarrage.</strong> En haut, le badge passe par « Démarrage… » → « Connexion… » → « En ligne » (vert). C'est BiCrypt qui se connecte au réseau Tor. Les fois suivantes, c'est rapide.
-  </div>
-
-  <h2 id="contact">3. Ajouter un contact</h2>
-
+  <h2 id="contact"><span class="hnum">03</span>Ajouter un contact</h2>
   <p>Pour discuter avec quelqu'un, il faut d'abord l'ajouter. Deux méthodes :</p>
-
-  <h3>Méthode A : avec un code d'invitation (la plus simple)</h3>
+  <h3>Méthode A — code d'invitation (la plus simple)</h3>
   <ol>
     <li>Ta personne ouvre BiCrypt, va sur son <strong>profil</strong> (pseudo en haut à droite).</li>
     <li>Elle touche <strong>« Générer un code d'invitation »</strong> → un code apparaît (genre <kbd>kfm-tj2-9hp</kbd>).</li>
-    <li>Elle te partage ce code (SMS, oral, papier — il n'est utilisable qu'une seule fois).</li>
+    <li>Elle te partage ce code (SMS, oral, papier — utilisable une seule fois).</li>
     <li>Sur ton téléphone, touche <strong>« Ajouter un contact »</strong> → colle le code → <strong>Utiliser ce code</strong>.</li>
-    <li>Tu es ajouté automatiquement. Tu peux lui écrire tout de suite.</li>
+    <li>Tu es ajouté automatiquement.</li>
   </ol>
-
-  <h3>Méthode B : avec un QR code en personne</h3>
+  <h3>Méthode B — QR code en personne</h3>
   <ol>
     <li>Vous êtes physiquement ensemble.</li>
     <li>Elle ouvre son profil → un QR code s'affiche.</li>
     <li>Tu touches <strong>« Ajouter un contact »</strong> → l'appareil photo s'ouvre, tu scannes son QR.</li>
     <li>Elle fait pareil avec ton QR.</li>
   </ol>
+  <div class="callout"><strong>À savoir :</strong> le code d'invitation expire après 24 heures ou dès qu'il est utilisé (usage unique). Pour plusieurs personnes, regénère un nouveau code à chaque fois.</div>
 
-  <div class="callout note">
-    Le code d'invitation expire après <strong>24 heures</strong> ou dès qu'il est utilisé (usage unique). Pour plusieurs personnes, regénère un nouveau code à chaque fois.
-  </div>
+  <h2 id="message"><span class="hnum">04</span>Envoyer un message</h2>
+  <div class="step"><div class="step-num">1</div><div><p><strong>Touche le nom de la personne</strong> dans la liste « Messages privés » de l'accueil.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div><p><strong>Écris ton message</strong> dans le champ en bas, puis touche la flèche pour envoyer.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div><p><strong>Envoyer une photo</strong> : touche le bouton <strong>Photo</strong> à gauche du champ texte → « Prendre » ou « Galerie ».</p></div></div>
+  <div class="step"><div class="step-num">4</div><div><p><strong>Envoyer un vocal</strong> : maintiens le bouton d'enregistrement à droite (quand le champ est vide) → parle → relâche pour envoyer.</p></div></div>
 
-  <h2 id="message">4. Envoyer un message</h2>
-
-  <div class="step glass">
-    <p><span class="step-num">1</span><strong>Touche le nom de la personne</strong> dans la liste « Messages privés » de l'accueil.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">2</span><strong>Écris ton message</strong> dans le champ en bas, puis touche la flèche pour envoyer.</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">3</span><strong>Envoyer une photo</strong> : touche le bouton <strong>Photo</strong> à gauche du champ texte → « Prendre » ou « Galerie ».</p>
-  </div>
-
-  <div class="step glass">
-    <p><span class="step-num">4</span><strong>Envoyer un vocal</strong> : maintiens le bouton d'enregistrement à droite (quand le champ est vide) → parle → relâche pour envoyer.</p>
-  </div>
-
-  <h2 id="faq">5. Questions fréquentes</h2>
-
+  <h2 id="faq"><span class="hnum">05</span>Questions fréquentes</h2>
   <h3>Pourquoi c'est lent au démarrage ?</h3>
   <p>BiCrypt se connecte au réseau Tor pour cacher complètement ton IP et tes métadonnées. Au premier lancement (ou après un redémarrage du téléphone), compte <strong>2 à 3 minutes</strong>. Ensuite, c'est quasi instantané.</p>
-
   <h3>Mes messages sont vraiment privés ?</h3>
   <p>Oui. Chaque message est chiffré sur ton téléphone avec une clé que <strong>seul ton destinataire peut déchiffrer</strong>. Le relais ne voit que des données chiffrées — illisibles pour qui que ce soit, nous compris.</p>
-
   <h3>Que se passe-t-il si je perds mon téléphone ?</h3>
   <p>Ton compte n'existe que sur ce téléphone (la clé privée ne le quitte jamais). Si tu changes d'appareil, tu devras recréer un compte. <strong>C'est intentionnel</strong> : ça garantit qu'aucun serveur ne peut être saisi avec tes données.</p>
-
   <h3>Je peux recevoir des messages quand l'app est fermée ?</h3>
   <p>BiCrypt fonctionne quand l'app est ouverte (avant-plan ou arrière-plan). Si tu la fermes complètement, tu ne reçois pas en temps réel — mais les messages t'attendent côté relais pendant 24h et arrivent dès que tu rouvres l'app.</p>
-
   <h3>Comment supprimer mon compte ?</h3>
   <p>Profil (pseudo en haut à droite) → <strong>« Supprimer mon compte »</strong> → confirmer 2 fois. Toutes tes données sont effacées définitivement de ton téléphone. Pas de récupération possible.</p>
-
-  <h3>L'app demande « Ignorer les optimisations de batterie », c'est dangereux ?</h3>
+  <h3>« Ignorer les optimisations de batterie », c'est dangereux ?</h3>
   <p>Non. C'est pour garder la connexion active pendant que l'app est en arrière-plan. Tu peux refuser, mais les messages mettront plus longtemps à arriver. Réglable à tout moment dans les paramètres Android.</p>
-
   <h3>Comment mettre à jour ?</h3>
   <p>L'app vérifie les mises à jour <strong>régulièrement (environ chaque heure)</strong>. Quand une nouvelle version est disponible, un bandeau apparaît en haut — touche-le pour installer. Rien d'autre à faire.</p>
 
 </div>
 
-<footer>
-  <p class="footer-copy">BiCrypt — sans publicité, sans collecte de données, sans abonnement.</p>
-</footer>
+<footer><div class="wrap">
+  <span class="footer-copy">BiCrypt — sans publicité, sans collecte de données, sans abonnement.</span>
+</div></footer>
 
 </body>
 </html>
