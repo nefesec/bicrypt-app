@@ -1,11 +1,11 @@
 {
   "v": 1,
-  "versionCode": 50,
+  "versionCode": 51,
   "minVersionCode": 0,
-  "versionName": "3.1.30",
-  "sha256": "e5b2d962fa7c21674900b2cc7f76dea0727a442e212ad958b533a89e78365ea8",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-3.1.30.apk",
-  "changelog": "v3.1.30 — Nouveau : envoie un retour anonyme à l'équipe depuis les Réglages (chiffré, sans aucune info sur toi). Réception des annonces officielles signées. Améliorations internes.",
-  "signedAt": 1783641179554,
-  "sig": "fd479364b00ace84c9222f9bc6857e4844a3e64e045f9057b878fad2823f94d936e5cdffe0d77e87430f92c8e3c18b55a83bf9b2a85dfaa1f3b57eb756068c0b"
+  "versionName": "1.2.10",
+  "sha256": "cc541a806aa58db86f95fecfca23efa250652406b47ac3eb6c7c698d1c77b318",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-1.2.10.apk",
+  "changelog": "v1.2.10 — Réponses à tes retours : l'équipe peut désormais te répondre, toujours de façon 100% anonyme (on ne sait jamais qui a écrit). Retrouve tes échanges dans Réglages → Mes retours. Nouveau look du site.",
+  "signedAt": 1783644346821,
+  "sig": "34dbb52899de8a5e54f596a7975a83370c31d264ad317469354e051a6d8bcca6c47bbda0f216d439dcf54f9197e38eca4ba2af26f160b847a36ad4844e236309"
 }
