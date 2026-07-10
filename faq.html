@@ -6,117 +6,78 @@
     <title>Transparence & sécurité — BiCrypt</title>
     <meta name="description" content="Pourquoi BiCrypt n'est pas (encore) open source, et comment sa sécurité se vérifie malgré tout.">
     <style>
-        :root {
-            --bg: #08090c; --text: #f2f4f8; --text-sub: #aab2c0; --muted: #6b7280;
-            --green: #4ade80; --green-2: #34d399; --danger: #fb7185;
-            --glass: rgba(255,255,255,0.045); --stroke: rgba(255,255,255,0.09); --stroke-2: rgba(255,255,255,0.14);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; min-height: 100vh; position: relative; }
-        body::before {
-            content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background:
-                radial-gradient(52% 38% at 50% -5%, rgba(74,222,128,0.15), transparent 60%),
-                radial-gradient(40% 36% at 88% 10%, rgba(34,211,238,0.12), transparent 60%),
-                radial-gradient(42% 40% at 92% 55%, rgba(167,139,250,0.10), transparent 62%),
-                radial-gradient(44% 40% at 6% 82%, rgba(96,165,250,0.09), transparent 62%);
-        }
-        a { color: inherit; text-decoration: none; }
-        code { font-family: ui-monospace, Menlo, monospace; }
-        .glass { background: var(--glass); backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%); border: 1px solid var(--stroke); border-radius: 18px; box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06); }
+        :root { --bg:#0c0c0d; --ink:#f1f0ea; --sub:#9a9a94; --faint:#6a6a64; --line:#262624; --accent:#4ade80; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--ink); font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; }
+        a { color:inherit; text-decoration:none; }
+        code { font-family:ui-monospace,Menlo,monospace; }
+        .wrap { max-width:820px; margin:0 auto; padding:0 28px; }
 
-        nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; position: sticky; top: 0; z-index: 20; background: rgba(8,9,12,0.6); backdrop-filter: blur(16px); border-bottom: 1px solid var(--stroke); }
-        .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.03em; }
-        .nav-link { font-size: 0.82rem; color: var(--text-sub); }
-        .nav-link:hover { color: var(--text); }
+        nav { border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
+        nav .wrap { display:flex; align-items:center; justify-content:space-between; padding:20px 28px; }
+        .nav-logo { font-size:1.05rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; }
+        .nav-link { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--sub); }
+        .nav-link:hover { color:var(--ink); }
 
-        .content { max-width: 740px; margin: 0 auto; padding: 72px 24px 60px; }
+        .head { padding:80px 0 56px; border-bottom:1px solid var(--line); }
+        .kicker { font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:32px; }
+        .head h1 { font-size:clamp(2.4rem,7vw,4.2rem); font-weight:800; line-height:0.95; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:26px; }
+        .head-sub { font-size:1.15rem; color:var(--sub); max-width:560px; line-height:1.55; }
 
-        .head { margin-bottom: 52px; }
-        .head-kicker { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
-        .head-title { font-size: clamp(2rem, 7vw, 3.1rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
-        .head-title .g { background: linear-gradient(110deg, #4ade80, #22d3ee 45%, #a78bfa 92%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .head-sub { font-size: 1.05rem; color: var(--text-sub); line-height: 1.65; max-width: 540px; }
+        .qa { padding:34px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:56px 1fr; gap:24px; }
+        .qa-num { font-family:ui-monospace,monospace; font-size:0.9rem; color:var(--faint); padding-top:6px; }
+        .qa h2 { font-size:1.35rem; font-weight:700; letter-spacing:-0.01em; margin-bottom:16px; }
+        .qa p { color:var(--sub); font-size:0.98rem; line-height:1.75; }
+        .qa p + p { margin-top:14px; }
+        .qa strong { color:var(--ink); }
+        .qa code { font-size:0.9em; color:var(--ink); }
+        .qa ul { list-style:none; margin-top:14px; }
+        .qa li { position:relative; padding:9px 0 9px 24px; font-size:0.94rem; color:var(--sub); line-height:1.6; border-top:1px solid var(--line); }
+        .qa li:first-child { border-top:none; }
+        .qa li::before { content:"→"; position:absolute; left:0; top:9px; color:var(--accent); font-family:monospace; }
 
-        .qa { padding: 26px 24px; margin-bottom: 14px; }
-        .qa h2 { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 16px; }
-        .qa p { color: var(--text-sub); font-size: 0.96rem; line-height: 1.75; }
-        .qa p + p { margin-top: 14px; }
-        .qa strong { color: var(--text); }
-        .qa code { font-size: 0.9em; color: var(--text); background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 5px; }
-        .qa ul { list-style: none; margin-top: 14px; }
-        .qa li { position: relative; padding: 8px 0 8px 26px; font-size: 0.94rem; color: var(--text-sub); line-height: 1.6; }
-        .qa li::before { content: "✓"; position: absolute; left: 0; top: 8px; color: var(--green); font-weight: 700; }
-
-        .callout { margin-top: 40px; border-left: 3px solid var(--green); padding: 22px 22px; }
-        .callout p { font-size: 0.92rem; color: var(--text-sub); line-height: 1.7; }
-        .callout strong { color: var(--text); }
-
-        footer { border-top: 1px solid var(--stroke); padding: 32px 24px; text-align: center; margin-top: 24px; }
-        .footer-copy { font-size: 0.68rem; color: var(--muted); }
+        .callout { padding:34px 0 60px; }
+        .callout .box { border-left:2px solid var(--accent); padding-left:24px; }
+        .callout .lbl { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+        .callout p { font-size:0.98rem; color:var(--sub); line-height:1.75; }
+        .callout strong { color:var(--ink); }
+        @media (max-width:600px){ .qa{grid-template-columns:1fr;gap:10px;} .qa-num{padding-top:0;} }
     </style>
 </head>
 <body>
 
-<nav>
+<nav><div class="wrap">
     <a href="/" class="nav-logo">BiCrypt</a>
     <a href="/guide" class="nav-link">Aide / Mode d'emploi</a>
-</nav>
+</div></nav>
 
-<div class="content">
+<div class="wrap">
 
-    <div class="head">
-        <div class="head-kicker">Transparence &amp; sécurité</div>
-        <h1 class="head-title">Pourquoi BiCrypt n'est pas <span class="g">(encore) open source</span></h1>
-        <p class="head-sub">
-            Question légitime, réponse honnête. Le code fermé n'enlève rien à ta sécurité —
-            et voici comment le vérifier par toi-même.
-        </p>
-    </div>
+    <header class="head">
+        <div class="kicker">Transparence &amp; sécurité</div>
+        <h1>Pourquoi pas open source</h1>
+        <p class="head-sub">Question légitime, réponse honnête. Le code fermé n'enlève rien à ta sécurité — et voici comment le vérifier par toi-même.</p>
+    </header>
 
-    <div class="qa glass">
+    <div class="qa"><div class="qa-num">01</div><div>
         <h2>BiCrypt est-il open source ?</h2>
-        <p>
-            Non, pas aujourd'hui. Le code de l'application est <strong>fermé et obfusqué</strong>.
-            C'est un choix assumé — mais il ne repose <em>pas</em> sur l'idée qu'un code caché serait
-            plus sûr (ce serait faux). Les trois réponses ci-dessous expliquent pourquoi.
-        </p>
-    </div>
+        <p>Non, pas aujourd'hui. Le code de l'application est <strong>fermé et obfusqué</strong>. C'est un choix assumé — mais il ne repose <em>pas</em> sur l'idée qu'un code caché serait plus sûr (ce serait faux). Les trois réponses ci-dessous expliquent pourquoi.</p>
+    </div></div>
 
-    <div class="qa glass">
-        <h2>Si le code est fermé, comment être sûr que c'est sécurisé ?</h2>
-        <p>
-            Parce que la sécurité de BiCrypt <strong>ne dépend pas du secret du code</strong>, mais de
-            primitives cryptographiques <strong>publiques et éprouvées</strong> :
-            <code>X25519</code> (échange de clés), <code>Ed25519</code> (signatures) et
-            <code>XSalsa20-Poly1305</code> (chiffrement).
-        </p>
-        <p>
-            Ce sont des standards documentés, implémentés par des bibliothèques auditées par la
-            communauté mondiale. C'est le <strong>principe de Kerckhoffs</strong> : un système reste
-            sûr même si tout, sauf la clé, est connu. Ouvrir le code ne révélerait aucun secret
-            cryptographique — la sécurité viendrait exactement des mêmes mathématiques.
-        </p>
-    </div>
+    <div class="qa"><div class="qa-num">02</div><div>
+        <h2>Si le code est fermé, comment être sûr ?</h2>
+        <p>Parce que la sécurité de BiCrypt <strong>ne dépend pas du secret du code</strong>, mais de primitives cryptographiques <strong>publiques et éprouvées</strong> : <code>X25519</code> (échange de clés), <code>Ed25519</code> (signatures) et <code>XSalsa20-Poly1305</code> (chiffrement).</p>
+        <p>Ce sont des standards documentés, implémentés par des bibliothèques auditées par la communauté mondiale. C'est le <strong>principe de Kerckhoffs</strong> : un système reste sûr même si tout, sauf la clé, est connu. Ouvrir le code ne révélerait aucun secret cryptographique — la sécurité viendrait exactement des mêmes mathématiques.</p>
+    </div></div>
 
-    <div class="qa glass">
+    <div class="qa"><div class="qa-num">03</div><div>
         <h2>Alors pourquoi garder le code fermé ?</h2>
-        <p>
-            Pour <strong>te protéger, toi</strong>. Les messageries populaires sont la cible de
-            <strong>faux clones piégés</strong> : des versions modifiées, rediffusées sous le même nom
-            sur des stores tiers, qui espionnent l'utilisateur à son insu (ça existe déjà pour Signal,
-            Telegram, WhatsApp).
-        </p>
-        <p>
-            En gardant BiCrypt fermé, <strong>obfusqué et signé cryptographiquement</strong>, une
-            contrefaçon devient détectable : le binaire officiel porte une signature et une empreinte
-            <code>SHA-256</code> vérifiables. Un utilisateur non-technique ne se retrouve pas avec une
-            version trafiquée sans le savoir.
-        </p>
-    </div>
+        <p>Pour <strong>te protéger, toi</strong>. Les messageries populaires sont la cible de <strong>faux clones piégés</strong> : des versions modifiées, rediffusées sous le même nom sur des stores tiers, qui espionnent l'utilisateur à son insu (ça existe déjà pour Signal, Telegram, WhatsApp).</p>
+        <p>En gardant BiCrypt fermé, <strong>obfusqué et signé cryptographiquement</strong>, une contrefaçon devient détectable : le binaire officiel porte une signature et une empreinte <code>SHA-256</code> vérifiables. Un utilisateur non-technique ne se retrouve pas avec une version trafiquée sans le savoir.</p>
+    </div></div>
 
-    <div class="qa glass">
-        <h2>Comment vérifier vos affirmations, concrètement ?</h2>
+    <div class="qa"><div class="qa-num">04</div><div>
+        <h2>Comment vérifier vos affirmations ?</h2>
         <p>La confiance ne se décrète pas, elle se vérifie. Ce qui est (ou sera) à ta disposition :</p>
         <ul>
             <li>L'empreinte <strong>SHA-256</strong> de chaque version est affichée publiquement — compare-la avant d'installer.</li>
@@ -124,32 +85,19 @@
             <li>Un <strong>audit de sécurité indépendant</strong> est prévu.</li>
             <li>Un <strong>tableau de bord de transparence</strong> montrera que le relais ne reçoit que des données chiffrées illisibles, et n'écrit rien sur disque.</li>
         </ul>
-    </div>
+    </div></div>
 
-    <div class="qa glass">
+    <div class="qa"><div class="qa-num">05</div><div>
         <h2>Le relais peut-il lire mes messages ?</h2>
-        <p>
-            <strong>Non.</strong> Tout est chiffré de bout en bout <em>sur ton appareil</em> avant le
-            moindre envoi. Le relais ne voit que des blocs chiffrés qu'il est incapable de déchiffrer,
-            et les transmet <strong>sans les stocker</strong>. Ton adresse IP est masquée par le réseau
-            Tor. Il n'y a, littéralement, rien de lisible à intercepter ni à remettre à quiconque.
-        </p>
-    </div>
+        <p><strong>Non.</strong> Tout est chiffré de bout en bout <em>sur ton appareil</em> avant le moindre envoi. Le relais ne voit que des blocs chiffrés qu'il est incapable de déchiffrer, et les transmet <strong>sans les stocker</strong>. Ton adresse IP est masquée par le réseau Tor. Il n'y a, littéralement, rien de lisible à intercepter ni à remettre à quiconque.</p>
+    </div></div>
 
-    <div class="callout glass">
-        <p>
-            <strong>Notre engagement.</strong> Le code fermé protège aujourd'hui les utilisateurs des
-            clones malveillants ; il ne sert pas à cacher quoi que ce soit. À mesure que le projet
-            grandit, la trajectoire est claire : <strong>protocole documenté, builds reproductibles et
-            audit indépendant</strong>. La sécurité se prouve, elle ne se promet pas.
-        </p>
-    </div>
+    <div class="callout"><div class="box">
+        <div class="lbl">Notre engagement</div>
+        <p>Le code fermé protège aujourd'hui les utilisateurs des clones malveillants ; il ne sert pas à cacher quoi que ce soit. À mesure que le projet grandit, la trajectoire est claire : <strong>protocole documenté, builds reproductibles et audit indépendant</strong>. La sécurité se prouve, elle ne se promet pas.</p>
+    </div></div>
 
 </div>
-
-<footer>
-    <div class="footer-copy">BiCrypt — messagerie privée. La sécurité se vérifie.</div>
-</footer>
 
 </body>
 </html>
