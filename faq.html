@@ -7,49 +7,50 @@
     <meta name="description" content="Pourquoi BiCrypt n'est pas (encore) open source, et comment sa sécurité se vérifie malgré tout.">
     <style>
         :root {
-            --bg: #0a0a0a; --surface: #141414; --border: #262626;
-            --text: #ededed; --text-sub: #a1a1a1; --muted: #6e6e6e;
-            --accent: #4ade80; --danger: #f87171;
+            --bg: #08090c; --text: #f2f4f8; --text-sub: #aab2c0; --muted: #6b7280;
+            --green: #4ade80; --green-2: #34d399; --danger: #fb7185;
+            --glass: rgba(255,255,255,0.045); --stroke: rgba(255,255,255,0.09); --stroke-2: rgba(255,255,255,0.14);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
-        a { color: inherit; text-decoration: none; }
-
-        nav {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 24px; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: var(--bg); z-index: 10;
+        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; min-height: 100vh; position: relative; }
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background:
+                radial-gradient(55% 40% at 50% -5%, rgba(74,222,128,0.12), transparent 60%),
+                radial-gradient(45% 40% at 88% 15%, rgba(52,211,153,0.08), transparent 60%);
         }
-        .nav-logo { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
-        .nav-link { font-size: 0.82rem; color: var(--muted); }
+        a { color: inherit; text-decoration: none; }
+        code { font-family: ui-monospace, Menlo, monospace; }
+        .glass { background: var(--glass); backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%); border: 1px solid var(--stroke); border-radius: 18px; box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06); }
+
+        nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; position: sticky; top: 0; z-index: 20; background: rgba(8,9,12,0.6); backdrop-filter: blur(16px); border-bottom: 1px solid var(--stroke); }
+        .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.03em; }
+        .nav-link { font-size: 0.82rem; color: var(--text-sub); }
         .nav-link:hover { color: var(--text); }
 
-        .content { max-width: 720px; margin: 0 auto; padding: 72px 24px 60px; }
+        .content { max-width: 740px; margin: 0 auto; padding: 72px 24px 60px; }
 
-        .head { margin-bottom: 56px; }
-        .head-kicker { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
-        .head-title { font-size: clamp(2rem, 7vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+        .head { margin-bottom: 52px; }
+        .head-kicker { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
+        .head-title { font-size: clamp(2rem, 7vw, 3.1rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+        .head-title .g { background: linear-gradient(120deg, var(--green), var(--green-2) 70%, #7dd3fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .head-sub { font-size: 1.05rem; color: var(--text-sub); line-height: 1.65; max-width: 540px; }
 
-        .qa { border-top: 1px solid var(--border); padding: 32px 0; }
-        .qa:last-of-type { border-bottom: 1px solid var(--border); }
-        .qa h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 16px; }
+        .qa { padding: 26px 24px; margin-bottom: 14px; }
+        .qa h2 { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 16px; }
         .qa p { color: var(--text-sub); font-size: 0.96rem; line-height: 1.75; }
         .qa p + p { margin-top: 14px; }
         .qa strong { color: var(--text); }
-        .qa code { font-family: monospace; font-size: 0.9em; color: var(--text); background: var(--surface); padding: 1px 6px; border-radius: 4px; }
+        .qa code { font-size: 0.9em; color: var(--text); background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 5px; }
         .qa ul { list-style: none; margin-top: 14px; }
         .qa li { position: relative; padding: 8px 0 8px 26px; font-size: 0.94rem; color: var(--text-sub); line-height: 1.6; }
-        .qa li::before { content: "✓"; position: absolute; left: 0; top: 8px; color: var(--accent); font-weight: 700; }
+        .qa li::before { content: "✓"; position: absolute; left: 0; top: 8px; color: var(--green); font-weight: 700; }
 
-        .callout {
-            margin: 44px 0 0; border: 1px solid var(--border); border-left: 3px solid var(--accent);
-            background: var(--surface); border-radius: 4px; padding: 22px 20px;
-        }
+        .callout { margin-top: 40px; border-left: 3px solid var(--green); padding: 22px 22px; }
         .callout p { font-size: 0.92rem; color: var(--text-sub); line-height: 1.7; }
         .callout strong { color: var(--text); }
 
-        footer { border-top: 1px solid var(--border); padding: 30px 24px; text-align: center; margin-top: 20px; }
+        footer { border-top: 1px solid var(--stroke); padding: 32px 24px; text-align: center; margin-top: 24px; }
         .footer-copy { font-size: 0.68rem; color: var(--muted); }
     </style>
 </head>
@@ -64,14 +65,14 @@
 
     <div class="head">
         <div class="head-kicker">Transparence &amp; sécurité</div>
-        <h1 class="head-title">Pourquoi BiCrypt n'est pas (encore) open source</h1>
+        <h1 class="head-title">Pourquoi BiCrypt n'est pas <span class="g">(encore) open source</span></h1>
         <p class="head-sub">
             Question légitime, réponse honnête. Le code fermé n'enlève rien à ta sécurité —
             et voici comment le vérifier par toi-même.
         </p>
     </div>
 
-    <div class="qa">
+    <div class="qa glass">
         <h2>BiCrypt est-il open source ?</h2>
         <p>
             Non, pas aujourd'hui. Le code de l'application est <strong>fermé et obfusqué</strong>.
@@ -80,7 +81,7 @@
         </p>
     </div>
 
-    <div class="qa">
+    <div class="qa glass">
         <h2>Si le code est fermé, comment être sûr que c'est sécurisé ?</h2>
         <p>
             Parce que la sécurité de BiCrypt <strong>ne dépend pas du secret du code</strong>, mais de
@@ -96,7 +97,7 @@
         </p>
     </div>
 
-    <div class="qa">
+    <div class="qa glass">
         <h2>Alors pourquoi garder le code fermé ?</h2>
         <p>
             Pour <strong>te protéger, toi</strong>. Les messageries populaires sont la cible de
@@ -112,7 +113,7 @@
         </p>
     </div>
 
-    <div class="qa">
+    <div class="qa glass">
         <h2>Comment vérifier vos affirmations, concrètement ?</h2>
         <p>La confiance ne se décrète pas, elle se vérifie. Ce qui est (ou sera) à ta disposition :</p>
         <ul>
@@ -123,7 +124,7 @@
         </ul>
     </div>
 
-    <div class="qa">
+    <div class="qa glass">
         <h2>Le relais peut-il lire mes messages ?</h2>
         <p>
             <strong>Non.</strong> Tout est chiffré de bout en bout <em>sur ton appareil</em> avant le
@@ -133,7 +134,7 @@
         </p>
     </div>
 
-    <div class="callout">
+    <div class="callout glass">
         <p>
             <strong>Notre engagement.</strong> Le code fermé protège aujourd'hui les utilisateurs des
             clones malveillants ; il ne sert pas à cacher quoi que ce soit. À mesure que le projet
