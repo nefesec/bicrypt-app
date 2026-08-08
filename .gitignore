@@ -5,3 +5,10 @@ releases/*.blockmap
 releases/*.dmg
 releases/*.deb
 releases/*.rpm
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
