@@ -1,103 +1,179 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transparence & sécurité — BiCrypt</title>
-    <meta name="description" content="Pourquoi BiCrypt n'est pas (encore) open source, et comment sa sécurité se vérifie malgré tout.">
-    <style>
-        :root { --bg:#0c0c0d; --ink:#f1f0ea; --sub:#9a9a94; --faint:#6a6a64; --line:#262624; --accent:#4ade80; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--bg); color:var(--ink); font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; }
-        a { color:inherit; text-decoration:none; }
-        code { font-family:ui-monospace,Menlo,monospace; }
-        .wrap { max-width:820px; margin:0 auto; padding:0 28px; }
-
-        nav { border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
-        nav .wrap { display:flex; align-items:center; justify-content:space-between; padding:20px 28px; }
-        .nav-logo { font-size:1.05rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; }
-        .nav-link { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--sub); }
-        .nav-link:hover { color:var(--ink); }
-
-        .head { padding:80px 0 56px; border-bottom:1px solid var(--line); }
-        .kicker { font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:32px; }
-        .head h1 { font-size:clamp(2.4rem,7vw,4.2rem); font-weight:800; line-height:0.95; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:26px; }
-        .head-sub { font-size:1.15rem; color:var(--sub); max-width:560px; line-height:1.55; }
-
-        .qa { padding:34px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:56px 1fr; gap:24px; }
-        .qa-num { font-family:ui-monospace,monospace; font-size:0.9rem; color:var(--faint); padding-top:6px; }
-        .qa h2 { font-size:1.35rem; font-weight:700; letter-spacing:-0.01em; margin-bottom:16px; }
-        .qa p { color:var(--sub); font-size:0.98rem; line-height:1.75; }
-        .qa p + p { margin-top:14px; }
-        .qa strong { color:var(--ink); }
-        .qa code { font-size:0.9em; color:var(--ink); }
-        .qa ul { list-style:none; margin-top:14px; }
-        .qa li { position:relative; padding:9px 0 9px 24px; font-size:0.94rem; color:var(--sub); line-height:1.6; border-top:1px solid var(--line); }
-        .qa li:first-child { border-top:none; }
-        .qa li::before { content:"→"; position:absolute; left:0; top:9px; color:var(--accent); font-family:monospace; }
-
-        .callout { padding:34px 0 60px; }
-        .callout .box { border-left:2px solid var(--accent); padding-left:24px; }
-        .callout .lbl { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
-        .callout p { font-size:0.98rem; color:var(--sub); line-height:1.75; }
-        .callout strong { color:var(--ink); }
-        @media (max-width:600px){ .qa{grid-template-columns:1fr;gap:10px;} .qa-num{padding-top:0;} }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — BiCrypt</title>
+<meta name="description" content="Questions fréquentes sur BiCrypt : sécurité, anonymat, relais, code fermé, perte de téléphone, mises à jour.">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip" href="#contenu">Aller au contenu</a>
 
-<nav><div class="wrap">
-    <a href="/" class="nav-logo">BiCrypt</a>
-    <a href="/guide" class="nav-link">Aide / Mode d'emploi</a>
-</div></nav>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="/#securite">Sécurité</a>
+    <a href="/#comparatif">Comparatif</a>
+    <a href="/guide">Mode d'emploi</a>
+    <a href="/faq" aria-current="page">FAQ</a>
+  </nav>
+  <div class="header-cta"><a class="btn btn-primary" href="/#telecharger">Télécharger</a></div>
+</div></header>
 
-<div class="wrap">
+<main id="contenu">
+  <div class="page-head"><div class="wrap-narrow">
+    <p class="kicker">Questions fréquentes</p>
+    <h1>Des réponses claires, sans jargon</h1>
+    <p>Et quand une réponse n'est pas à notre avantage, on te la donne quand même.</p>
+  </div></div>
 
-    <header class="head">
-        <div class="kicker">Transparence &amp; sécurité</div>
-        <h1>Pourquoi pas open source</h1>
-        <p class="head-sub">Question légitime, réponse honnête. Le code fermé n'enlève rien à ta sécurité — et voici comment le vérifier par toi-même.</p>
-    </header>
+  <div class="wrap-narrow">
+    <section class="section tight" aria-labelledby="t-base">
+      <h2 class="h2" id="t-base">L'essentiel</h2>
+      <div class="faq">
+        <details class="qa" id="gratuit">
+          <summary>C'est vraiment gratuit ? Où est l'arnaque ?</summary>
+          <div class="a"><p>Pas d'arnaque : pas de publicité, pas d'abonnement, pas de revente de données. On ne connaît ni ton nom, ni ton numéro, ni tes contacts, donc il n'y a rien à revendre.</p></div>
+        </details>
+        <details class="qa" id="iphone">
+          <summary>Ça marche sur iPhone ?</summary>
+          <div class="a"><p>Pas pour le moment. BiCrypt fonctionne sur <strong>Android 8 ou plus</strong>.</p></div>
+        </details>
+        <details class="qa" id="play-store">
+          <summary>Pourquoi l'application n'est pas sur le Play Store ?</summary>
+          <div class="a">
+            <p>Pour rester indépendant de Google. Tu installes le fichier directement depuis ce site. Android affiche alors un avertissement standard, le même pour toute application qui ne vient pas du Play Store.</p>
+            <p>Pour être sûr d'avoir le vrai fichier, <a href="/#verifier">compare son empreinte</a>.</p>
+          </div>
+        </details>
+        <details class="qa" id="lent">
+          <summary>Pourquoi le démarrage est-il lent ?</summary>
+          <div class="a"><p>BiCrypt passe par le réseau Tor pour cacher ton adresse IP. La connexion prend de 30 secondes à 3 minutes au premier lancement ou après un redémarrage du téléphone. Ensuite, c'est beaucoup plus rapide.</p></div>
+        </details>
+        <details class="qa" id="perte">
+          <summary>Et si je perds mon téléphone, ou si j'en change ?</summary>
+          <div class="a">
+            <p>Ton identité n'existe que sur ton téléphone, protégée par ton code PIN et par la puce de sécurité d'Android. Il n'y a aucune copie sur un serveur : rien à saisir, rien à pirater.</p>
+            <p>La contrepartie : sur un nouveau téléphone, tu crées une nouvelle identité et tu ré-ajoutes tes contacts. C'est voulu.</p>
+          </div>
+        </details>
+        <details class="qa" id="pin">
+          <summary>J'ai oublié mon code PIN.</summary>
+          <div class="a"><p>Personne ne peut le réinitialiser, nous compris : on n'en a aucune copie. Il faudra désinstaller l'application et créer une nouvelle identité.</p></div>
+        </details>
+        <details class="qa" id="hors-ligne">
+          <summary>Je reçois les messages quand l'application est fermée ?</summary>
+          <div class="a"><p>Tant que BiCrypt tourne en arrière-plan, oui. Si tu la fermes complètement, les messages t'attendent sur le relais, chiffrés, pendant 24 heures au plus, et arrivent dès que tu la rouvres.</p></div>
+        </details>
+      </div>
+    </section>
 
-    <div class="qa"><div class="qa-num">01</div><div>
-        <h2>BiCrypt est-il open source ?</h2>
-        <p>Non, pas aujourd'hui. Le code de l'application est <strong>fermé et obfusqué</strong>. C'est un choix assumé — mais il ne repose <em>pas</em> sur l'idée qu'un code caché serait plus sûr (ce serait faux). Les trois réponses ci-dessous expliquent pourquoi.</p>
-    </div></div>
+    <section class="section tight" aria-labelledby="t-secu">
+      <h2 class="h2" id="t-secu">Sécurité et vie privée</h2>
+      <div class="faq">
+        <details class="qa" id="relais">
+          <summary>Le relais peut-il lire mes messages ?</summary>
+          <div class="a"><p><strong>Non.</strong> Chaque message est chiffré sur ton téléphone avant l'envoi (X25519 et XSalsa20-Poly1305). Le relais ne voit que des données illisibles, qu'il transmet sans les écrire sur disque.</p></div>
+        </details>
+        <details class="qa" id="relais-voit">
+          <summary>Qu'est-ce que le relais voit, exactement ?</summary>
+          <div class="a">
+            <p>Pour acheminer un message, il voit la <strong>clé publique</strong> du destinataire (une suite de caractères, pas un nom) et un bloc chiffré. Il ne voit ni ton adresse IP (Tor la cache), ni ton numéro (tu n'en donnes pas), ni le contenu.</p>
+            <p>Il garde ces informations en mémoire vive le temps de livrer le message, 24 heures au plus si le destinataire est hors ligne. Rien n'est écrit sur disque, et il n'y a ni journal, ni base de données.</p>
+          </div>
+        </details>
+        <details class="qa" id="saisie">
+          <summary>Si quelqu'un saisit le serveur ?</summary>
+          <div class="a"><p>Il ne trouvera ni historique, ni liste d'utilisateurs, ni messages lisibles : rien n'est stocké sur disque. Au pire, des messages chiffrés en attente, impossibles à lire sans les clés, qui restent sur vos téléphones.</p></div>
+        </details>
+        <details class="qa" id="photos">
+          <summary>Mes photos révèlent-elles où je suis ?</summary>
+          <div class="a"><p>Non. BiCrypt retire la position GPS, le modèle du téléphone et les autres métadonnées avant l'envoi. Si une photo ne peut pas être nettoyée, elle n'est pas envoyée.</p></div>
+        </details>
+        <details class="qa" id="mises-a-jour">
+          <summary>Comment fonctionnent les mises à jour ?</summary>
+          <div class="a"><p>L'application vérifie environ une fois par heure, via Tor. Chaque mise à jour est signée avec une clé dédiée. L'application vérifie la signature et l'empreinte du fichier avant d'installer, et refuse toute version modifiée.</p></div>
+        </details>
+        <details class="qa" id="crypto">
+          <summary>Quels algorithmes sont utilisés ?</summary>
+          <div class="a">
+            <p>Des standards publics et éprouvés : <strong>X25519</strong> pour l'échange de clés, <strong>XSalsa20-Poly1305</strong> pour le chiffrement, <strong>Ed25519</strong> pour les signatures, <strong>HKDF-SHA256</strong> et <strong>BLAKE2b</strong> pour la dérivation. Ils sont implémentés par les bibliothèques <code>@noble</code>, auditées publiquement.</p>
+            <p>Ta clé privée est stockée dans le Keystore Android, matériel quand le téléphone le permet. Tes messages sont aussi chiffrés sur le téléphone, avec une clé gardée dans ce Keystore. La liste de contacts (pseudos et clés publiques) est rangée dans l'espace privé de l'application, inaccessible aux autres applications.</p>
+          </div>
+        </details>
+      </div>
+    </section>
 
-    <div class="qa"><div class="qa-num">02</div><div>
-        <h2>Si le code est fermé, comment être sûr ?</h2>
-        <p>Parce que la sécurité de BiCrypt <strong>ne dépend pas du secret du code</strong>, mais de primitives cryptographiques <strong>publiques et éprouvées</strong> : <code>X25519</code> (échange de clés), <code>Ed25519</code> (signatures) et <code>XSalsa20-Poly1305</code> (chiffrement).</p>
-        <p>Ce sont des standards documentés, implémentés par des bibliothèques auditées par la communauté mondiale. C'est le <strong>principe de Kerckhoffs</strong> : un système reste sûr même si tout, sauf la clé, est connu. Ouvrir le code ne révélerait aucun secret cryptographique — la sécurité viendrait exactement des mêmes mathématiques.</p>
-    </div></div>
+    <section class="section tight" aria-labelledby="t-transparence">
+      <h2 class="h2" id="t-transparence">Transparence</h2>
+      <div class="faq">
+        <details class="qa" id="code-ferme">
+          <summary>Pourquoi le code n'est-il pas open source ?</summary>
+          <div class="a">
+            <p>Aujourd'hui, le code de l'application est fermé et obfusqué. Ce n'est <strong>pas</strong> parce qu'un code caché serait plus sûr : ce serait faux.</p>
+            <p>La raison, c'est la contrefaçon. Les messageries connues sont copiées puis rediffusées en versions piégées qui espionnent leurs utilisateurs. Un binaire fermé, obfusqué et signé rend ces copies plus difficiles à fabriquer et faciles à repérer : la vraie version porte un <a href="/#verifier">certificat de signature</a> que personne d'autre ne possède.</p>
+          </div>
+        </details>
+        <details class="qa" id="confiance">
+          <summary>Alors comment vous faire confiance ?</summary>
+          <div class="a">
+            <p>La sécurité de BiCrypt ne repose pas sur le secret du code, mais sur des algorithmes publics. C'est le <strong>principe de Kerckhoffs</strong> : un système doit rester sûr même si tout est connu, sauf la clé. Ouvrir le code ne révélerait aucune clé.</p>
+            <p>Ce que tu peux vérifier dès aujourd'hui : l'empreinte et le certificat de chaque version. Ce qui est prévu : un protocole documenté, des builds reproductibles et un audit indépendant. Tant que ce n'est pas fait, on ne le présente pas comme acquis.</p>
+          </div>
+        </details>
+        <details class="qa" id="qui">
+          <summary>Qui est derrière BiCrypt ?</summary>
+          <div class="a"><p>Un développeur indépendant. Pas d'actionnaires, pas de Big Tech, pas de modèle économique fondé sur tes données. Les versions sont publiées sur <a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">GitHub</a>.</p></div>
+        </details>
+        <details class="qa" id="contact">
+          <summary>Comment vous contacter ?</summary>
+          <div class="a"><p>Via le dépôt officiel <a href="https://github.com/nefesec/bicrypt-app" rel="noopener noreferrer">nefesec/bicrypt-app</a> sur GitHub. N'y publie jamais rien qui permette de t'identifier.</p></div>
+        </details>
+      </div>
+    </section>
+  </div>
+</main>
 
-    <div class="qa"><div class="qa-num">03</div><div>
-        <h2>Alors pourquoi garder le code fermé ?</h2>
-        <p>Pour <strong>te protéger, toi</strong>. Les messageries populaires sont la cible de <strong>faux clones piégés</strong> : des versions modifiées, rediffusées sous le même nom sur des stores tiers, qui espionnent l'utilisateur à son insu (ça existe déjà pour Signal, Telegram, WhatsApp).</p>
-        <p>En gardant BiCrypt fermé, <strong>obfusqué et signé cryptographiquement</strong>, une contrefaçon devient détectable : le binaire officiel porte une signature et une empreinte <code>SHA-256</code> vérifiables. Un utilisateur non-technique ne se retrouve pas avec une version trafiquée sans le savoir.</p>
-    </div></div>
-
-    <div class="qa"><div class="qa-num">04</div><div>
-        <h2>Comment vérifier vos affirmations ?</h2>
-        <p>La confiance ne se décrète pas, elle se vérifie. Ce qui est (ou sera) à ta disposition :</p>
-        <ul>
-            <li>L'empreinte <strong>SHA-256</strong> de chaque version est affichée publiquement — compare-la avant d'installer.</li>
-            <li>Le <strong>protocole</strong> (chiffrement, échange de clés, routage Tor) est documenté ouvertement.</li>
-            <li>Un <strong>audit de sécurité indépendant</strong> est prévu.</li>
-            <li>Un <strong>tableau de bord de transparence</strong> montrera que le relais ne reçoit que des données chiffrées illisibles, et n'écrit rien sur disque.</li>
-        </ul>
-    </div></div>
-
-    <div class="qa"><div class="qa-num">05</div><div>
-        <h2>Le relais peut-il lire mes messages ?</h2>
-        <p><strong>Non.</strong> Tout est chiffré de bout en bout <em>sur ton appareil</em> avant le moindre envoi. Le relais ne voit que des blocs chiffrés qu'il est incapable de déchiffrer, et les transmet <strong>sans les stocker</strong>. Ton adresse IP est masquée par le réseau Tor. Il n'y a, littéralement, rien de lisible à intercepter ni à remettre à quiconque.</p>
-    </div></div>
-
-    <div class="callout"><div class="box">
-        <div class="lbl">Notre engagement</div>
-        <p>Le code fermé protège aujourd'hui les utilisateurs des clones malveillants ; il ne sert pas à cacher quoi que ce soit. À mesure que le projet grandit, la trajectoire est claire : <strong>protocole documenté, builds reproductibles et audit indépendant</strong>. La sécurité se prouve, elle ne se promet pas.</p>
-    </div></div>
-
-</div>
+<footer class="site-footer"><div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+      <p>Messagerie chiffrée de bout en bout, via Tor. Sans numéro, sans compte, sans publicité.</p>
+    </div>
+    <div>
+      <h2>Application</h2>
+      <ul>
+        <li><a href="/#telecharger">Télécharger</a></li>
+        <li><a href="/#securite">Sécurité</a></li>
+        <li><a href="/#verifier">Vérifier le fichier</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Aide</h2>
+      <ul>
+        <li><a href="/guide">Mode d'emploi</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/control">Chat Control</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Légal</h2>
+      <ul>
+        <li><a href="/cgu">Conditions d'utilisation</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">Versions publiées</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 BiCrypt · Logiciel propriétaire, gratuit</span>
+    <span>Ce site n'utilise ni traceur, ni publicité, ni ressource externe.</span>
+  </div>
+</div></footer>
 
 </body>
 </html>

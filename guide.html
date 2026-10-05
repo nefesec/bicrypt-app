@@ -1,176 +1,167 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mode d'emploi — BiCrypt</title>
+<meta name="description" content="Installer et utiliser BiCrypt pas à pas : installation, premier lancement, ajouter un contact, messages, photos, vocaux et groupes.">
 <meta name="referrer" content="no-referrer">
-<title>BiCrypt — Mode d'emploi</title>
-<meta name="description" content="Guide pas-à-pas pour installer et utiliser BiCrypt, même sans être à l'aise avec la technique.">
-<style>
-  :root { --bg:#0c0c0d; --ink:#f1f0ea; --sub:#9a9a94; --faint:#6a6a64; --line:#262624; --accent:#4ade80; --amber:#e6b455; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { background:var(--bg); color:var(--ink); font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.6; }
-  a { color:inherit; text-decoration:none; }
-  code, kbd { font-family:ui-monospace,Menlo,monospace; font-size:.86em; color:var(--ink); }
-  .wrap { max-width:780px; margin:0 auto; padding:0 28px; }
-
-  nav { border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
-  nav .wrap { display:flex; align-items:center; justify-content:space-between; padding:20px 28px; }
-  .nav-logo { font-size:1.05rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; }
-  .nav-links { display:flex; gap:26px; align-items:center; }
-  .nav-links a { font-size:.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--sub); }
-  .nav-links a:hover { color:var(--ink); }
-  .nav-links a.cta { color:var(--accent); }
-  @media (max-width:600px){ .nav-links .hide-sm{ display:none; } }
-
-  .head { padding:70px 0 44px; border-bottom:1px solid var(--line); }
-  .kicker { font-size:.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:26px; }
-  h1 { font-size:clamp(2.2rem,7vw,3.6rem); font-weight:800; line-height:0.95; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:20px; }
-  .lead { color:var(--sub); font-size:1.1rem; max-width:520px; }
-
-  h2 { font-size:1.5rem; font-weight:800; letter-spacing:-0.02em; text-transform:uppercase; margin:56px 0 8px; padding-top:34px; border-top:1px solid var(--line); }
-  h2 .hnum { font-family:ui-monospace,monospace; font-size:0.85rem; color:var(--accent); margin-right:14px; font-weight:400; }
-  h3 { font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-top:28px; margin-bottom:10px; color:var(--sub); }
-  p { margin-bottom:12px; color:var(--sub); }
-  p strong, li strong { color:var(--ink); }
-  ol, ul { padding-left:20px; margin:12px 0 16px; color:var(--sub); }
-  li { margin-bottom:8px; }
-  kbd { background:#1a1a1a; border:1px solid var(--line); padding:1px 6px; }
-
-  .toc { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0; margin:12px 0; }
-  .toc strong { font-size:.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); display:block; margin-bottom:12px; }
-  .toc ul { list-style:none; padding:0; margin:0; }
-  .toc li { margin-bottom:8px; }
-  .toc a { color:var(--ink); font-size:.94rem; }
-  .toc a:hover { color:var(--accent); }
-  .toc .n { font-family:ui-monospace,monospace; color:var(--faint); margin-right:12px; font-size:.8rem; }
-
-  .step { display:grid; grid-template-columns:44px 1fr; gap:18px; padding:20px 0; border-top:1px solid var(--line); }
-  .step:first-of-type { border-top:none; }
-  .step-num { font-family:ui-monospace,monospace; font-size:0.85rem; color:var(--faint); padding-top:2px; }
-  .step p { margin-bottom:6px; }
-  .step p:last-child { margin-bottom:0; }
-
-  .callout { padding:14px 0 14px 20px; margin:18px 0; font-size:.94rem; line-height:1.65; border-left:2px solid var(--line); }
-  .callout strong { color:var(--ink); }
-  .callout.warn { border-left-color:var(--amber); }
-  .callout.ok { border-left-color:var(--accent); }
-
-  .dl-btn { display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:#06120a; border:1px solid var(--accent); padding:13px 24px; text-transform:uppercase; letter-spacing:0.08em; font-size:.74rem; font-weight:700; margin:10px 0; transition:background .12s,color .12s; }
-  .dl-btn:hover { background:transparent; color:var(--accent); }
-
-  footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:56px; }
-  .footer-copy { font-size:.72rem; color:var(--faint); letter-spacing:0.02em; }
-</style>
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip" href="#contenu">Aller au contenu</a>
 
-<nav><div class="wrap">
-  <a href="/" class="nav-logo">BiCrypt</a>
-  <div class="nav-links">
-    <a href="/faq" class="hide-sm">FAQ</a>
-    <a href="/control" class="hide-sm">Chat Control</a>
-    <a href="/#download" class="cta">Télécharger</a>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="/#securite">Sécurité</a>
+    <a href="/#comparatif">Comparatif</a>
+    <a href="/guide" aria-current="page">Mode d'emploi</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+  <div class="header-cta"><a class="btn btn-primary" href="/#telecharger">Télécharger</a></div>
+</div></header>
+
+<main id="contenu">
+  <div class="page-head"><div class="wrap">
+    <p class="kicker">Mode d'emploi</p>
+    <h1>Installer et utiliser BiCrypt</h1>
+    <p>Pas à pas, même si tu n'es pas à l'aise avec la technique. Compte 5 minutes, connexion au réseau Tor comprise.</p>
+  </div></div>
+
+  <div class="wrap with-toc">
+    <nav class="toc" aria-label="Sommaire">
+      <p>Sommaire</p>
+      <ol>
+        <li><a href="#installer">1. Installer l'application</a></li>
+        <li><a href="#demarrer">2. Premier lancement</a></li>
+        <li><a href="#ajouter">3. Ajouter quelqu'un</a></li>
+        <li><a href="#discuter">4. Discuter</a></li>
+        <li><a href="#groupes">5. Les groupes</a></li>
+        <li><a href="#reglages">6. Réglages utiles</a></li>
+        <li><a href="#problemes">7. En cas de souci</a></li>
+      </ol>
+    </nav>
+
+    <article class="prose">
+      <h2 id="installer">1. Installer l'application</h2>
+      <p>BiCrypt fonctionne sur <strong>Android 8 ou plus</strong>. Il n'existe pas de version iPhone pour le moment.</p>
+      <ol class="guide-steps">
+        <li><b>Télécharge le fichier</b>Sur ton téléphone, ouvre <a href="/#telecharger">la page de téléchargement</a> et touche <span class="ui">Télécharger pour Android</span>. Un fichier <code>bicrypt-X.Y.Z.apk</code> arrive dans tes téléchargements.</li>
+        <li><b>Ouvre-le</b>Touche la notification de téléchargement, ou ouvre le fichier depuis l'application <span class="ui">Fichiers</span>.</li>
+        <li><b>Autorise l'installation</b>Android affiche « Pour votre sécurité, l'installation d'applications inconnues est bloquée ». Touche <span class="ui">Paramètres</span>, active <span class="ui">Autoriser depuis cette source</span>, puis reviens en arrière.</li>
+        <li><b>Installe</b>Touche <span class="ui">Installer</span>. Si Play Protect affiche un avertissement, touche <span class="ui">Plus de détails</span> puis <span class="ui">Installer quand même</span>.</li>
+      </ol>
+      <div class="callout ok"><strong>Cet avertissement est normal.</strong> Android l'affiche pour toute application qui ne vient pas du Play Store. BiCrypt n'y est pas pour rester indépendant de Google. Pour être sûr d'avoir le vrai fichier, <a href="/#verifier">vérifie son empreinte</a>.</div>
+
+      <h2 id="demarrer">2. Premier lancement</h2>
+      <ol class="guide-steps">
+        <li><b>Choisis un pseudo</b>C'est le nom que verront tes contacts. Pas besoin de ton vrai nom : rien n'est envoyé, tu restes anonyme.</li>
+        <li><b>Accepte les conditions</b>Coche <span class="ui">J'accepte les Conditions d'utilisation</span>, puis touche <span class="ui">Continuer</span>.</li>
+        <li><b>Crée ton code PIN à 6 chiffres</b>Tape-le deux fois. Il protège l'accès à l'application. Si ton téléphone le permet, tu pourras aussi déverrouiller avec ton empreinte.</li>
+        <li><b>Laisse BiCrypt rester connecté</b>BiCrypt te demande une fois d'ignorer les optimisations de batterie : accepte pour recevoir tes messages même quand l'application n'est pas à l'écran. Ce n'est pas dangereux et tu peux le changer à tout moment.</li>
+      </ol>
+      <div class="callout warn"><strong>Le premier démarrage prend de 30 secondes à 3 minutes.</strong> BiCrypt se connecte au réseau Tor. Le badge en haut à droite passe à <span class="ui">En ligne</span> quand c'est prêt. Les fois suivantes, c'est beaucoup plus rapide.</div>
+      <div class="callout"><strong>Retiens bien ton PIN.</strong> Il n'existe aucune récupération : personne, nous compris, ne peut le réinitialiser. Après 5 erreurs, l'application se bloque 15 minutes.</div>
+
+      <h2 id="ajouter">3. Ajouter quelqu'un</h2>
+      <p>Sur l'accueil, touche <span class="ui">＋ Ajouter quelqu'un</span> en bas de l'écran. Deux façons de faire :</p>
+
+      <h3>Vous êtes ensemble : le QR code</h3>
+      <ol class="guide-steps">
+        <li><b>L'un montre son QR code</b>Il touche <span class="ui">Montrer mon QR code</span>.</li>
+        <li><b>L'autre le scanne</b>Il touche <span class="ui">Scanner son QR code</span> et vise l'écran de l'autre.</li>
+      </ol>
+
+      <h3>À distance : le code à usage unique</h3>
+      <ol class="guide-steps">
+        <li><b>La personne crée un code</b>Elle touche la pastille avec son initiale en haut à droite (<span class="ui">Mon profil</span>), puis <span class="ui">Créer un code</span>. Un code du type <code>kfm-tj2-9hp</code> apparaît.</li>
+        <li><b>Elle te l'envoie</b>Avec le bouton <span class="ui">Partager</span> : SMS, e-mail, à l'oral, sur papier…</li>
+        <li><b>Tu l'entres</b>De ton côté : <span class="ui">＋ Ajouter quelqu'un</span> puis <span class="ui">Entrer un code reçu</span>. Vous apparaissez chacun dans les conversations de l'autre.</li>
+      </ol>
+      <div class="callout"><strong>Un code ne sert qu'une fois</strong> et expire au bout de 24 heures. Pour ajouter plusieurs personnes, crée un nouveau code pour chacune. Notre relais ne voit jamais le code lui-même.</div>
+
+      <h2 id="discuter">4. Discuter</h2>
+      <ul>
+        <li><strong>Écrire :</strong> touche le nom de la personne dans <span class="ui">Conversations</span>, écris en bas, puis envoie.</li>
+        <li><strong>Photo :</strong> touche <span class="ui">Photo</span>, puis <span class="ui">Prendre une photo</span> ou <span class="ui">Choisir une photo</span>. La position GPS et les autres métadonnées sont retirées avant l'envoi. Limite : 1 Mo après compression.</li>
+        <li><strong>Vocal :</strong> touche le bouton <span class="ui">Message vocal</span> pour enregistrer (30 secondes maximum).</li>
+        <li><strong>Hors ligne :</strong> si ton contact n'est pas connecté, son message l'attend sur le relais, chiffré, pendant 24 heures maximum. Si tu n'as plus de réseau, tes messages partent dès que tu es reconnecté.</li>
+      </ul>
+
+      <h2 id="groupes">5. Les groupes</h2>
+      <p>Touche <span class="ui"># Groupes</span> en bas de l'accueil.</p>
+      <ul>
+        <li><strong>Créer un groupe privé :</strong> donne-lui un nom (par exemple « Famille ») et touche <span class="ui">Créer le groupe</span>. Dans le groupe, touche <span class="ui">+ Inviter</span> : un code à usage unique est créé, à envoyer à chaque personne.</li>
+        <li><strong>Rejoindre un groupe :</strong> entre le code d'invitation qu'on t'a envoyé.</li>
+        <li><strong>Le groupe Général</strong> est public, ouvert à tous les utilisateurs de BiCrypt : n'y écris rien de personnel.</li>
+      </ul>
+      <p>Quelqu'un te dérange dans un groupe ? Appuie longuement sur un de ses messages pour le <strong>masquer</strong>. Tu peux le démasquer dans les réglages.</p>
+
+      <h2 id="reglages">6. Réglages utiles</h2>
+      <p>Touche <span class="ui">⚙︎</span> en haut à droite de l'accueil.</p>
+      <ul>
+        <li><strong>Masquer dans les captures d'écran :</strong> empêche les captures et cache le contenu dans l'aperçu des applications récentes.</li>
+        <li><strong>Photos et vocaux :</strong> efface-les automatiquement de ton téléphone après un délai, ou tout de suite.</li>
+        <li><strong>Rester connecté en arrière-plan :</strong> à activer si tes messages arrivent en retard.</li>
+        <li><strong>Langue :</strong> français ou allemand.</li>
+      </ul>
+      <h3>Effacer ses données</h3>
+      <ul>
+        <li><strong>Effacer les messages :</strong> dans les réglages, efface messages, photos et vocaux, et quitte les groupes. Ton compte et tes contacts restent.</li>
+        <li><strong>Supprimer mon compte :</strong> dans <span class="ui">Mon profil</span>. Tout est effacé définitivement de ton téléphone, sans récupération possible.</li>
+      </ul>
+
+      <h2 id="problemes">7. En cas de souci</h2>
+      <h3>Le badge reste sur « Connexion… »</h3>
+      <p>Vérifie que tu as Internet (Wi-Fi ou données mobiles), puis patiente quelques minutes : le réseau Tor est parfois lent. Si ça bloque encore, ferme complètement l'application et rouvre-la.</p>
+      <h3>Les messages arrivent en retard</h3>
+      <p>Android a probablement mis BiCrypt en veille. Dans les réglages de BiCrypt, active <span class="ui">Rester connecté en arrière-plan</span>.</p>
+      <h3>Comment mettre à jour ?</h3>
+      <p>L'application vérifie les mises à jour toute seule, environ une fois par heure. Quand une version est disponible, un bandeau apparaît : touche-le pour l'installer. Chaque mise à jour est vérifiée par signature avant installation.</p>
+      <h3>J'ai changé de téléphone</h3>
+      <p>Ton identité ne quitte jamais l'ancien téléphone, c'est voulu. Installe BiCrypt sur le nouveau, crée une nouvelle identité et ré-ajoute tes contacts.</p>
+    </article>
   </div>
-</div></nav>
+</main>
 
-<div class="wrap">
-
-  <header class="head">
-    <div class="kicker">Mode d'emploi</div>
-    <h1>Installer &amp;<br>utiliser BiCrypt</h1>
-    <p class="lead">Guide pas-à-pas, même si tu n'es pas à l'aise avec la technique. Compte 5 minutes.</p>
-  </header>
-
-  <div class="toc">
-    <strong>Sommaire</strong>
-    <ul>
-      <li><a href="#install"><span class="n">01</span>Installer l'app</a></li>
-      <li><a href="#premier"><span class="n">02</span>Premier lancement</a></li>
-      <li><a href="#contact"><span class="n">03</span>Ajouter un contact</a></li>
-      <li><a href="#message"><span class="n">04</span>Envoyer un message</a></li>
-      <li><a href="#faq"><span class="n">05</span>Questions fréquentes</a></li>
-    </ul>
+<footer class="site-footer"><div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+      <p>Messagerie chiffrée de bout en bout, via Tor. Sans numéro, sans compte, sans publicité.</p>
+    </div>
+    <div>
+      <h2>Application</h2>
+      <ul>
+        <li><a href="/#telecharger">Télécharger</a></li>
+        <li><a href="/#securite">Sécurité</a></li>
+        <li><a href="/#verifier">Vérifier le fichier</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Aide</h2>
+      <ul>
+        <li><a href="/guide">Mode d'emploi</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/control">Chat Control</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Légal</h2>
+      <ul>
+        <li><a href="/cgu">Conditions d'utilisation</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">Versions publiées</a></li>
+      </ul>
+    </div>
   </div>
-
-  <h2 id="install"><span class="hnum">01</span>Installer l'app</h2>
-  <div class="step"><div class="step-num">1</div><div>
-    <p><strong>Télécharge l'application</strong></p>
-    <p>Depuis ton téléphone Android, ouvre cette page et touche le bouton ci-dessous :</p>
-    <a href="/#download" class="dl-btn">Aller au téléchargement →</a>
-    <p>Un fichier <code>bicrypt-X.X.X.apk</code> va se télécharger.</p>
-  </div></div>
-  <div class="step"><div class="step-num">2</div><div>
-    <p><strong>Autorise l'installation</strong></p>
-    <p>Quand tu ouvres le fichier .apk, Android affiche : « Installation d'applications inconnues ». Ce n'est pas dangereux — c'est le message standard quand l'app ne vient pas du Play Store.</p>
-    <p>Touche <strong>Paramètres</strong> → active <strong>« Autoriser depuis cette source »</strong> → reviens en arrière.</p>
-  </div></div>
-  <div class="step"><div class="step-num">3</div><div>
-    <p><strong>Installe</strong></p>
-    <p>Touche <strong>Installer</strong>. Au bout de 10-20 secondes, l'app est prête.</p>
-  </div></div>
-  <div class="callout ok"><strong>Pourquoi pas le Play Store ?</strong> BiCrypt ne passe pas par Google pour rester totalement indépendant. Aucune donnée n'est partagée avec Google, Apple ou qui que ce soit.</div>
-
-  <h2 id="premier"><span class="hnum">02</span>Premier lancement</h2>
-  <div class="step"><div class="step-num">1</div><div>
-    <p><strong>Choisis un pseudonyme</strong></p>
-    <p>Ce sera ton nom affiché aux contacts. Tu peux le changer plus tard. <strong>Pas besoin de ton vrai nom</strong> — un pseudo est mieux pour la confidentialité.</p>
-  </div></div>
-  <div class="step"><div class="step-num">2</div><div>
-    <p><strong>Accepte les conditions</strong> et appuie sur <strong>Créer mon identité</strong>.</p>
-  </div></div>
-  <div class="step"><div class="step-num">3</div><div>
-    <p><strong>Crée un code PIN à 6 chiffres</strong></p>
-    <p>Ce code protège ton accès. <strong>Mémorise-le bien</strong> — si tu l'oublies, il faudra recréer un compte (et tes contacts ne te reconnaîtront plus).</p>
-  </div></div>
-  <div class="callout warn"><strong>Patiente 2 à 3 minutes au premier démarrage.</strong> En haut, le badge passe par « Démarrage… » → « Connexion… » → « En ligne » (vert). C'est BiCrypt qui se connecte au réseau Tor. Les fois suivantes, c'est rapide.</div>
-
-  <h2 id="contact"><span class="hnum">03</span>Ajouter un contact</h2>
-  <p>Pour discuter avec quelqu'un, il faut d'abord l'ajouter. Deux méthodes :</p>
-  <h3>Méthode A — code d'invitation (la plus simple)</h3>
-  <ol>
-    <li>Ta personne ouvre BiCrypt, va sur son <strong>profil</strong> (pseudo en haut à droite).</li>
-    <li>Elle touche <strong>« Générer un code d'invitation »</strong> → un code apparaît (genre <kbd>kfm-tj2-9hp</kbd>).</li>
-    <li>Elle te partage ce code (SMS, oral, papier — utilisable une seule fois).</li>
-    <li>Sur ton téléphone, touche <strong>« Ajouter un contact »</strong> → colle le code → <strong>Utiliser ce code</strong>.</li>
-    <li>Tu es ajouté automatiquement.</li>
-  </ol>
-  <h3>Méthode B — QR code en personne</h3>
-  <ol>
-    <li>Vous êtes physiquement ensemble.</li>
-    <li>Elle ouvre son profil → un QR code s'affiche.</li>
-    <li>Tu touches <strong>« Ajouter un contact »</strong> → l'appareil photo s'ouvre, tu scannes son QR.</li>
-    <li>Elle fait pareil avec ton QR.</li>
-  </ol>
-  <div class="callout"><strong>À savoir :</strong> le code d'invitation expire après 24 heures ou dès qu'il est utilisé (usage unique). Pour plusieurs personnes, regénère un nouveau code à chaque fois.</div>
-
-  <h2 id="message"><span class="hnum">04</span>Envoyer un message</h2>
-  <div class="step"><div class="step-num">1</div><div><p><strong>Touche le nom de la personne</strong> dans la liste « Messages privés » de l'accueil.</p></div></div>
-  <div class="step"><div class="step-num">2</div><div><p><strong>Écris ton message</strong> dans le champ en bas, puis touche la flèche pour envoyer.</p></div></div>
-  <div class="step"><div class="step-num">3</div><div><p><strong>Envoyer une photo</strong> : touche le bouton <strong>Photo</strong> à gauche du champ texte → « Prendre » ou « Galerie ».</p></div></div>
-  <div class="step"><div class="step-num">4</div><div><p><strong>Envoyer un vocal</strong> : maintiens le bouton d'enregistrement à droite (quand le champ est vide) → parle → relâche pour envoyer.</p></div></div>
-
-  <h2 id="faq"><span class="hnum">05</span>Questions fréquentes</h2>
-  <h3>Pourquoi c'est lent au démarrage ?</h3>
-  <p>BiCrypt se connecte au réseau Tor pour cacher complètement ton IP et tes métadonnées. Au premier lancement (ou après un redémarrage du téléphone), compte <strong>2 à 3 minutes</strong>. Ensuite, c'est quasi instantané.</p>
-  <h3>Mes messages sont vraiment privés ?</h3>
-  <p>Oui. Chaque message est chiffré sur ton téléphone avec une clé que <strong>seul ton destinataire peut déchiffrer</strong>. Le relais ne voit que des données chiffrées — illisibles pour qui que ce soit, nous compris.</p>
-  <h3>Que se passe-t-il si je perds mon téléphone ?</h3>
-  <p>Ton compte n'existe que sur ce téléphone (la clé privée ne le quitte jamais). Si tu changes d'appareil, tu devras recréer un compte. <strong>C'est intentionnel</strong> : ça garantit qu'aucun serveur ne peut être saisi avec tes données.</p>
-  <h3>Je peux recevoir des messages quand l'app est fermée ?</h3>
-  <p>BiCrypt fonctionne quand l'app est ouverte (avant-plan ou arrière-plan). Si tu la fermes complètement, tu ne reçois pas en temps réel — mais les messages t'attendent côté relais pendant 24h et arrivent dès que tu rouvres l'app.</p>
-  <h3>Comment supprimer mon compte ?</h3>
-  <p>Profil (pseudo en haut à droite) → <strong>« Supprimer mon compte »</strong> → confirmer 2 fois. Toutes tes données sont effacées définitivement de ton téléphone. Pas de récupération possible.</p>
-  <h3>« Ignorer les optimisations de batterie », c'est dangereux ?</h3>
-  <p>Non. C'est pour garder la connexion active pendant que l'app est en arrière-plan. Tu peux refuser, mais les messages mettront plus longtemps à arriver. Réglable à tout moment dans les paramètres Android.</p>
-  <h3>Comment mettre à jour ?</h3>
-  <p>L'app vérifie les mises à jour <strong>régulièrement (environ chaque heure)</strong>. Quand une nouvelle version est disponible, un bandeau apparaît en haut — touche-le pour installer. Rien d'autre à faire.</p>
-
-</div>
-
-<footer><div class="wrap">
-  <span class="footer-copy">BiCrypt — sans publicité, sans collecte de données, sans abonnement.</span>
+  <div class="footer-bottom">
+    <span>© 2026 BiCrypt · Logiciel propriétaire, gratuit</span>
+    <span>Ce site n'utilise ni traceur, ni publicité, ni ressource externe.</span>
+  </div>
 </div></footer>
 
 </body>

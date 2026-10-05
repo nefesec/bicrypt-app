@@ -1,20 +1,27 @@
+# Cloudflare Pages — en-têtes de sécurité.
+# Le site n'a ni script ni style inline, et ne charge rien d'externe :
+# la CSP peut donc tout restreindre à 'self'. Les liens vers GitHub sont de
+# simples navigations, non concernées par la CSP.
 /*
-  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
-  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none'
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
   X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: accelerometer=(), autoplay=(), browsing-topics=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), xr-spatial-tracking=()
   Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Resource-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
+  X-DNS-Prefetch-Control: off
 
-/releases/latest.json
+/assets/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/releases/*
   Cache-Control: no-cache, no-store, must-revalidate
-  Pragma: no-cache
-  Expires: 0
   Content-Type: application/json; charset=utf-8
 
 /status.json
   Cache-Control: no-cache, no-store, must-revalidate
-  Pragma: no-cache
   Content-Type: application/json; charset=utf-8

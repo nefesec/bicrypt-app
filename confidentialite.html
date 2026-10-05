@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confidentialité — BiCrypt</title>
+<meta name="description" content="Politique de confidentialité de BiCrypt : ce qui est stocké sur ton téléphone, ce que voit le relais, et tes droits.">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="/#securite">Sécurité</a>
+    <a href="/#comparatif">Comparatif</a>
+    <a href="/guide">Mode d'emploi</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+  <div class="header-cta"><a class="btn btn-primary" href="/#telecharger">Télécharger</a></div>
+</div></header>
+
+<main id="contenu">
+  <div class="page-head"><div class="wrap-narrow">
+    <p class="kicker">Légal</p>
+    <h1>Politique de confidentialité</h1>
+    <p class="meta">Dernière mise à jour : 5 octobre 2026</p>
+  </div></div>
+
+  <div class="wrap-narrow">
+    <article class="prose legal section tight">
+      <p>BiCrypt est conçu selon le principe de protection de la vie privée dès la conception. Ce que nous ne collectons pas ne peut pas être volé, partagé ou compromis.</p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>Le traitement des données est effectué localement, sur le terminal de l'utilisateur. Le développeur n'a aucun accès aux données créées ou échangées via l'application.</p>
+
+      <h2>2. Données stockées sur votre terminal</h2>
+      <ul>
+        <li><strong>Clés cryptographiques</strong> (Ed25519 / X25519), générées localement. La clé privée est protégée par le Keystore Android (matériel sur les appareils compatibles).</li>
+        <li><strong>Code PIN</strong> : jamais stocké en clair. Seule une empreinte BLAKE2b, elle-même chiffrée, est conservée localement.</li>
+        <li><strong>Messages</strong> : chiffrés de bout en bout pendant le transfert, puis chiffrés sur le terminal avec une clé locale protégée par le Keystore.</li>
+        <li><strong>Contacts et groupes</strong> (pseudonymes et clés publiques) : stockés dans l'espace privé de l'application, inaccessible aux autres applications.</li>
+        <li><strong>Photos et vocaux</strong> : conservés sur le terminal, avec suppression automatique réglable.</li>
+      </ul>
+
+      <h2>3. Transit des données (le relais)</h2>
+      <ul>
+        <li>Le relais (.onion) achemine les messages chiffrés en mémoire vive uniquement. Rien n'est écrit sur disque.</li>
+        <li>Si le destinataire est hors ligne, le message chiffré est conservé en mémoire vive au plus 24 heures, puis supprimé. Un redémarrage du relais l'efface également.</li>
+        <li>Pour acheminer un message, le relais voit la clé publique du destinataire. Il ne conserve ni journal de connexion, ni horodatage, ni identifiant.</li>
+        <li>Votre adresse IP réelle n'est jamais exposée : la connexion passe par le réseau Tor jusqu'au service onion.</li>
+      </ul>
+
+      <h2>4. Base légale</h2>
+      <p>L'utilisation repose exclusivement sur votre consentement. En générant vos clés, vous initiez le traitement de vos données pour la finalité unique de communication privée.</p>
+
+      <h2>5. Vos droits (RGPD)</h2>
+      <p>BiCrypt ne détenant aucune donnée sur ses serveurs, l'exercice de vos droits s'effectue directement sur votre appareil :</p>
+      <ul>
+        <li><strong>Accès et portabilité</strong> : consultez vos messages et clés dans l'application.</li>
+        <li><strong>Effacement</strong> : utilisez « Supprimer mon compte » ou désinstallez l'application. La suppression est définitive : aucune sauvegarde n'existe côté développeur.</li>
+      </ul>
+
+      <h2>6. Sécurité</h2>
+      <p>Primitives cryptographiques : X25519 (échange de clés), XSalsa20-Poly1305 (chiffrement), Ed25519 (signatures), HKDF-SHA256 et BLAKE2b (dérivation). La sécurité dépend également de l'intégrité de votre propre appareil (absence de logiciel malveillant, verrouillage de l'écran).</p>
+
+      <h2>7. Transferts internationaux</h2>
+      <p>Le réseau Tor implique que les messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
+
+      <h2>8. Bibliothèques tierces</h2>
+      <ul>
+        <li><code>@noble/curves</code>, <code>@noble/ciphers</code>, <code>@noble/hashes</code> : cryptographie (Ed25519, X25519, XSalsa20-Poly1305, BLAKE2b, SHA-256). Bibliothèques auditées publiquement, sans dépendance native.</li>
+        <li><code>socket.io-client</code> : connexion au relais à travers Tor.</li>
+        <li><code>react-native-keychain</code> : accès au Keystore Android pour la clé privée et la clé locale de chiffrement.</li>
+        <li><code>react-native-vision-camera</code> : lecture des QR codes. Aucune image n'est stockée ni transmise.</li>
+        <li>Tor (binaire embarqué) : versions stables, circuits éphémères.</li>
+      </ul>
+
+      <h2>9. Mises à jour signées</h2>
+      <p>Toute mise à jour est signée Ed25519 avec une clé dédiée, distincte des clés des utilisateurs. Le manifeste signé est servi par le relais .onion, et l'application refuse toute installation dont la signature ou l'empreinte SHA-256 ne correspond pas. La clé privée de signature est conservée hors de l'application.</p>
+
+      <h2>10. Ce site web</h2>
+      <p>Ce site est hébergé par Cloudflare Pages. Il ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience et ne charge aucune ressource externe. Le bouton de téléchargement vous redirige vers GitHub, qui héberge le fichier de l'application.</p>
+
+      <h2>11. Contact</h2>
+      <p>Pour toute question relative à la protection de vos données : dépôt officiel <a href="https://github.com/nefesec/bicrypt-app" rel="noopener noreferrer">nefesec/bicrypt-app</a> sur GitHub.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+      <p>Messagerie chiffrée de bout en bout, via Tor. Sans numéro, sans compte, sans publicité.</p>
+    </div>
+    <div>
+      <h2>Application</h2>
+      <ul>
+        <li><a href="/#telecharger">Télécharger</a></li>
+        <li><a href="/#securite">Sécurité</a></li>
+        <li><a href="/#verifier">Vérifier le fichier</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Aide</h2>
+      <ul>
+        <li><a href="/guide">Mode d'emploi</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/control">Chat Control</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Légal</h2>
+      <ul>
+        <li><a href="/cgu">Conditions d'utilisation</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">Versions publiées</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 BiCrypt · Logiciel propriétaire, gratuit</span>
+    <span>Ce site n'utilise ni traceur, ni publicité, ni ressource externe.</span>
+  </div>
+</div></footer>
+
+</body>
+</html>
