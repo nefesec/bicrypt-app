@@ -9,6 +9,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/app.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -16,12 +17,9 @@
 <header class="site-header"><div class="wrap">
   <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
   <nav class="nav" aria-label="Navigation principale">
-    <a href="/#securite">Sécurité</a>
-    <a href="/#comparatif">Comparatif</a>
     <a href="/guide">Mode d'emploi</a>
     <a href="/faq" aria-current="page">FAQ</a>
   </nav>
-  <div class="header-cta"><a class="btn btn-primary" href="/#telecharger">Télécharger</a></div>
 </div></header>
 
 <main id="contenu">
@@ -47,7 +45,7 @@
           <summary>Pourquoi l'application n'est pas sur le Play Store ?</summary>
           <div class="a">
             <p>Pour rester indépendant de Google. Tu installes le fichier directement depuis ce site. Android affiche alors un avertissement standard, le même pour toute application qui ne vient pas du Play Store.</p>
-            <p>Pour être sûr d'avoir le vrai fichier, <a href="/#verifier">compare son empreinte</a>.</p>
+            <p>Pour être sûr d'avoir le vrai fichier, <a href="/faq#verifier">compare son empreinte</a>.</p>
           </div>
         </details>
         <details class="qa" id="lent">
@@ -108,6 +106,58 @@
       </div>
     </section>
 
+    <section class="section tight" aria-labelledby="t-compare">
+      <h2 class="h2" id="t-compare">Par rapport aux autres</h2>
+      <div class="faq">
+        <details class="qa" id="comparatif">
+          <summary>Quelle différence avec Signal, WhatsApp ou Telegram ?</summary>
+          <div class="a">
+            <p>Signal est une très bonne messagerie. BiCrypt va plus loin sur l'anonymat ; Signal, sur la transparence du code.</p>
+            <div class="table-scroll">
+              <table class="compare">
+                <caption class="sr-only">Comparatif de BiCrypt, Signal, WhatsApp et Telegram</caption>
+                <thead><tr><th scope="col"><span class="sr-only">Critère</span></th><th scope="col" class="us">BiCrypt</th><th scope="col">Signal</th><th scope="col">WhatsApp</th><th scope="col">Telegram</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Sans numéro de téléphone</th><td class="us"><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
+                  <tr><th scope="row">Chiffré de bout en bout par défaut</th><td class="us"><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td></tr>
+                  <tr><th scope="row">Adresse IP cachée au serveur</th><td class="us"><span class="yes">Oui, via Tor</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
+                  <tr><th scope="row">Métadonnées conservées</th><td class="us"><span class="yes">Aucune</span></td><td><span class="mid">Minimales</span></td><td><span class="no">Oui</span></td><td><span class="no">Oui</span></td></tr>
+                  <tr><th scope="row">Code source ouvert</th><td class="us"><span class="mid">Pas encore</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="mid">Application seulement</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section tight" id="verifier" aria-labelledby="t-verifier">
+      <h2 class="h2" id="t-verifier">Vérifier le fichier</h2>
+      <p class="sub-p">Facultatif. Pour être sûr d'avoir la vraie application et pas une copie modifiée, compare ces deux empreintes.</p>
+      <div class="verify">
+        <div class="fp-card">
+          <h3>Empreinte du fichier (SHA-256)</h3>
+          <p>Change à chaque version (<span data-version>—</span>).</p>
+          <div class="fp" id="fp-sha" data-sha>Chargement…</div>
+          <div class="fp-actions"><button type="button" class="copy" data-copy="sha" aria-controls="fp-sha" hidden>Copier</button></div>
+        </div>
+        <div class="fp-card">
+          <h3>Certificat de signature (SHA-256)</h3>
+          <p>Ne change jamais. Android refuse une mise à jour signée par un autre certificat.</p>
+          <div class="fp" id="fp-cert">6E9D E712 3414 E966 5BCF D361 7040 CDB8 3FB4 0216 FFC8 CD4C 1028 5FC0 A504 1C86</div>
+          <div class="fp-actions"><button type="button" class="copy" data-copy="cert" data-value="6e9de7123414e9665bcfd3617040cdb83fb40216ffc8cd4c10285fc0a5041c86" aria-controls="fp-cert">Copier</button></div>
+        </div>
+      </div>
+      <details class="qa plain">
+        <summary>Comment comparer ?</summary>
+        <div class="a">
+          <p><strong>Sur le téléphone :</strong> une application comme AppVerifier (open source) affiche le certificat d'une application installée.</p>
+          <p><strong>Sur un ordinateur :</strong> <code>sha256sum bicrypt-X.Y.Z.apk</code> pour l'empreinte, <code>apksigner verify --print-certs bicrypt-X.Y.Z.apk</code> pour le certificat.</p>
+          <p>Si une empreinte ne correspond pas, n'installe pas le fichier.</p>
+        </div>
+      </details>
+    </section>
+
     <section class="section tight" aria-labelledby="t-transparence">
       <h2 class="h2" id="t-transparence">Transparence</h2>
       <div class="faq">
@@ -115,7 +165,7 @@
           <summary>Pourquoi le code n'est-il pas open source ?</summary>
           <div class="a">
             <p>Aujourd'hui, le code de l'application est fermé et obfusqué. Ce n'est <strong>pas</strong> parce qu'un code caché serait plus sûr : ce serait faux.</p>
-            <p>La raison, c'est la contrefaçon. Les messageries connues sont copiées puis rediffusées en versions piégées qui espionnent leurs utilisateurs. Un binaire fermé, obfusqué et signé rend ces copies plus difficiles à fabriquer et faciles à repérer : la vraie version porte un <a href="/#verifier">certificat de signature</a> que personne d'autre ne possède.</p>
+            <p>La raison, c'est la contrefaçon. Les messageries connues sont copiées puis rediffusées en versions piégées qui espionnent leurs utilisateurs. Un binaire fermé, obfusqué et signé rend ces copies plus difficiles à fabriquer et faciles à repérer : la vraie version porte un <a href="/faq#verifier">certificat de signature</a> que personne d'autre ne possède.</p>
           </div>
         </details>
         <details class="qa" id="confiance">
@@ -139,40 +189,17 @@
 </main>
 
 <footer class="site-footer"><div class="wrap">
-  <div class="footer-grid">
-    <div>
-      <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
-      <p>Messagerie chiffrée de bout en bout, via Tor. Sans numéro, sans compte, sans publicité.</p>
-    </div>
-    <div>
-      <h2>Application</h2>
-      <ul>
-        <li><a href="/#telecharger">Télécharger</a></li>
-        <li><a href="/#securite">Sécurité</a></li>
-        <li><a href="/#verifier">Vérifier le fichier</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>Aide</h2>
-      <ul>
-        <li><a href="/guide">Mode d'emploi</a></li>
-        <li><a href="/faq">FAQ</a></li>
-        <li><a href="/control">Chat Control</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>Légal</h2>
-      <ul>
-        <li><a href="/cgu">Conditions d'utilisation</a></li>
-        <li><a href="/confidentialite">Confidentialité</a></li>
-        <li><a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">Versions publiées</a></li>
-      </ul>
-    </div>
+  <div class="footer-simple">
+    <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+    <nav aria-label="Liens du pied de page">
+      <a href="/guide">Mode d'emploi</a>
+      <a href="/faq">FAQ</a>
+      <a href="/control">Chat Control</a>
+      <a href="/cgu">Conditions</a>
+      <a href="/confidentialite">Confidentialité</a>
+    </nav>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 BiCrypt · Logiciel propriétaire, gratuit</span>
-    <span>Ce site n'utilise ni traceur, ni publicité, ni ressource externe.</span>
-  </div>
+  <p class="footer-copy">© 2026 BiCrypt · Ce site n'utilise ni traceur, ni ressource externe.</p>
 </div></footer>
 
 </body>

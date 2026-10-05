@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BiCrypt — Messagerie chiffrée, anonyme, sans compte</title>
-<meta name="description" content="Messagerie chiffrée de bout en bout via Tor pour Android. Pas de numéro, pas d'e-mail, pas de compte. Gratuite et sans publicité.">
+<title>BiCrypt — Messagerie chiffrée, sans compte</title>
+<meta name="description" content="Messagerie chiffrée de bout en bout via Tor pour Android. Pas de numéro, pas d'e-mail, pas de compte.">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0a0a0a">
 <meta property="og:title" content="BiCrypt — Parle librement, sans laisser de trace">
-<meta property="og:description" content="Chiffré de bout en bout, via Tor. Pas de numéro, pas de compte, rien de stocké sur disque.">
+<meta property="og:description" content="Chiffré de bout en bout, via Tor. Pas de numéro, pas de compte.">
 <meta property="og:type" content="website">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
@@ -17,31 +17,21 @@
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 
-<div class="topbar"><div class="wrap">
-  <span>Chat Control : l'UE prolonge le scan des messages privés jusqu'en 2028.</span>
-  <a href="/control">Ce que ça change →</a>
-</div></div>
-
 <header class="site-header"><div class="wrap">
   <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
   <nav class="nav" aria-label="Navigation principale">
-    <a href="#securite">Sécurité</a>
-    <a href="#comparatif">Comparatif</a>
     <a href="/guide">Mode d'emploi</a>
     <a href="/faq">FAQ</a>
   </nav>
-  <div class="header-cta"><a class="btn btn-primary" href="#telecharger">Télécharger</a></div>
 </div></header>
 
 <main id="contenu">
 
-<!-- ═══ Héros ═══ -->
 <section class="hero" id="telecharger" aria-labelledby="titre">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Messagerie privée pour Android</p>
       <h1 id="titre">Parle librement.<br><span class="soft">Sans laisser de trace.</span></h1>
-      <p class="lead">BiCrypt chiffre tes messages sur ton téléphone et les fait passer par le réseau Tor. <strong>Pas de numéro, pas d'e-mail, pas de compte</strong> : personne ne sait qui tu es, ni à qui tu parles.</p>
+      <p class="lead">Une messagerie pour Android, sans numéro ni compte. Tes messages sont chiffrés sur ton téléphone et passent par le réseau Tor.</p>
 
       <div id="maintenance" class="notice" role="status" hidden>
         <p class="notice-label">Téléchargement indisponible</p>
@@ -51,18 +41,13 @@
       </div>
 
       <div data-dl-block>
-        <div class="btn-row">
-          <a class="btn btn-primary btn-lg" data-dl href="https://github.com/nefesec/bicrypt-app/releases/latest" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-            Télécharger pour Android
-          </a>
-          <a class="btn" href="/guide#installer">Comment l'installer</a>
-        </div>
-        <p class="dl-meta">
-          <span data-version>Dernière version</span><span class="dot">·</span><span data-size>≈ 33 Mo</span><span class="dot">·</span>Android 8 ou plus<span class="dot">·</span>Gratuit, sans pub
-        </p>
-        <p class="dl-note">Pas sur le Play Store : l'application s'installe directement depuis le fichier. <a href="#verifier">Vérifier le fichier</a></p>
-        <p class="error-msg" data-dl-error hidden>Impossible de lire la dernière version ici : le bouton t'emmène sur la page officielle de la release, sur GitHub.</p>
+        <a class="btn btn-primary btn-lg" data-dl href="https://github.com/nefesec/bicrypt-app/releases/latest" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Télécharger pour Android
+        </a>
+        <p class="dl-meta"><span data-version>Dernière version</span><span class="dot">·</span><span data-size>≈ 33 Mo</span><span class="dot">·</span>Android 8 ou plus<span class="dot">·</span>Gratuit</p>
+        <p class="dl-note"><a href="/guide#installer">Comment l'installer</a><span class="dot">·</span><a href="/faq#verifier">Vérifier le fichier</a></p>
+        <p class="error-msg" data-dl-error hidden>Version introuvable ici : le bouton t'emmène sur la page officielle de la release, sur GitHub.</p>
       </div>
     </div>
 
@@ -76,9 +61,9 @@
         <div class="thread">
           <span class="sys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Chiffré de bout en bout</span>
           <div class="bubble in">J'ai bien reçu ton code, je t'ai ajouté.<small>18:02</small></div>
-          <div class="bubble out">Parfait. Ici personne ne voit nos numéros.<small>18:03</small></div>
+          <div class="bubble out">Parfait, on est bons.<small>18:03</small></div>
           <div class="bubble in voice"><i></i><span class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span> 0:12</div>
-          <div class="bubble out">Et même le relais ne sait pas qui parle à qui.<small>18:04</small></div>
+          <div class="bubble out">Je t'écoute ce soir.<small>18:04</small></div>
         </div>
         <div class="composer">
           <span class="field">Message…</span>
@@ -89,222 +74,65 @@
   </div>
 </section>
 
-<!-- ═══ Démarrage ═══ -->
-<section class="section" aria-labelledby="t-demarrer">
+<section class="section" aria-labelledby="t-comment">
   <div class="wrap">
-    <div class="section-head">
-      <p class="kicker">Prêt en 3 minutes</p>
-      <h2 id="t-demarrer">Aussi simple qu'une messagerie classique</h2>
-      <p>Aucune inscription, aucun formulaire. Tu installes, tu choisis un pseudo, tu ajoutes tes proches.</p>
-    </div>
-    <ol class="steps">
-      <li class="step">
-        <h3>Installe l'application</h3>
-        <p>Télécharge le fichier, ouvre-le et autorise l'installation. Android te le demande une seule fois.</p>
-      </li>
-      <li class="step">
-        <h3>Crée ton identité</h3>
-        <p>Un pseudo et un code PIN à 6 chiffres. On ne te demande rien d'autre : ni nom, ni numéro, ni e-mail.</p>
-      </li>
-      <li class="step">
-        <h3>Ajoute quelqu'un</h3>
-        <p>Scanne son QR code si vous êtes ensemble, ou entre le code à usage unique qu'il t'a envoyé.</p>
-      </li>
-    </ol>
-    <a class="more-link" href="/guide">Voir le mode d'emploi complet →</a>
-  </div>
-</section>
-
-<!-- ═══ Sécurité ═══ -->
-<section class="section" id="securite" aria-labelledby="t-securite">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="kicker">Ce qui te protège</p>
-      <h2 id="t-securite">Ton message est protégé. Ton identité aussi.</h2>
-      <p>La plupart des messageries chiffrent le contenu, puis connaissent ton numéro, ton adresse IP et la liste de tes contacts. BiCrypt protège aussi tout ça.</p>
-    </div>
-    <div class="cards">
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 13.3-6"/><path d="m16 17 5 5m0-5-5 5"/></svg></div>
-        <h3>Aucune identité réelle</h3>
-        <p>Ton compte est une paire de clés créée sur ton téléphone. Pas de numéro, pas d'e-mail : rien qui mène jusqu'à toi.</p>
-      </article>
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
-        <h3>Adresse IP cachée</h3>
-        <p>Tout passe par le réseau Tor, jusqu'à un service caché « .onion ». Même notre relais ne voit pas d'où tu te connectes.</p>
-      </article>
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-        <h3>Chiffré de bout en bout</h3>
-        <p>Chaque message est chiffré avant de quitter ton téléphone. Seul ton destinataire peut le lire. Pas nous, pas le relais.</p>
-      </article>
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <h3>Rien d'écrit sur disque</h3>
-        <p>Le relais travaille en mémoire vive, sans journaux. Si ton contact est hors ligne, le message chiffré l'attend 24 h au plus, puis disparaît.</p>
-      </article>
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg></div>
-        <h3>Photos nettoyées</h3>
-        <p>Position GPS, modèle du téléphone… les métadonnées sont retirées avant l'envoi. Si ce n'est pas possible, la photo ne part pas.</p>
-      </article>
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Mises à jour vérifiées</h3>
-        <p>Chaque mise à jour est signée. L'application vérifie la signature avant d'installer et refuse toute version modifiée.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ Comparatif ═══ -->
-<section class="section" id="comparatif" aria-labelledby="t-comparatif">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="kicker">Comparatif</p>
-      <h2 id="t-comparatif">BiCrypt face aux messageries connues</h2>
-      <p>Signal est une excellente messagerie. Sur l'anonymat, BiCrypt va plus loin. Sur la transparence du code, c'est Signal qui est en avance, et on te dit pourquoi.</p>
-    </div>
-    <div class="table-scroll">
-      <table class="compare">
-        <caption class="sr-only">Comparatif de BiCrypt, Signal, WhatsApp et Telegram</caption>
-        <thead>
-          <tr><th scope="col"><span class="sr-only">Critère</span></th><th scope="col" class="us">BiCrypt</th><th scope="col">Signal</th><th scope="col">WhatsApp</th><th scope="col">Telegram</th></tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Sans numéro de téléphone</th><td class="us"><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
-          <tr><th scope="row">Sans compte ni inscription</th><td class="us"><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
-          <tr><th scope="row">Chiffré de bout en bout par défaut</th><td class="us"><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td></tr>
-          <tr><th scope="row">Adresse IP cachée au serveur</th><td class="us"><span class="yes">Oui, via Tor</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
-          <tr><th scope="row">Métadonnées conservées</th><td class="us"><span class="yes">Aucune</span></td><td><span class="mid">Minimales</span></td><td><span class="no">Oui (Meta)</span></td><td><span class="no">Oui</span></td></tr>
-          <tr><th scope="row">Code source ouvert</th><td class="us"><span class="mid">Pas encore</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="mid">Application seulement</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-note">Le relais voit passer des clés publiques pour acheminer les messages, sans les conserver. Pourquoi le code n'est pas encore ouvert : <a href="/faq#code-ferme">la réponse dans la FAQ</a>.</p>
-  </div>
-</section>
-
-<!-- ═══ Vérification ═══ -->
-<section class="section" id="verifier" aria-labelledby="t-verifier">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="kicker">Anti-contrefaçon</p>
-      <h2 id="t-verifier">Vérifie que ton fichier est le vrai</h2>
-      <p>Des copies piégées de messageries circulent sur Internet. Télécharge BiCrypt uniquement depuis ce site, et compare ces deux empreintes si tu veux en être certain.</p>
-    </div>
-    <div class="verify">
-      <div class="fp-card">
-        <h3>Empreinte du fichier (SHA-256)</h3>
-        <p>Elle change à chaque version. Elle doit être identique à celle affichée sur la page GitHub de la version.</p>
-        <div class="fp" id="fp-sha" data-sha>Chargement…</div>
-        <div class="fp-actions">
-          <button type="button" class="copy" data-copy="sha" aria-controls="fp-sha" hidden>Copier</button>
-          <small>Version <span data-version>—</span></small>
-        </div>
+    <h2 class="h2" id="t-comment">Comment ça marche</h2>
+    <div class="trio">
+      <div>
+        <h3>Pas de compte</h3>
+        <p>Tu choisis un pseudo et un code PIN. On ne te demande ni numéro, ni e-mail.</p>
       </div>
-      <div class="fp-card">
-        <h3>Certificat de signature (SHA-256)</h3>
-        <p>Il ne change jamais. Android refuse d'installer par-dessus BiCrypt une version signée par un autre certificat.</p>
-        <div class="fp" id="fp-cert">6E9D E712 3414 E966 5BCF D361 7040 CDB8 3FB4 0216 FFC8 CD4C 1028 5FC0 A504 1C86</div>
-        <div class="fp-actions">
-          <button type="button" class="copy" data-copy="cert" data-value="6e9de7123414e9665bcfd3617040cdb83fb40216ffc8cd4c10285fc0a5041c86" aria-controls="fp-cert">Copier</button>
-          <small>Inscrit dans cette page, pas chargé depuis un fichier</small>
-        </div>
+      <div>
+        <h3>Tu ajoutes tes proches</h3>
+        <p>En scannant leur QR code, ou avec un code à usage unique qu'ils t'envoient.</p>
+      </div>
+      <div>
+        <h3>Personne d'autre ne lit</h3>
+        <p>Les messages sont chiffrés sur ton téléphone. Même notre relais ne peut pas les lire, ni savoir d'où tu te connectes.</p>
       </div>
     </div>
-    <div class="faq">
-      <details class="qa plain">
-        <summary>Comment vérifier, concrètement ?</summary>
-        <div class="a">
-          <p><strong>Sur le téléphone :</strong> une application de vérification comme AppVerifier (open source) affiche le certificat d'une application installée. Il doit correspondre à celui ci-dessus.</p>
-          <p><strong>Sur un ordinateur :</strong> <code>sha256sum bicrypt-X.Y.Z.apk</code> donne l'empreinte du fichier, et <code>apksigner verify --print-certs bicrypt-X.Y.Z.apk</code> (outils Android) affiche le certificat.</p>
-          <p>Si une empreinte ne correspond pas, n'installe pas le fichier : ce n'est pas une version officielle.</p>
-        </div>
-      </details>
-    </div>
   </div>
 </section>
 
-<!-- ═══ FAQ (aperçu) ═══ -->
 <section class="section" aria-labelledby="t-faq">
   <div class="wrap-narrow">
-    <div class="section-head">
-      <p class="kicker">Questions fréquentes</p>
-      <h2 id="t-faq">Ce qu'on nous demande le plus</h2>
-    </div>
+    <h2 class="h2" id="t-faq">Questions fréquentes</h2>
     <div class="faq">
       <details class="qa">
-        <summary>C'est vraiment gratuit ?</summary>
-        <div class="a"><p>Oui. Pas de publicité, pas d'abonnement, pas de revente de données. Et pour cause : on n'a aucune donnée sur toi à revendre.</p></div>
+        <summary>C'est gratuit ?</summary>
+        <div class="a"><p>Oui, sans publicité ni abonnement. On ne connaît rien de toi, donc il n'y a rien à revendre.</p></div>
       </details>
       <details class="qa">
-        <summary>Pourquoi l'application n'est pas sur le Play Store ?</summary>
-        <div class="a"><p>Pour rester indépendant de Google. Tu installes le fichier directement : Android affiche alors un avertissement standard, normal pour toute application qui ne vient pas du Play Store. Le <a href="/guide#installer">mode d'emploi</a> te guide pas à pas.</p></div>
+        <summary>Pourquoi ce n'est pas sur le Play Store ?</summary>
+        <div class="a"><p>Pour ne pas dépendre de Google. Tu installes le fichier directement ; Android affiche un avertissement, comme pour toute application hors Play Store. Le <a href="/guide#installer">mode d'emploi</a> explique comment faire.</p></div>
       </details>
       <details class="qa">
         <summary>Et si je perds mon téléphone ?</summary>
-        <div class="a"><p>Ton compte n'existe que sur ton téléphone, protégé par ton code PIN. Il n'y a aucune copie sur un serveur, donc rien à saisir ni à pirater. En contrepartie, sur un nouveau téléphone, tu crées une nouvelle identité et tu ré-ajoutes tes contacts.</p></div>
+        <div class="a"><p>Ton compte n'existe que sur ton téléphone, il n'y a aucune copie ailleurs. Sur un nouveau téléphone, tu crées une nouvelle identité et tu ré-ajoutes tes contacts.</p></div>
       </details>
       <details class="qa">
-        <summary>Le relais peut-il lire mes messages ?</summary>
-        <div class="a"><p><strong>Non.</strong> Les messages sont chiffrés sur ton téléphone avant l'envoi. Le relais ne voit que des données illisibles, qu'il transmet sans les écrire nulle part.</p></div>
+        <summary>Ça marche sur iPhone ?</summary>
+        <div class="a"><p>Pas pour le moment : Android 8 ou plus uniquement.</p></div>
       </details>
     </div>
     <a class="more-link" href="/faq">Toutes les questions →</a>
   </div>
 </section>
 
-<!-- ═══ Final ═══ -->
-<section class="final" aria-labelledby="t-final">
-  <div class="wrap">
-    <h2 id="t-final">Reprends le contrôle de tes conversations.</h2>
-    <p>Gratuit, sans compte, sans publicité. Android 8 ou plus.</p>
-    <div class="btn-row">
-      <a class="btn btn-primary btn-lg" data-dl href="https://github.com/nefesec/bicrypt-app/releases/latest" rel="noopener noreferrer">Télécharger BiCrypt</a>
-      <a class="btn btn-lg" href="/guide">Mode d'emploi</a>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer class="site-footer"><div class="wrap">
-  <div class="footer-grid">
-    <div>
-      <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
-      <p>Messagerie chiffrée de bout en bout, via Tor. Sans numéro, sans compte, sans publicité.</p>
-    </div>
-    <div>
-      <h2>Application</h2>
-      <ul>
-        <li><a href="/#telecharger">Télécharger</a></li>
-        <li><a href="/#securite">Sécurité</a></li>
-        <li><a href="/#verifier">Vérifier le fichier</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>Aide</h2>
-      <ul>
-        <li><a href="/guide">Mode d'emploi</a></li>
-        <li><a href="/faq">FAQ</a></li>
-        <li><a href="/control">Chat Control</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>Légal</h2>
-      <ul>
-        <li><a href="/cgu">Conditions d'utilisation</a></li>
-        <li><a href="/confidentialite">Confidentialité</a></li>
-        <li><a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">Versions publiées</a></li>
-      </ul>
-    </div>
+  <div class="footer-simple">
+    <a class="brand" href="/" aria-label="BiCrypt, accueil"><span class="g">B</span>I<span class="g">C</span>R<span class="g">Y</span>P<span class="g">T</span></a>
+    <nav aria-label="Liens du pied de page">
+      <a href="/guide">Mode d'emploi</a>
+      <a href="/faq">FAQ</a>
+      <a href="/control">Chat Control</a>
+      <a href="/cgu">Conditions</a>
+      <a href="/confidentialite">Confidentialité</a>
+    </nav>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 BiCrypt · Logiciel propriétaire, gratuit</span>
-    <span>Ce site n'utilise ni traceur, ni publicité, ni ressource externe.</span>
-  </div>
+  <p class="footer-copy">© 2026 BiCrypt · Ce site n'utilise ni traceur, ni ressource externe.</p>
 </div></footer>
 
 </body>

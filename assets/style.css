@@ -428,3 +428,20 @@ details.qa.plain { background: transparent; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 600px) { .phone { width: min(270px, 78vw); } }
+
+/* ── Version épurée ───────────────────────────────────────────────────── */
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 32px; }
+@media (max-width: 800px) { .trio { grid-template-columns: 1fr; gap: 28px; } }
+.trio h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.trio p { color: var(--sub); margin: 0; }
+.section .h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.dl-note .dot { color: var(--line-strong); margin-inline: 8px; }
+.footer-simple { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; }
+.footer-simple nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.footer-simple nav a { color: var(--muted); text-decoration: none; }
+.footer-simple nav a:hover { color: var(--text); }
+.footer-copy { margin: 24px 0 0; font-size: 0.85rem; }
+.site-footer { border-top: 1px solid var(--line); }
+.sub-p { color: var(--sub); margin: -4px 0 20px; }
+#verifier .qa.plain { margin-top: 12px; }
+details.qa .table-scroll { margin-top: 8px; }
