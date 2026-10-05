@@ -6,9 +6,11 @@ Copyright (c) 2025-2026 Naoufel (nefesec). All rights reserved.
 PREAMBLE
 
 BiCrypt is a privacy-focused, end-to-end encrypted communication application.
-Its source code is made publicly available for transparency, security audit,
-and educational study only. This is NOT an open-source license. No commercial,
-public, or service-based use is permitted without prior written agreement.
+The compiled application is distributed free of charge. Its source code is
+not publicly published; any portion of it that is shared with You (for example
+for a security audit) remains subject to this License. This is NOT an
+open-source license. No commercial, public, or service-based use is permitted
+without prior written agreement.
 
 ================================================================================
 

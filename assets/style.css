@@ -445,3 +445,6 @@ details.qa.plain { background: transparent; }
 .sub-p { color: var(--sub); margin: -4px 0 20px; }
 #verifier .qa.plain { margin-top: 12px; }
 details.qa .table-scroll { margin-top: 8px; }
+.more-row { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0; }
+.faq .a ul { padding-left: 1.2em; margin: 0 0 1em; }
+.faq .a li { margin-bottom: 6px; }

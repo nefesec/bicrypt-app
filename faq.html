@@ -75,18 +75,32 @@
       <div class="faq">
         <details class="qa" id="relais">
           <summary>Le relais peut-il lire mes messages ?</summary>
-          <div class="a"><p><strong>Non.</strong> Chaque message est chiffré sur ton téléphone avant l'envoi (X25519 et XSalsa20-Poly1305). Le relais ne voit que des données illisibles, qu'il transmet sans les écrire sur disque.</p></div>
+          <div class="a"><p><strong>Non.</strong> Chaque message est chiffré sur ton téléphone avant l'envoi (X25519 et XSalsa20-Poly1305). Le relais ne voit que des données illisibles, qu'il transmet sans les écrire sur disque. Seule exception : le <a href="#general">groupe Général</a>, public par nature.</p></div>
         </details>
         <details class="qa" id="relais-voit">
           <summary>Qu'est-ce que le relais voit, exactement ?</summary>
           <div class="a">
-            <p>Pour acheminer un message, il voit la <strong>clé publique</strong> du destinataire (une suite de caractères, pas un nom) et un bloc chiffré. Il ne voit ni ton adresse IP (Tor la cache), ni ton numéro (tu n'en donnes pas), ni le contenu.</p>
-            <p>Il garde ces informations en mémoire vive le temps de livrer le message, 24 heures au plus si le destinataire est hors ligne. Rien n'est écrit sur disque, et il n'y a ni journal, ni base de données.</p>
+            <p>On préfère te le détailler plutôt que de dire « rien ». Pour acheminer les messages, le relais voit :</p>
+            <ul>
+              <li>la <strong>clé publique</strong> des appareils connectés (une suite de caractères, pas un nom ni un numéro) ;</li>
+              <li><strong>à quel moment</strong> un message arrive pour telle clé, et sa taille approximative ;</li>
+              <li>le message lui-même, mais <strong>chiffré</strong> : il ne peut pas le lire.</li>
+            </ul>
+            <p>Il ne voit pas ton adresse IP (Tor la cache), ni ton numéro (tu n'en donnes pas). Tout ça reste en mémoire vive le temps de livrer le message, 24 heures au plus si le destinataire est hors ligne, puis disparaît. Rien n'est écrit sur disque, il n'y a ni journal ni base de données.</p>
+            <p>Exception : les messages du <a href="#general">groupe Général</a>, lisibles par tous.</p>
           </div>
         </details>
         <details class="qa" id="saisie">
           <summary>Si quelqu'un saisit le serveur ?</summary>
-          <div class="a"><p>Il ne trouvera ni historique, ni liste d'utilisateurs, ni messages lisibles : rien n'est stocké sur disque. Au pire, des messages chiffrés en attente, impossibles à lire sans les clés, qui restent sur vos téléphones.</p></div>
+          <div class="a">
+            <p>Sur le disque, il ne trouvera ni historique, ni liste d'utilisateurs, ni message. S'il copie la mémoire d'un relais en marche, il verra au plus les messages chiffrés en attente (illisibles sans les clés, qui restent sur vos téléphones) et les clés publiques connectées à cet instant.</p>
+          </div>
+        </details>
+        <details class="qa" id="general">
+          <summary>Le groupe Général est-il privé ?</summary>
+          <div class="a">
+            <p><strong>Non.</strong> Sa clé de chiffrement est calculée à partir de son nom, qui est public : n'importe quel utilisateur de BiCrypt peut le lire, et le relais aussi. C'est un salon ouvert, pas un espace confidentiel. Pour parler en privé, utilise une conversation ou un groupe privé.</p>
+          </div>
         </details>
         <details class="qa" id="photos">
           <summary>Mes photos révèlent-elles où je suis ?</summary>
@@ -121,7 +135,7 @@
                   <tr><th scope="row">Sans numéro de téléphone</th><td class="us"><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
                   <tr><th scope="row">Chiffré de bout en bout par défaut</th><td class="us"><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td></tr>
                   <tr><th scope="row">Adresse IP cachée au serveur</th><td class="us"><span class="yes">Oui, via Tor</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
-                  <tr><th scope="row">Métadonnées conservées</th><td class="us"><span class="yes">Aucune</span></td><td><span class="mid">Minimales</span></td><td><span class="no">Oui</span></td><td><span class="no">Oui</span></td></tr>
+                  <tr><th scope="row">Métadonnées conservées</th><td class="us"><span class="yes">Aucune sur disque</span></td><td><span class="mid">Minimales</span></td><td><span class="no">Oui</span></td><td><span class="no">Oui</span></td></tr>
                   <tr><th scope="row">Code source ouvert</th><td class="us"><span class="mid">Pas encore</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="mid">Application seulement</span></td></tr>
                 </tbody>
               </table>
@@ -160,30 +174,76 @@
 
     <section class="section tight" aria-labelledby="t-transparence">
       <h2 class="h2" id="t-transparence">Transparence</h2>
+      <p class="sub-p">On ne te demande pas de nous croire sur parole. Voici nos choix, leurs raisons, et ce qu'ils te coûtent.</p>
       <div class="faq">
         <details class="qa" id="code-ferme">
           <summary>Pourquoi le code n'est-il pas open source ?</summary>
           <div class="a">
-            <p>Aujourd'hui, le code de l'application est fermé et obfusqué. Ce n'est <strong>pas</strong> parce qu'un code caché serait plus sûr : ce serait faux.</p>
-            <p>La raison, c'est la contrefaçon. Les messageries connues sont copiées puis rediffusées en versions piégées qui espionnent leurs utilisateurs. Un binaire fermé, obfusqué et signé rend ces copies plus difficiles à fabriquer et faciles à repérer : la vraie version porte un <a href="/faq#verifier">certificat de signature</a> que personne d'autre ne possède.</p>
+            <p>Parce qu'on est une toute petite équipe. Publier le code, c'est voir apparaître des copies de BiCrypt, parfois piégées, et devoir passer notre temps à les surveiller, à prévenir les utilisateurs et à gérer leurs failles. Ce temps, on préfère le passer sur ce qui compte vraiment : la sécurité de l'application elle-même.</p>
+            <p>Ce n'est <strong>pas</strong> parce qu'un code caché serait plus sûr : ce serait faux. La sécurité de BiCrypt repose sur des algorithmes publics, pas sur le secret du code.</p>
+            <p>Ce choix a un coût pour toi, et on ne le cache pas : <strong>tu ne peux pas lire le code pour vérifier ce qu'il fait</strong>. Les deux questions suivantes disent ce que tu peux vérifier quand même, et ce que tu dois nous accorder.</p>
+          </div>
+        </details>
+        <details class="qa" id="verifiable">
+          <summary>Ce que tu peux vérifier toi-même</summary>
+          <div class="a">
+            <ul>
+              <li><strong>Que ton fichier est le vrai :</strong> avec l'empreinte et le certificat de signature, <a href="#verifier">plus haut</a>.</li>
+              <li><strong>Les autorisations demandées :</strong> caméra (QR codes), micro (vocaux), notifications, Internet, fonctionnement en arrière-plan et installation des mises à jour. Pas d'accès à tes contacts, ta position ou tes fichiers. Tu peux le voir dans les réglages Android de l'application.</li>
+              <li><strong>Que l'application ne parle à personne d'autre :</strong> elle ne contient ni Google, ni Firebase, ni outil de statistiques ou de pub. Avec un pare-feu comme NetGuard ou RethinkDNS, tu verras qu'elle ne se connecte qu'au réseau Tor.</li>
+              <li><strong>Qu'on ne te demande rien :</strong> ni numéro, ni e-mail, ni nom. C'est visible dès l'installation.</li>
+            </ul>
           </div>
         </details>
         <details class="qa" id="confiance">
-          <summary>Alors comment vous faire confiance ?</summary>
+          <summary>Ce que tu dois nous accorder</summary>
           <div class="a">
-            <p>La sécurité de BiCrypt ne repose pas sur le secret du code, mais sur des algorithmes publics. C'est le <strong>principe de Kerckhoffs</strong> : un système doit rester sûr même si tout est connu, sauf la clé. Ouvrir le code ne révélerait aucune clé.</p>
-            <p>Ce que tu peux vérifier dès aujourd'hui : l'empreinte et le certificat de chaque version. Ce qui est prévu : un protocole documenté, des builds reproductibles et un audit indépendant. Tant que ce n'est pas fait, on ne le présente pas comme acquis.</p>
+            <ul>
+              <li><strong>Que l'application fait ce qu'on décrit.</strong> Sans le code, tu ne peux pas le contrôler ligne par ligne.</li>
+              <li><strong>Que le relais fonctionne comme annoncé</strong> : en mémoire vive, sans journaux. Tu ne peux pas inspecter notre serveur.</li>
+              <li><strong>Les mises à jour.</strong> L'application installe ce qui est signé avec notre clé. Elle te protège contre un tiers, pas contre nous : une version signée par nous serait acceptée.</li>
+              <li><strong>Il n'y a pas encore eu d'audit indépendant.</strong> Il est prévu, sans date pour l'instant. On ne le présentera pas comme fait tant qu'il ne l'est pas.</li>
+            </ul>
           </div>
+        </details>
+        <details class="qa" id="limites">
+          <summary>Les limites connues de BiCrypt</summary>
+          <div class="a">
+            <ul>
+              <li><strong>Un seul relais.</strong> S'il tombe en panne, les messages ne passent plus jusqu'à son retour. Tes données ne sont pas perdues pour autant, elles sont sur ton téléphone.</li>
+              <li><strong>Le relais voit des métadonnées de passage</strong> : quelles clés publiques sont connectées, et quand un message arrive. <a href="#relais-voit">Détails ici</a>.</li>
+              <li><strong>Le groupe Général est public</strong>, lisible par tous. <a href="#general">Détails ici</a>.</li>
+              <li><strong>Tes contacts et tes groupes ne sont pas encore chiffrés sur le téléphone</strong>, contrairement à tes messages. Ils restent dans l'espace privé de l'application, et c'est en cours de correction.</li>
+              <li><strong>Le code PIN</strong> bloque l'accès à l'application. Face à quelqu'un qui extrairait les données de ton téléphone, la vraie protection reste le chiffrement d'Android : garde un verrouillage d'écran solide.</li>
+              <li><strong>Un téléphone infecté</strong> par un logiciel espion peut lire ce qui s'affiche à l'écran. Aucune messagerie ne protège contre ça.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="qa" id="licence">
+          <summary>Sous quelle licence est BiCrypt ?</summary>
+          <div class="a">
+            <p>Une licence propriétaire : <a href="https://github.com/nefesec/bicrypt-app/blob/main/LICENSE" rel="noopener noreferrer">BiCrypt License</a> (texte en anglais). En résumé :</p>
+            <ul>
+              <li><strong>Autorisé :</strong> utiliser l'application gratuitement, faire de la recherche de sécurité pour toi-même et signaler les failles en privé.</li>
+              <li><strong>Interdit :</strong> redistribuer l'application ou une version modifiée, faire tourner un relais ou un service dérivé, utiliser le nom ou le logo BiCrypt, et tout usage illégal.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="qa" id="faille">
+          <summary>J'ai trouvé une faille de sécurité</summary>
+          <div class="a"><p>Merci ! Signale-la en privé via le <a href="https://github.com/nefesec/bicrypt-app/security/advisories/new" rel="noopener noreferrer">formulaire de signalement sécurisé</a> de GitHub. Ne la publie pas avant qu'un correctif soit sorti, pour ne pas exposer les utilisateurs.</p></div>
         </details>
         <details class="qa" id="qui">
           <summary>Qui est derrière BiCrypt ?</summary>
-          <div class="a"><p>Un développeur indépendant. Pas d'actionnaires, pas de Big Tech, pas de modèle économique fondé sur tes données. Les versions sont publiées sur <a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">GitHub</a>.</p></div>
-        </details>
-        <details class="qa" id="contact">
-          <summary>Comment vous contacter ?</summary>
-          <div class="a"><p>Via le dépôt officiel <a href="https://github.com/nefesec/bicrypt-app" rel="noopener noreferrer">nefesec/bicrypt-app</a> sur GitHub. N'y publie jamais rien qui permette de t'identifier.</p></div>
+          <div class="a"><p>Une toute petite équipe indépendante. Pas d'actionnaires, pas de Big Tech, pas de modèle économique fondé sur tes données. Les versions sont publiées sur <a href="https://github.com/nefesec/bicrypt-app/releases" rel="noopener noreferrer">GitHub</a>.</p></div>
         </details>
       </div>
+    </section>
+
+    <section class="section tight" id="contact" aria-labelledby="t-contact">
+      <h2 class="h2" id="t-contact">Une question ? Un avis ?</h2>
+      <p class="sub-p">Pose ta question ou donne ton avis dans l'<a href="https://github.com/nefesec/bicrypt-app/discussions" rel="noopener noreferrer">espace de discussion public</a> de BiCrypt, sur GitHub. On y répond, et les réponses utiles finissent dans cette FAQ.</p>
+      <div class="callout warn"><strong>C'est public, et lié à ton compte GitHub.</strong> Pour rester anonyme, utilise un compte dédié et n'écris rien qui permette de t'identifier.</div>
     </section>
   </div>
 </main>
@@ -197,6 +257,7 @@
       <a href="/control">Chat Control</a>
       <a href="/cgu">Conditions</a>
       <a href="/confidentialite">Confidentialité</a>
+      <a href="/faq#licence">Licence</a>
     </nav>
   </div>
   <p class="footer-copy">© 2026 BiCrypt · Ce site n'utilise ni traceur, ni ressource externe.</p>
