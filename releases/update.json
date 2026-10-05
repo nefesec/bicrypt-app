@@ -1,11 +1,11 @@
 {
   "v": 1,
-  "versionCode": 51,
-  "minVersionCode": 0,
-  "versionName": "1.2.10",
-  "sha256": "cc541a806aa58db86f95fecfca23efa250652406b47ac3eb6c7c698d1c77b318",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-1.2.10.apk",
-  "changelog": "v1.2.10 — Réponses à tes retours : l'équipe peut désormais te répondre, toujours de façon 100% anonyme (on ne sait jamais qui a écrit). Retrouve tes échanges dans Réglages → Mes retours. Nouveau look du site.",
-  "signedAt": 1783644346821,
-  "sig": "34dbb52899de8a5e54f596a7975a83370c31d264ad317469354e051a6d8bcca6c47bbda0f216d439dcf54f9197e38eca4ba2af26f160b847a36ad4844e236309"
+  "versionCode": 52,
+  "minVersionCode": 52,
+  "versionName": "1.2.11",
+  "sha256": "351ae42ad93d8a89f5888a5f7fad601c7663a92d109a8160d8b5772772e1f730",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-1.2.11.apk",
+  "changelog": "v1.2.11 — Relais plus sûr et plus discret : plus aucun tableau de bord ni compteur côté serveur. Codes d'invitation améliorés et corrections. Les retours anonymes sont retirés. Mise à jour obligatoire.",
+  "signedAt": 1791228851866,
+  "sig": "79924607c90e951c32481f8a83e2bf20d847aa6f18796e0b5cc1b3ed8c11a817d33c112edfb78cd63bc3c15948367a1689b5aca5d41586b54291cd45a0cbfb0c"
 }
