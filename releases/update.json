@@ -1,11 +1,11 @@
 {
   "v": 1,
-  "versionCode": 52,
-  "minVersionCode": 52,
-  "versionName": "1.2.11",
-  "sha256": "351ae42ad93d8a89f5888a5f7fad601c7663a92d109a8160d8b5772772e1f730",
-  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-1.2.11.apk",
-  "changelog": "v1.2.11 — Relais plus sûr et plus discret : plus aucun tableau de bord ni compteur côté serveur. Codes d'invitation améliorés et corrections. Les retours anonymes sont retirés. Mise à jour obligatoire.",
-  "signedAt": 1791228851866,
-  "sig": "79924607c90e951c32481f8a83e2bf20d847aa6f18796e0b5cc1b3ed8c11a817d33c112edfb78cd63bc3c15948367a1689b5aca5d41586b54291cd45a0cbfb0c"
+  "versionCode": 55,
+  "minVersionCode": 55,
+  "versionName": "1.3.0",
+  "sha256": "c78bfdf9a5aa71687d8d60230699bfcc0c9f3284e93f420c60161229a93bf762",
+  "url": "http://5ag466cldjw3lc4okg5suw5fgp32evcccud44u2gfuyh6pvxykz73gqd.onion:4000/releases/bicrypt-1.3.0.apk",
+  "changelog": "Confidentialité persistante : chaque message a sa propre clé, effacée après usage (protocoles X3DH + Double Ratchet, comme Signal). Groupes privés : clé renouvelée chaque heure. Nouveau premier lancement, anglais, contacts et groupes chiffrés sur le téléphone, CGU v2.1. Mise à jour obligatoire.",
+  "signedAt": 1792189430111,
+  "sig": "1078646d57f8bcd4f2c1cc3c5c653deebe3948f6354c2d126b340ac0758d1d7d9e150405ba92c1935de67b9398e693fe02f662a65c53610dcdbdba00e1a15501"
 }

@@ -75,7 +75,7 @@
       <div class="faq">
         <details class="qa" id="relais">
           <summary>Le relais peut-il lire mes messages ?</summary>
-          <div class="a"><p><strong>Non.</strong> Chaque message est chiffré sur ton téléphone avant l'envoi (X25519 et XSalsa20-Poly1305). Le relais ne voit que des données illisibles, qu'il transmet sans les écrire sur disque. Seule exception : le <a href="#general">groupe Général</a>, public par nature.</p></div>
+          <div class="a"><p><strong>Non.</strong> Chaque message est chiffré sur ton téléphone avant l'envoi, avec sa propre clé effacée juste après usage (protocoles X3DH et Double Ratchet, comme Signal). Même si un téléphone était un jour compromis, les messages déjà échangés resteraient illisibles. Le relais ne voit que des données illisibles, qu'il transmet sans les écrire sur disque. Seule exception : le <a href="#general">groupe Général</a>, public par nature.</p></div>
         </details>
         <details class="qa" id="relais-voit">
           <summary>Qu'est-ce que le relais voit, exactement ?</summary>
@@ -113,7 +113,7 @@
         <details class="qa" id="crypto">
           <summary>Quels algorithmes sont utilisés ?</summary>
           <div class="a">
-            <p>Des standards publics et éprouvés : <strong>X25519</strong> pour l'échange de clés, <strong>XSalsa20-Poly1305</strong> pour le chiffrement, <strong>Ed25519</strong> pour les signatures, <strong>HKDF-SHA256</strong> et <strong>BLAKE2b</strong> pour la dérivation. Ils sont implémentés par les bibliothèques <code>@noble</code>, auditées publiquement.</p>
+            <p>Des standards publics et éprouvés. Messages directs : <strong>X3DH</strong> puis <strong>Double Ratchet</strong>, les protocoles de Signal, avec <strong>X25519</strong>, <strong>HKDF-SHA256</strong>, <strong>HMAC-SHA256</strong> et <strong>XChaCha20-Poly1305</strong>. Groupes privés : clé renouvelée chaque heure par une fonction à sens unique, et signature <strong>Ed25519</strong> de l'expéditeur. Mises à jour signées <strong>Ed25519</strong>, code PIN haché avec <strong>BLAKE2b</strong>. Ils sont implémentés par les bibliothèques <code>@noble</code>, auditées publiquement.</p>
             <p>Ta clé privée est stockée dans le Keystore Android, matériel quand le téléphone le permet. Tes messages sont aussi chiffrés sur le téléphone, avec une clé gardée dans ce Keystore. La liste de contacts (pseudos et clés publiques) est rangée dans l'espace privé de l'application, inaccessible aux autres applications.</p>
           </div>
         </details>
@@ -134,6 +134,7 @@
                 <tbody>
                   <tr><th scope="row">Sans numéro de téléphone</th><td class="us"><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
                   <tr><th scope="row">Chiffré de bout en bout par défaut</th><td class="us"><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td></tr>
+                  <tr><th scope="row">Confidentialité persistante</th><td class="us"><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="yes">Oui</span></td><td><span class="mid">Chats secrets seulement</span></td></tr>
                   <tr><th scope="row">Adresse IP cachée au serveur</th><td class="us"><span class="yes">Oui, via Tor</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td><td><span class="no">Non</span></td></tr>
                   <tr><th scope="row">Métadonnées conservées</th><td class="us"><span class="yes">Aucune sur disque</span></td><td><span class="mid">Minimales</span></td><td><span class="no">Oui</span></td><td><span class="no">Oui</span></td></tr>
                   <tr><th scope="row">Code source ouvert</th><td class="us"><span class="mid">Pas encore</span></td><td><span class="yes">Oui</span></td><td><span class="no">Non</span></td><td><span class="mid">Application seulement</span></td></tr>

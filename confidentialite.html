@@ -25,7 +25,7 @@
   <div class="page-head"><div class="wrap-narrow">
     <p class="kicker">Légal</p>
     <h1>Politique de confidentialité</h1>
-    <p class="meta">Dernière mise à jour : 5 octobre 2026</p>
+    <p class="meta">Dernière mise à jour : 17 octobre 2026</p>
   </div></div>
 
   <div class="wrap-narrow">
@@ -39,8 +39,9 @@
       <ul>
         <li><strong>Clés cryptographiques</strong> (Ed25519 / X25519), générées localement. La clé privée est protégée par le Keystore Android (matériel sur les appareils compatibles).</li>
         <li><strong>Code PIN</strong> : jamais stocké en clair. Seule une empreinte BLAKE2b, elle-même chiffrée, est conservée localement.</li>
-        <li><strong>Messages</strong> : chiffrés de bout en bout pendant le transfert, puis chiffrés sur le terminal avec une clé locale protégée par le Keystore.</li>
-        <li><strong>Contacts et groupes</strong> (pseudonymes et clés publiques) : stockés dans l'espace privé de l'application, inaccessible aux autres applications.</li>
+        <li><strong>Messages</strong> : chiffrés de bout en bout avec confidentialité persistante (chaque message a sa propre clé, effacée juste après usage), puis chiffrés sur le terminal avec une clé locale protégée par le Keystore.</li>
+        <li><strong>Contacts et groupes</strong> (pseudonymes et clés publiques) : chiffrés sur le terminal avec la même clé locale. La clé d'un groupe privé change toutes les heures et l'ancienne est effacée.</li>
+        <li><strong>États de session</strong> (clés en cours de chaque conversation) : chiffrés sur le terminal, comme les contacts.</li>
         <li><strong>Photos et vocaux</strong> : conservés sur le terminal, avec suppression automatique réglable.</li>
       </ul>
 
@@ -49,6 +50,7 @@
         <li>Le relais (.onion) achemine les messages chiffrés en mémoire vive uniquement. Rien n'est écrit sur disque.</li>
         <li>Si le destinataire est hors ligne, le message chiffré est conservé en mémoire vive au plus 24 heures, puis supprimé. Un redémarrage du relais l'efface également.</li>
         <li>Pour acheminer un message, le relais voit la clé publique du destinataire. Il ne conserve ni journal de connexion, ni horodatage, ni identifiant.</li>
+        <li>Pour que vos contacts puissent ouvrir une session chiffrée avec vous, le relais garde en mémoire vive votre <strong>prékey</strong> : une clé publique temporaire, signée par votre identité et renouvelée chaque semaine. Elle ne contient aucune donnée personnelle et disparaît au redémarrage du relais.</li>
         <li>Votre adresse IP réelle n'est jamais exposée : la connexion passe par le réseau Tor jusqu'au service onion.</li>
       </ul>
 
@@ -63,14 +65,16 @@
       </ul>
 
       <h2>6. Sécurité</h2>
-      <p>Primitives cryptographiques : X25519 (échange de clés), XSalsa20-Poly1305 (chiffrement), Ed25519 (signatures), HKDF-SHA256 et BLAKE2b (dérivation). La sécurité dépend également de l'intégrité de votre propre appareil (absence de logiciel malveillant, verrouillage de l'écran).</p>
+      <p>Messages directs : X3DH (ouverture de session) puis Double Ratchet, les mêmes protocoles que Signal, avec X25519, HKDF-SHA256, HMAC-SHA256 et XChaCha20-Poly1305. Voler les clés d'un téléphone ne permet pas de relire les messages déjà échangés, et les clés se renouvellent à chaque échange. Ces messages ne sont pas signés un par un : leur authenticité vient de l'échange de clés, sans laisser de preuve exploitable par un tiers (niabilité).</p>
+      <p>Groupes privés : clé horaire à sens unique (HMAC-SHA256), XChaCha20-Poly1305 et signature Ed25519 de l'expéditeur. Mises à jour : signature Ed25519. Code PIN : BLAKE2b.</p>
+      <p>La sécurité dépend également de l'intégrité de votre propre appareil (absence de logiciel malveillant, verrouillage de l'écran) : la confidentialité persistante ne protège pas les messages encore conservés sur un téléphone compromis.</p>
 
       <h2>7. Transferts internationaux</h2>
       <p>Le réseau Tor implique que les messages chiffrés transitent par des nœuds intermédiaires répartis dans le monde. Ces données sont illisibles pour les tiers et ne permettent pas de vous identifier.</p>
 
       <h2>8. Bibliothèques tierces</h2>
       <ul>
-        <li><code>@noble/curves</code>, <code>@noble/ciphers</code>, <code>@noble/hashes</code> : cryptographie (Ed25519, X25519, XSalsa20-Poly1305, BLAKE2b, SHA-256). Bibliothèques auditées publiquement, sans dépendance native.</li>
+        <li><code>@noble/curves</code>, <code>@noble/ciphers</code>, <code>@noble/hashes</code> : cryptographie (Ed25519, X25519, XChaCha20-Poly1305, XSalsa20-Poly1305, HKDF, HMAC, SHA-256, BLAKE2b). Bibliothèques auditées publiquement, sans dépendance native.</li>
         <li><code>socket.io-client</code> : connexion au relais à travers Tor.</li>
         <li><code>react-native-keychain</code> : accès au Keystore Android pour la clé privée et la clé locale de chiffrement.</li>
         <li><code>react-native-vision-camera</code> : lecture des QR codes. Aucune image n'est stockée ni transmise.</li>
